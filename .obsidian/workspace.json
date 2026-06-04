@@ -1,0 +1,269 @@
+{
+  "main": {
+    "id": "5969e93f4517433d",
+    "type": "split",
+    "children": [
+      {
+        "id": "5e0e8b83c9e87e3e",
+        "type": "tabs",
+        "dimension": 61.10406091370558,
+        "children": [
+          {
+            "id": "f974ad2a22892895",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tesis/Sesión - 4 Antecedentes de Investigación.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Sesión - 4 Antecedentes de Investigación"
+            }
+          }
+        ]
+      },
+      {
+        "id": "bb396f06e3567759",
+        "type": "tabs",
+        "dimension": 38.89593908629442,
+        "children": [
+          {
+            "id": "64b5e30fea3d8447",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4e0fd41250e0e495",
+    "type": "split",
+    "children": [
+      {
+        "id": "74de7cdb46cd296b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1f1bfa8bf70bc1ac",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "7399803df90b8172",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "c985da11089739a7",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a93a2a7bd27c0d6d",
+    "type": "split",
+    "children": [
+      {
+        "id": "f5de9833fcd49267",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d0657826bbb7ce75",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "9b7fd6ccd528e49b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "f84d445d531fadff",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "b416f6990ac1c536",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "6a4b1d042c05ec62",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          },
+          {
+            "id": "987fdaf78247395d",
+            "type": "leaf",
+            "state": {
+              "type": "copilot-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "Copilot"
+            }
+          },
+          {
+            "id": "a9c88ec8561bd69b",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 6
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false,
+      "copilot:Open Copilot Chat": false,
+      "markdown-importer:Abrir el importador de Markdown": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "64b5e30fea3d8447",
+  "lastOpenFiles": [
+    "Tesis/Sesión - 4 Antecedentes de Investigación.md",
+    "Tesis/Sesion - 5 Planteamiento del Problema.md",
+    "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
+    "Tesis/Sesión - 2 Titulo de la tesis.md",
+    "Tesis/Sesión - 1 Ciencia y Método Científico.md",
+    "Tesis/Sesion - 6.md",
+    "Tesis/Sesion - 7.md",
+    "Tesis/Examen.canvas",
+    "Auditoria de Sistemas/Primer Examen.canvas",
+    "Proyecto de Inversion/Sesion - 2.md",
+    "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
+    "Git - Examen",
+    "Proyecto de Inversion/Sesion - 3.md",
+    "Proyecto de Inversion/Sesion - 1.md",
+    "Proyecto de Inversion",
+    "Automatizacion",
+    "Atajos de Typeless.md",
+    "Auditoria de Sistemas/Clase 4 - AUDITORIA , CONTINUIDAD DEL NEGOCIO RECUPERACION DE DESASTRES..md",
+    "Auditoria de Sistemas/CLASE 3 - EVALUACION DE SISTEMAS Y PROCEDIMIENTOS.md",
+    "Auditoria de Sistemas/Clase 2 - GOBIERNO CORPORATIVO DE TI.md",
+    "ClasificacionAudotoria.png",
+    "Tesis 1/Sesión - 2.md",
+    "Tesis 1/Sesión - 4.md",
+    "Tesis 1/Sesión - 1.md",
+    "Tesis 1",
+    "Tesis/Sin nombre",
+    "Tesis",
+    "2026-05-25.md",
+    "Sin título.canvas",
+    "ClasificacionAudotoria 1.png",
+    "Sin título.base",
+    "Auditoria de Sistemas/Sin título.base",
+    "Auditoria de Sistemas/Sin título.canvas",
+    "Auditoria de Sistemas",
+    "Seminario de Kubernetes.md",
+    "TESIS- I.md",
+    "CIENCIA DE DATOS.md",
+    "Uditoria de sistemas/Gobierno Corporativo de TI.md",
+    "Guia-Estudio-Git Certificacion/Guía GIT.md",
+    "Esadistica/Repaso Rapido.md",
+    "copilot/copilot-conversations",
+    "Pasted image 20260409215146.png"
+  ]
+}

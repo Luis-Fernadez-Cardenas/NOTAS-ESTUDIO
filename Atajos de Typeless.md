@@ -1,0 +1,1 @@
+Dictar: Alt + M , Traducir : Alt + N , Preguntar cualquier cosa : Alt + space
