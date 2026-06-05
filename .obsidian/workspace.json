@@ -4,39 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "d16d4d2e5234f311",
-        "type": "tabs",
-        "dimension": 63.299418604651166,
-        "children": [
-          {
-            "id": "58d90c79827da7a0",
-            "type": "leaf",
-            "state": {
-              "type": "split-diff-view",
-              "state": {
-                "aFile": ".obsidian/plugins/obsidian-excalidraw-plugin/data.json",
-                "bFile": ".obsidian/plugins/obsidian-excalidraw-plugin/data.json",
-                "aRef": ""
-              },
-              "icon": "diff",
-              "title": "Diff: data.json  (Working Tree)"
-            }
-          }
-        ]
-      },
-      {
         "id": "5090e4c556ece989",
         "type": "tabs",
-        "dimension": 36.70058139534884,
         "children": [
           {
             "id": "bf266510d8f7dd5f",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "split-diff-view",
+              "state": {
+                "aFile": ".obsidian/graph.json",
+                "bFile": ".obsidian/graph.json",
+                "aRef": ""
+              },
+              "icon": "diff",
+              "title": "Diff: graph.json  (Working Tree)"
+            }
+          },
+          {
+            "id": "6c4cf3a05739b8a8",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -222,8 +214,9 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "58d90c79827da7a0",
+  "active": "bf266510d8f7dd5f",
   "lastOpenFiles": [
+    "Tesis/Examen.canvas",
     "Tesis/Sesion - 6 Formulacion del problema.md",
     "Excalidraw/Drawing 2026-06-03 23.26.27.excalidraw.md",
     "Excalidraw/Drawing 2026-06-03 23.09.27.excalidraw.md",
@@ -237,7 +230,6 @@
     "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
     "Tesis/Sesion - 7.md",
-    "Tesis/Examen.canvas",
     "Auditoria de Sistemas/Primer Examen.canvas",
     "Proyecto de Inversion/Sesion - 2.md",
     "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
@@ -265,7 +257,6 @@
     "Auditoria de Sistemas/Sin título.canvas",
     "Auditoria de Sistemas",
     "Seminario de Kubernetes.md",
-    "TESIS- I.md",
     "Pasted image 20260409215146.png"
   ]
 }
