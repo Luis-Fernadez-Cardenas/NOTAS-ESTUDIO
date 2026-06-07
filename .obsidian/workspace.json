@@ -8,27 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "bf266510d8f7dd5f",
-            "type": "leaf",
-            "state": {
-              "type": "split-diff-view",
-              "state": {
-                "aFile": ".obsidian/graph.json",
-                "bFile": ".obsidian/graph.json",
-                "aRef": ""
-              },
-              "icon": "diff",
-              "title": "Diff: graph.json  (Working Tree)"
-            }
-          },
-          {
             "id": "6c4cf3a05739b8a8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Tesis/Sesion - 6 Formulacion del problema.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "Sesion - 6 Formulacion del problema"
             }
           }
         ]
@@ -214,7 +204,7 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "bf266510d8f7dd5f",
+  "active": "6c4cf3a05739b8a8",
   "lastOpenFiles": [
     "Tesis/Examen.canvas",
     "Tesis/Sesion - 6 Formulacion del problema.md",
