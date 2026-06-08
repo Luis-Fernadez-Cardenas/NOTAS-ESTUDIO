@@ -1,12 +1,12 @@
 {
 	"nodes":[
-		{"id":"07376c25fb0d64a7","type":"file","file":"Tesis/Sesion - 6 Formulacion del problema.md","x":-160,"y":240,"width":400,"height":400},
 		{"id":"f504385c4ca18cf2","type":"file","file":"Tesis/Sesion - 7.md","x":320,"y":240,"width":400,"height":400},
 		{"id":"6d42b03db79c4999","type":"file","file":"Tesis/Sesion - 5 Planteamiento del Problema.md","x":-535,"y":-200,"width":400,"height":400},
 		{"id":"88d153a69f58300e","type":"file","file":"Tesis/Sesión - 1 Ciencia y Método Científico.md","x":-600,"y":-760,"width":400,"height":400},
 		{"id":"9aa1120b492eec03","type":"file","file":"Tesis/Sesión - 2 Titulo de la tesis.md","x":-135,"y":-760,"width":400,"height":500},
 		{"id":"7b4f8322b10a054b","type":"file","file":"Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md","x":320,"y":-760,"width":400,"height":400},
-		{"id":"d8924a2ae9a5dffa","type":"file","file":"Tesis/Sesión - 4 Antecedentes de Investigación.md","x":320,"y":-300,"width":400,"height":400}
+		{"id":"d8924a2ae9a5dffa","type":"file","file":"Tesis/Sesión - 4 Antecedentes de Investigación.md","x":320,"y":-300,"width":400,"height":400},
+		{"id":"07376c25fb0d64a7","type":"file","file":"Tesis/Sesion - 6 Formulacion del problema.md","x":-135,"y":140,"width":400,"height":400}
 	],
 	"edges":[]
 }
