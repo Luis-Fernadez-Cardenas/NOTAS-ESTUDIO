@@ -11,14 +11,14 @@
             "id": "0dc217b2dc847c49",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Tesis/Sesion - 5 Planteamiento del Problema.md",
-                "mode": "source",
-                "source": false
+                "aFile": ".obsidian/workspace.json",
+                "bFile": ".obsidian/workspace.json",
+                "aRef": ""
               },
-              "icon": "lucide-file",
-              "title": "Sesion - 5 Planteamiento del Problema"
+              "icon": "diff",
+              "title": "Diff: workspace.json  (Working Tree)"
             }
           }
         ]
@@ -208,12 +208,12 @@
   },
   "active": "0dc217b2dc847c49",
   "lastOpenFiles": [
+    "Tesis/Sesion - 6 Formulacion del problema.md",
+    "Tesis/Sesion - 5 Planteamiento del Problema.md",
     "Tesis/Sesión - 4 Antecedentes de Investigación.md",
     "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
     "Tesis/Sesión - 2 Titulo de la tesis.md",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
-    "Tesis/Sesion - 5 Planteamiento del Problema.md",
-    "Tesis/Sesion - 6 Formulacion del problema.md",
     "Tesis/Nivel Descriptivo (multivariable ).md",
     "Sin título.md",
     "Proyecto de Inversion/Sesion - 1.md",

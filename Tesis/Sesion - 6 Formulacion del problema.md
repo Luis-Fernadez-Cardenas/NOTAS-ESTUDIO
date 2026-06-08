@@ -90,3 +90,43 @@ Podemos notar que son prácticamente los mismos del problema general .
 
 > [!NOTE] Formula Problema Especifico
 > PEi = ¿[Pregunta] + [conector 1] +[Dimensión Exógena Xi] + conector 2 + variable y + M (Modelo / opcional) + ambito + periodo ( T +K )?
+## Nivel Aplicativo
+Este nivel es donde realizamos un intervención en el problema mediante una solución ya sea software , sistema , etc. .
+También el objetivo de este nivel es demostrar la eficacia de una intervención 
+En este nivel también tiene sus locuciones habituales las cuales son las siguientes :
+### Locuciones 
+| Locucion                                      | Uso recomendado                                                                   |
+| --------------------------------------------- | --------------------------------------------------------------------------------- |
+| ¿En que medida influye  .. ?                  | se mide el efecto global de X sobre Y                                             |
+| ¿Cómo influye ... ?                           | Cuando se busca caracterizar la dirección y la naturaleza del efecto de X sobre Y |
+| ¿Cual es el efecto  ... ?                     | contrasta la magnitud del cambio del estado de Y antes de X y después de X        |
+| ¿En que medida  mejora / optimiza / reduce  ? | El PG se centra en la magnitud de cambio producido de X sobre Y                   |
+### Conectores 
+| Conector                                        | Finalidad                                                      |
+| ----------------------------------------------- | -------------------------------------------------------------- |
+| "mediante la implementacion de  "               | Introduce X como la intervención que produce el efecto sobre Y |
+| "... atreves de  /  … con la aplicación de ..." | Indica el instrumento mediante el cual X intervendrá en Y      |
+| " ... al implementar / aplicar ... "            | Marca la implementación de X como condición de cambio en Y     |
+| " ... sobre ... / ... en ... "                  | Vincula X con Y                                                |
+
+> [!NOTE] Formula
+> PG = [frase] + [conector 1] + [X: variable independiente] + [conector 2] + [variable dependiente] + [Ámbito ] + [ Periodo]
+
+### Problemas específicos
+#### Locuciones
+| Locucion                                      | Uso recomendado                                                                    |
+| --------------------------------------------- | ---------------------------------------------------------------------------------- |
+| ¿En que medida influye  .. ?                  | se mide el efecto particular de la dimensión de Xi sobre Y                         |
+| ¿Cómo influye ... ?                           | Cuando se busca caracterizar la dirección y la naturaleza del efecto de Xi sobre Y |
+| ¿Cual es el efecto  ... ?                     | contrasta la magnitud del cambio del estado de Y antes de Xi y después de Xi       |
+| ¿En que medida  mejora / optimiza / reduce  ? | El PE se centra en la magnitud de cambio producido de Xi sobre Y                   |
+#### Conectores 
+| Conector                                                    | Finalidad                                                       |
+| ----------------------------------------------------------- | --------------------------------------------------------------- |
+| "mediante la implementacion de  "                           | Introduce Xi como la intervención que produce el efecto sobre Y |
+| "... atreves de  /  … con el uso  de ..."                   | Indica el instrumento mediante el cual Xi intervendrá en Y      |
+| " ... al aplicar / utilizar ... "                           | Marca la implementación de Xi como condición de cambio en Y     |
+| " ... sobre ... / ... en ... " / "... en la mejora de ... " | Vincula Xi con Y                                                |
+
+>[!NOTE] Formula 
+>PEi = [frase] + [conector 1] + [Xi: Dimensión ] + [conector 2] + [variable dependiente] + [Ámbito ] + [ Periodo]
