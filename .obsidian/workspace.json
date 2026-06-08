@@ -1,14 +1,15 @@
 {
   "main": {
-    "id": "5969e93f4517433d",
+    "id": "f779a19c940ee9e6",
     "type": "split",
     "children": [
       {
-        "id": "5090e4c556ece989",
+        "id": "adf2b1d07d184c9d",
         "type": "tabs",
+        "dimension": 74.8730964467005,
         "children": [
           {
-            "id": "6c4cf3a05739b8a8",
+            "id": "b0d838ae2708b0f9",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -22,20 +23,37 @@
             }
           }
         ]
+      },
+      {
+        "id": "14a4ae69cb9cecf5",
+        "type": "tabs",
+        "dimension": 25.12690355329949,
+        "children": [
+          {
+            "id": "a7e45c3a38c24c4a",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "4e0fd41250e0e495",
+    "id": "2b7b9ba4f1fdb2a0",
     "type": "split",
     "children": [
       {
-        "id": "74de7cdb46cd296b",
+        "id": "5ce88761a13f4c49",
         "type": "tabs",
         "children": [
           {
-            "id": "1f1bfa8bf70bc1ac",
+            "id": "8a568fe4cdc00c83",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -48,7 +66,7 @@
             }
           },
           {
-            "id": "7399803df90b8172",
+            "id": "280cd68572f8bc5b",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +83,7 @@
             }
           },
           {
-            "id": "c985da11089739a7",
+            "id": "ad631ae975c3b666",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -81,19 +99,20 @@
     "width": 300
   },
   "right": {
-    "id": "a93a2a7bd27c0d6d",
+    "id": "fb32745e91a366d5",
     "type": "split",
     "children": [
       {
-        "id": "f5de9833fcd49267",
+        "id": "9ca37b44d61dc700",
         "type": "tabs",
         "children": [
           {
-            "id": "d0657826bbb7ce75",
+            "id": "d760f5201887b98f",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Tesis/Sesion - 6 Formulacion del problema.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,11 +122,11 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes"
+              "title": "Enlaces entrantes de Sesion - 6 Formulacion del problema"
             }
           },
           {
-            "id": "9b7fd6ccd528e49b",
+            "id": "8a79ab8508208d34",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -120,7 +139,7 @@
             }
           },
           {
-            "id": "f84d445d531fadff",
+            "id": "abb522d4138e4b19",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -135,7 +154,7 @@
             }
           },
           {
-            "id": "b416f6990ac1c536",
+            "id": "985d607491140043",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -149,31 +168,22 @@
             }
           },
           {
-            "id": "6a4b1d042c05ec62",
+            "id": "a749ae122141b572",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "Tesis/Sesion - 6 Formulacion del problema.md",
                 "followCursor": false,
-                "showSearch": true,
+                "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema"
+              "title": "Esquema de Sesion - 6 Formulacion del problema"
             }
           },
           {
-            "id": "987fdaf78247395d",
-            "type": "leaf",
-            "state": {
-              "type": "copilot-chat-view",
-              "state": {},
-              "icon": "message-square",
-              "title": "Copilot"
-            }
-          },
-          {
-            "id": "a9c88ec8561bd69b",
+            "id": "08962f8f71438506",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -183,70 +193,35 @@
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 636.5
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
+      "copilot:Open Copilot Chat": false,
+      "obsidian-git:Open Git source control": false,
+      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false,
       "switcher:Abrir selector rápido": false,
       "graph:Abrir vista gráfica": false,
       "canvas:Crear nuevo lienzo": false,
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false,
-      "copilot:Open Copilot Chat": false,
       "markdown-importer:Abrir el importador de Markdown": false,
-      "obsidian-git:Open Git source control": false,
-      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
+      "bases:Crear nueva base": false
     }
   },
-  "active": "6c4cf3a05739b8a8",
+  "active": "b0d838ae2708b0f9",
   "lastOpenFiles": [
-    "Tesis/Examen.canvas",
     "Tesis/Sesion - 6 Formulacion del problema.md",
-    "Excalidraw/Drawing 2026-06-03 23.26.27.excalidraw.md",
-    "Excalidraw/Drawing 2026-06-03 23.09.27.excalidraw.md",
+    "Tesis/Examen.canvas",
     "Tesis/Sesión - 2 Titulo de la tesis.md",
-    "Tesis/Sesion - 5 Planteamiento del Problema.md",
-    "Excalidraw/Drawing 2026-06-03 22.53.30.excalidraw.md",
-    "Excalidraw/Drawing 2026-06-03 22.44.22.excalidraw.md",
-    "Excalidraw",
-    "Tesis/Sesión - 4 Antecedentes de Investigación.md",
-    "README.md",
-    "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
-    "Tesis/Sesion - 7.md",
-    "Auditoria de Sistemas/Primer Examen.canvas",
-    "Proyecto de Inversion/Sesion - 2.md",
-    "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
-    "Git - Examen",
-    "Proyecto de Inversion/Sesion - 3.md",
-    "Proyecto de Inversion/Sesion - 1.md",
-    "Proyecto de Inversion",
-    "Automatizacion",
-    "Atajos de Typeless.md",
-    "Auditoria de Sistemas/Clase 4 - AUDITORIA , CONTINUIDAD DEL NEGOCIO RECUPERACION DE DESASTRES..md",
-    "Auditoria de Sistemas/CLASE 3 - EVALUACION DE SISTEMAS Y PROCEDIMIENTOS.md",
-    "Auditoria de Sistemas/Clase 2 - GOBIERNO CORPORATIVO DE TI.md",
-    "ClasificacionAudotoria.png",
-    "Tesis 1/Sesión - 2.md",
-    "Tesis 1/Sesión - 4.md",
-    "Tesis 1/Sesión - 1.md",
-    "Tesis 1",
-    "Tesis/Sin nombre",
-    "Tesis",
-    "2026-05-25.md",
-    "Sin título.canvas",
-    "ClasificacionAudotoria 1.png",
-    "Sin título.base",
-    "Auditoria de Sistemas/Sin título.base",
-    "Auditoria de Sistemas/Sin título.canvas",
-    "Auditoria de Sistemas",
-    "Seminario de Kubernetes.md",
-    "Pasted image 20260409215146.png"
+    "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
+    "Tesis/Sesión - 4 Antecedentes de Investigación.md",
+    "Tesis/Sesion - 5 Planteamiento del Problema.md"
   ]
 }
