@@ -3,13 +3,11 @@
 		{"id":"cc86e0502ccf76ce","type":"file","file":"Auditoria de Sistemas/Clase 4 - AUDITORIA , CONTINUIDAD DEL NEGOCIO RECUPERACION DE DESASTRES..md","x":-35,"y":-25,"width":575,"height":585},
 		{"id":"25684f9ffacd61a0","type":"file","file":"Auditoria de Sistemas/Clase 2 - GOBIERNO CORPORATIVO DE TI.md","x":-520,"y":-740,"width":400,"height":400},
 		{"id":"cd0aab9380aadd8d","type":"file","file":"Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md","x":-1320,"y":-840,"width":640,"height":760,"color":"3"},
-		{"id":"d535b52326f5a209","type":"file","file":"Auditoria de Sistemas/CLASE 3 - EVALUACION DE SISTEMAS Y PROCEDIMIENTOS.md","x":-720,"y":-25,"width":600,"height":665},
-		{"id":"128c375a509326e3","x":-445,"y":-980,"width":250,"height":180,"color":"1","type":"text","text":"\n"}
+		{"id":"d535b52326f5a209","type":"file","file":"Auditoria de Sistemas/CLASE 3 - EVALUACION DE SISTEMAS Y PROCEDIMIENTOS.md","x":-720,"y":-25,"width":600,"height":665}
 	],
 	"edges":[
 		{"id":"b19463c414a83451","fromNode":"cd0aab9380aadd8d","fromSide":"right","toNode":"25684f9ffacd61a0","toSide":"left","color":"1"},
 		{"id":"cf18159608b3aaf9","fromNode":"25684f9ffacd61a0","fromSide":"bottom","toNode":"d535b52326f5a209","toSide":"top"},
-		{"id":"cd8f598c86f62874","fromNode":"d535b52326f5a209","fromSide":"right","toNode":"cc86e0502ccf76ce","toSide":"left"},
-		{"id":"427867e96b20ceaa","fromNode":"128c375a509326e3","fromSide":"bottom","toNode":"25684f9ffacd61a0","toSide":"top"}
+		{"id":"cd8f598c86f62874","fromNode":"d535b52326f5a209","fromSide":"right","toNode":"cc86e0502ccf76ce","toSide":"left"}
 	]
 }

@@ -6,7 +6,7 @@
       {
         "id": "fa29436f9a267b14",
         "type": "tabs",
-        "dimension": 65.6725888324873,
+        "dimension": 50.76142131979695,
         "children": [
           {
             "id": "e039fa888c0c2c0c",
@@ -14,12 +14,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Proyecto de Inversion/Sesion - 1 Proyecto de Inversión.md",
+                "file": "Proyecto de Inversion/Sesion - 5 Media del mercado.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Sesion - 1 Proyecto de Inversión"
+              "title": "Sesion - 5 Media del mercado"
             }
           }
         ]
@@ -27,16 +27,20 @@
       {
         "id": "3df0fcfa41ccd067",
         "type": "tabs",
-        "dimension": 34.327411167512686,
+        "dimension": 49.23857868020304,
         "children": [
           {
             "id": "2b67695c74b001ab",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "type": "markdown",
+              "state": {
+                "file": "Proyecto de Inversion/Sesion - 2  Tipos de proyecto de Inversión.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Sesion - 2  Tipos de proyecto de Inversión"
             }
           }
         ]
@@ -227,16 +231,22 @@
   "active": "e039fa888c0c2c0c",
   "lastOpenFiles": [
     "Proyecto de Inversion/Sesion - 4 Análisis del Entorno Competitivo.md",
-    "Excalidraw/Definición de un Producto.md",
-    "Excalidraw/Pasos del Proyecto de Inversión.md",
-    "Excalidraw/Análisis de la competitividad.md",
     "Proyecto de Inversion/Sesion - 3 Análisis de Entorno.md",
-    "Excalidraw/Análisis de Entorno.md",
-    "Excalidraw/Árbol de objetivos.md",
-    "Excalidraw/Árbol de problemas.md",
-    "Excalidraw/Ciclo de vida - Proyecto.md",
     "Proyecto de Inversion/Sesion - 2  Tipos de proyecto de Inversión.md",
     "Proyecto de Inversion/Sesion - 1 Proyecto de Inversión.md",
+    "Proyecto de Inversion/Sesion - 5 Media del mercado.md",
+    "Tesis/Examen.canvas",
+    "Excalidraw/Árbol de problemas.md",
+    "Excalidraw/Análisis de Entorno.md",
+    "Excalidraw/Pasos del Proyecto de Inversión.md",
+    "Excalidraw/Definición de un Producto.md",
+    "Excalidraw/Ciclo de vida - Proyecto.md",
+    "Excalidraw/Árbol de objetivos.md",
+    "Excalidraw/Análisis de la competitividad.md",
+    "Auditoria de Sistemas/Primer Examen.canvas",
+    "ClasificacionAudotoria.png",
+    "Atajos de Typeless.md",
+    "README.md",
     "Tesis/Sesion - 6 Formulacion del problema.md",
     "Tesis/Sesion - 7 Planteamiento de los Objetivos.md",
     "Excalidraw",
@@ -255,7 +265,6 @@
     "Tesis/Sesión - 4 Antecedentes de Investigación.md",
     "Tesis/Sesión - 2 Titulo de la tesis.md",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
-    "Sin título.md",
-    "Tesis/Examen.canvas"
+    "Sin título.md"
   ]
 }
