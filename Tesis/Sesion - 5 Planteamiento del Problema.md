@@ -1,11 +1,11 @@
 ## Naturaleza epistemológica del problema
-Un problema científico es una dificultad cognoscitiva que no puede resolverse automáticamente con los conocimientos disponibles .
+Un problema científico es una ==dificultad cognoscitiva== que no puede resolverse automáticamente con los conocimientos disponibles .
 Las preguntas mas importantes afirman el planteamiento. 
 	1. ¿ que fenómeno se observa ? 
 	2. ¿por que constituye un problema ?
 	3. ¿Qué consecuencias tiene si no se aborda ? 
 ## Identificación  del problema especifico 
-Para poder identificar un problema de investigación genianamente se sigue estos pasos : 
+Para poder identificar un problema de investigación genuinamente se sigue estos pasos : 
 1. Que pueda formularse como pregunta interrogativa. 
 2. Que admita respuesta empírica teórica 
 3. Que sus variables sean observables o medibles 
@@ -24,7 +24,7 @@ Existe varias niveles de contextualización las cuales son las siguientes:
 | Regional      | El problema se sitúa en el región de Ayacucho                      |
 | Local         | Define la unidad concreta de análisis y la magnitud del problema   |
 ## Delimitación del problema de investigación 
-La delimitación de la tesis es muy importante porque nos ayuda a definir con claridad las fronteras de estudio  o alcance.
+La delimitación de la tesis es muy importante porque nos ayuda a definir con claridad las ==fronteras de estudio  o alcance.==
 Existen varios tipos de delimitación y son los siguientes : 
 
 | Tipo       | Pregunta clave                              |
