@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro N°2 — Título, Antecedentes y Planteamiento</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, #34d399, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+        .question-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+        .q-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .option {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            background: var(--surface-hover);
+        }
+        .option input[type="radio"] {
+            transform: scale(1.2);
+            accent-color: var(--primary);
+        }
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+        }
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: #34d399;
+            display: block;
+        }
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: #f87171;
+            display: block;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: var(--primary-hover);
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Simulacro N°2 — Título, Antecedentes y Planteamiento</h1>
+    <div class="subtitle">Tesis I - Serie 500 - UNSCH | Analítico</div>
+
+    <form id="exam-form">
+        <!-- Q1 -->
+        <div class="question-card" id="card-1">
+            <div class="q-title">1. Evalúa el siguiente título: "Análisis de algoritmos en la universidad durante 2024". ¿Qué componente clave de la fórmula del título falta?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="a"> a) La delimitación temporal.</label>
+                <label class="option"><input type="radio" name="q1" value="b"> b) La población o contexto específico y al menos la variable dependiente de forma clara.</label>
+                <label class="option"><input type="radio" name="q1" value="c"> c) El conector relacional obligatorio ("con", "y").</label>
+                <label class="option"><input type="radio" name="q1" value="d"> d) Es un título perfecto según los criterios de especificidad.</label>
+            </div>
+            <div class="feedback" id="feedback-1">Respuesta correcta: b). La fórmula requiere variables claras (independiente y dependiente), y una población/contexto bien definido ("la universidad" es muy ambiguo).</div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-card" id="card-2">
+            <div class="q-title">2. Estás redactando el resumen de tu tesis. ¿Qué regla verbal debes aplicar estrictamente según tus apuntes?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="a"> a) Todo el resumen debe ir en tiempo pasado.</label>
+                <label class="option"><input type="radio" name="q2" value="b"> b) Utilizar tiempo presente para los antecedentes y futuro para el diseño.</label>
+                <label class="option"><input type="radio" name="q2" value="c"> c) Usar tiempo presente para describir el estudio y tiempo pasado para los resultados previos.</label>
+                <label class="option"><input type="radio" name="q2" value="d"> d) Todo debe estar redactado en tercera persona del plural, tiempo futuro.</label>
+            </div>
+            <div class="feedback" id="feedback-2">Respuesta correcta: c). El estudio se describe en presente y los resultados ya obtenidos en pasado.</div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card" id="card-3">
+            <div class="q-title">3. Un compañero dice que los antecedentes solo sirven para "llenar páginas" en el marco teórico y copiar citas. ¿Cuál es el argumento analítico para desmentirlo según su verdadera función?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q3" value="a"> a) Sirven para justificar la parte estadística del software.</label>
+                <label class="option"><input type="radio" name="q3" value="b"> b) Su función principal es epistemológica: construyen, justifican el conocimiento e identifican vacíos del conocimiento.</label>
+                <label class="option"><input type="radio" name="q3" value="c"> c) Sirven exclusivamente para saber en qué universidad se hizo un estudio similar.</label>
+                <label class="option"><input type="radio" name="q3" value="d"> d) Evitan el plagio directo del problema principal.</label>
+            </div>
+            <div class="feedback" id="feedback-3">Respuesta correcta: b). Los antecedentes estructuran cómo se ha construido el conocimiento y dónde hay áreas que no se han investigado (vacíos).</div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-card" id="card-4">
+            <div class="q-title">4. Si utilizas el operador booleano AND en una base de datos científica, estás buscando:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q4" value="a"> a) La unión de todos los artículos que contengan cualquiera de las palabras.</label>
+                <label class="option"><input type="radio" name="q4" value="b"> b) Excluir la segunda palabra de la búsqueda (Exclusión).</label>
+                <label class="option"><input type="radio" name="q4" value="c"> c) Truncar variantes morfológicas de una palabra.</label>
+                <label class="option"><input type="radio" name="q4" value="d"> d) La intersección, artículos que contengan obligatoriamente ambos términos.</label>
+            </div>
+            <div class="feedback" id="feedback-4">Respuesta correcta: d). AND es intersección.</div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-card" id="card-5">
+            <div class="q-title">5. Tienes un antecedente de 2018 muy completo y riguroso. ¿Cuál de los criterios de selección está incumpliendo para una tesis en 2024?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q5" value="a"> a) Pertinencia temática.</label>
+                <label class="option"><input type="radio" name="q5" value="b"> b) Rigor Metodológico.</label>
+                <label class="option"><input type="radio" name="q5" value="c"> c) Actualidad (no debe ser mayor a 5 años).</label>
+                <label class="option"><input type="radio" name="q5" value="d"> d) Diversidad geográfica.</label>
+            </div>
+            <div class="feedback" id="feedback-5">Respuesta correcta: c). Un artículo de 2018 excede los 5 años de antigüedad recomendados.</div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-card" id="card-6">
+            <div class="q-title">6. "La falta de un sistema automatizado en el colegio X provoca pérdida de 20 horas semanales en papeleo administrativo." ¿En qué parte de la estructura del planteamiento del problema se ubica este texto?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q6" value="a"> a) Diagnóstico, porque describe la situación actual con datos concretos.</label>
+                <label class="option"><input type="radio" name="q6" value="b"> b) Pronóstico, porque habla del futuro del colegio.</label>
+                <label class="option"><input type="radio" name="q6" value="c"> c) Control del pronóstico, porque propone una solución.</label>
+                <label class="option"><input type="radio" name="q6" value="d"> d) Contextualización Internacional.</label>
+            </div>
+            <div class="feedback" id="feedback-6">Respuesta correcta: a). El diagnóstico describe la situación real, medible y actual del problema.</div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-card" id="card-7">
+            <div class="q-title">7. El párrafo del Control del Pronóstico responde a "¿Qué se propone hacer para evitar el escenario pronosticado?". Un estudiante redacta: "Se propone implementar el software desarrollado en Java V8". ¿Es correcto?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q7" value="a"> a) Sí, es muy preciso metodológicamente.</label>
+                <label class="option"><input type="radio" name="q7" value="b"> b) No, el control del pronóstico NO debe ser la solución técnica final implementada, sino la propuesta general investigativa.</label>
+                <label class="option"><input type="radio" name="q7" value="c"> c) Sí, el control del pronóstico exige dar el lenguaje de programación.</label>
+                <label class="option"><input type="radio" name="q7" value="d"> d) No, debe incluir el presupuesto del software.</label>
+            </div>
+            <div class="feedback" id="feedback-7">Respuesta correcta: b). El apunte señala claramente: "Importante: No es la solución implementada".</div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-card" id="card-8">
+            <div class="q-title">8. Si justificas tu tesis diciendo "Este modelo servirá para resolver el retraso específico de las citas en el Hospital Regional", ¿qué dimensión de justificación estás usando?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q8" value="a"> a) Social</label>
+                <label class="option"><input type="radio" name="q8" value="b"> b) Teórica</label>
+                <label class="option"><input type="radio" name="q8" value="c"> c) Práctica, porque resuelve un problema concreto y operativo.</label>
+                <label class="option"><input type="radio" name="q8" value="d"> d) Metodológica</label>
+            </div>
+            <div class="feedback" id="feedback-8">Respuesta correcta: c). La justificación práctica atiende a la resolución de problemas en contextos específicos y tangibles.</div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-card" id="card-9">
+            <div class="q-title">9. Un antecedente tiene la siguiente estructura: 1) Autor/Año, 2) Resultados, 3) Conclusiones. ¿Es una buena estructura argumentativa?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q9" value="a"> a) Sí, es perfecta y resumida.</label>
+                <label class="option"><input type="radio" name="q9" value="b"> b) No, le faltan: Objetivo de estudio, Nivel/diseño, Población y muestra, Instrumentos.</label>
+                <label class="option"><input type="radio" name="q9" value="c"> c) No, le falta solo la bibliografía de ese antecedente.</label>
+                <label class="option"><input type="radio" name="q9" value="d"> d) Sí, lo único importante son los resultados y conclusiones.</label>
+            </div>
+            <div class="feedback" id="feedback-9">Respuesta correcta: b). La estructura argumentativa exige objetivo, metodología completa (nivel, diseño, muestra, instrumentos), resultados y conclusiones.</div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-card" id="card-10">
+            <div class="q-title">10. "Vacío del conocimiento" hace referencia a:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q10" value="a"> a) Cuando el tesista no estudió el tema.</label>
+                <label class="option"><input type="radio" name="q10" value="b"> b) Cuando un área temática o relación entre variables aún no ha sido estudiada lo suficiente o no se ha respondido empíricamente.</label>
+                <label class="option"><input type="radio" name="q10" value="c"> c) Cuando la población se niega a responder las encuestas.</label>
+                <label class="option"><input type="radio" name="q10" value="d"> d) Cuando el marco teórico no tiene citas APA.</label>
+            </div>
+            <div class="feedback" id="feedback-10">Respuesta correcta: b). El vacío del conocimiento legitima la necesidad de la nueva investigación.</div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question-card" id="card-11">
+            <div class="q-title">11. Un tesista redacta el planteamiento sin incluir un nivel "Regional" o "Local" asumiendo que el problema es "obvio a nivel mundial". ¿Cuál es el error de diseño en esta contextualización?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q11" value="a"> a) Ninguno, lo obvio no se contextualiza.</label>
+                <label class="option"><input type="radio" name="q11" value="b"> b) Si no hay contextualización en los niveles, se convierte en "retórica vacía". Falta definir la magnitud del problema local.</label>
+                <label class="option"><input type="radio" name="q11" value="c"> c) El nivel internacional excluye automáticamente al nivel regional.</label>
+                <label class="option"><input type="radio" name="q11" value="d"> d) Debe justificar por qué es obvio usando la dimensión social.</label>
+            </div>
+            <div class="feedback" id="feedback-11">Respuesta correcta: b). Sin contextualización estructurada el texto es retórica vacía; es indispensable situar el problema en el entorno específico del análisis.</div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question-card" id="card-12">
+            <div class="q-title">12. Al redactar: "¿A qué población y muestra se aplicará el estudio?", estamos resolviendo la delimitación:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q12" value="a"> a) Espacial</label>
+                <label class="option"><input type="radio" name="q12" value="b"> b) Social</label>
+                <label class="option"><input type="radio" name="q12" value="c"> c) Muestral</label>
+                <label class="option"><input type="radio" name="q12" value="d"> d) Conceptual</label>
+            </div>
+            <div class="feedback" id="feedback-12">Respuesta correcta: c). La delimitación muestral define explícitamente a quién o a qué cantidad del grupo se aplicará el estudio.</div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question-card" id="card-13">
+            <div class="q-title">13. Si tu investigación propone una *nueva métrica matemática* para calcular tiempos de latencia, estás aportando directamente a la justificación:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q13" value="a"> a) Teórica</label>
+                <label class="option"><input type="radio" name="q13" value="b"> b) Social</label>
+                <label class="option"><input type="radio" name="q13" value="c"> c) Práctica</label>
+                <label class="option"><input type="radio" name="q13" value="d"> d) Metodológica, al ser una innovación instrumental o de diseño.</label>
+            </div>
+            <div class="feedback" id="feedback-13">Respuesta correcta: d). Innovaciones instrumentales, fórmulas, encuestas nuevas o diseños metodológicos son justificación metodológica.</div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="question-card" id="card-14">
+            <div class="q-title">14. Cuando el problema dice "¿Qué constructos se estudian?", hablamos de delimitación:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q14" value="a"> a) Conceptual</label>
+                <label class="option"><input type="radio" name="q14" value="b"> b) Social</label>
+                <label class="option"><input type="radio" name="q14" value="c"> c) Teórica</label>
+                <label class="option"><input type="radio" name="q14" value="d"> d) Muestral</label>
+            </div>
+            <div class="feedback" id="feedback-14">Respuesta correcta: a). Establece qué conceptos teóricos / variables abordará el estudio.</div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question-card" id="card-15">
+            <div class="q-title">15. "Si los colegios siguen sin proteger su red WiFi, estarán expuestos a ataques de Ransomware recurrentes en los próximos 3 años." Este texto es un claro ejemplo de:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q15" value="a"> a) Control del pronóstico</label>
+                <label class="option"><input type="radio" name="q15" value="b"> b) Diagnóstico</label>
+                <label class="option"><input type="radio" name="q15" value="c"> c) Pronóstico (Qué pasará si no se soluciona)</label>
+                <label class="option"><input type="radio" name="q15" value="d"> d) Justificación práctica</label>
+            </div>
+            <div class="feedback" id="feedback-15">Respuesta correcta: c). El pronóstico advierte sobre las consecuencias futuras de no abordar el problema planteado.</div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="question-card" id="card-16">
+            <div class="q-title">16. La "Diversidad Geográfica" en antecedentes internacionales requiere:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q16" value="a"> a) Que el antecedente haya sido publicado en múltiples idiomas.</label>
+                <label class="option"><input type="radio" name="q16" value="b"> b) Que los antecedentes internacionales provengan de al menos 3 países diferentes.</label>
+                <label class="option"><input type="radio" name="q16" value="c"> c) Que se viaje a otros países a realizar la investigación.</label>
+                <label class="option"><input type="radio" name="q16" value="d"> d) Que el software funcione en diferentes zonas horarias.</label>
+            </div>
+            <div class="feedback" id="feedback-16">Respuesta correcta: b). Evita el sesgo de consultar investigaciones provenientes de un solo país, exigiendo al menos 3 fuentes internacionales diversas.</div>
+        </div>
+
+        <!-- Q17 -->
+        <div class="question-card" id="card-17">
+            <div class="q-title">17. ¿Qué criterio asegura que el problema sea "genuino" metodológicamente?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q17" value="a"> a) Que sus variables sean subjetivas e inobservables para garantizar innovación.</label>
+                <label class="option"><input type="radio" name="q17" value="b"> b) Que pueda formularse interrogativamente y admitir contraste o medición empírica de sus variables.</label>
+                <label class="option"><input type="radio" name="q17" value="c"> c) Que el marco teórico tenga 100 páginas mínimo.</label>
+                <label class="option"><input type="radio" name="q17" value="d"> d) Que la solución ya exista y sea conocida.</label>
+            </div>
+            <div class="feedback" id="feedback-17">Respuesta correcta: b). Un problema genuino se formula como pregunta, admite respuesta empírica/teórica y sus variables DEBEN ser medibles.</div>
+        </div>
+
+        <!-- Q18 -->
+        <div class="question-card" id="card-18">
+            <div class="q-title">18. Un operador "* " (asterisco) al buscar en bases científicas (ej: comput* ) funciona para:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q18" value="a"> a) Buscar la frase exacta.</label>
+                <label class="option"><input type="radio" name="q18" value="b"> b) Excluir resultados (NOT).</label>
+                <label class="option"><input type="radio" name="q18" value="c"> c) Truncamiento, permitiendo buscar variantes morfológicas (computador, computación, etc.).</label>
+                <label class="option"><input type="radio" name="q18" value="d"> d) Priorizar el nivel relacional del paper.</label>
+            </div>
+            <div class="feedback" id="feedback-18">Respuesta correcta: c). El truncamiento permite flexibilizar las búsquedas encontrando familias de palabras.</div>
+        </div>
+
+        <!-- Q19 -->
+        <div class="question-card" id="card-19">
+            <div class="q-title">19. Un título debe ser claro, conciso, específico, coherente, original y:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q19" value="a"> a) Comercialmente viable</label>
+                <label class="option"><input type="radio" name="q19" value="b"> b) Abstracto</label>
+                <label class="option"><input type="radio" name="q19" value="c"> c) Con pertinencia disciplinar</label>
+                <label class="option"><input type="radio" name="q19" value="d"> d) De máximo 5 palabras</label>
+            </div>
+            <div class="feedback" id="feedback-19">Respuesta correcta: c). La pertinencia disciplinar indica que el tema debe recaer sobre la especialidad estudiada (Ingeniería de Sistemas / Serie 500 en este caso).</div>
+        </div>
+
+        <!-- Q20 -->
+        <div class="question-card" id="card-20">
+            <div class="q-title">20. Al redactar el planteamiento, en la fase "Diagnóstico", es indispensable:</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q20" value="a"> a) Proponer un diseño de software.</label>
+                <label class="option"><input type="radio" name="q20" value="b"> b) Describir la situación actual respaldada por datos reales o empíricos.</label>
+                <label class="option"><input type="radio" name="q20" value="c"> c) Citar únicamente antecedentes internacionales en idioma inglés.</label>
+                <label class="option"><input type="radio" name="q20" value="d"> d) Plantear la delimitación muestral.</label>
+            </div>
+            <div class="feedback" id="feedback-20">Respuesta correcta: b). El diagnóstico no es opinión, se requiere describir la problemática valiéndose de métricas y realidades comprobables.</div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="checkAnswers()">Ver Respuestas y Puntaje</button>
+        <div id="score" class="score-display"></div>
+    </form>
+</div>
+
+<script>
+    const correctAnswers = {
+        q1: 'b', q2: 'c', q3: 'b', q4: 'd', q5: 'c',
+        q6: 'a', q7: 'b', q8: 'c', q9: 'b', q10: 'b',
+        q11: 'b', q12: 'c', q13: 'd', q14: 'a', q15: 'c',
+        q16: 'b', q17: 'b', q18: 'c', q19: 'c', q20: 'b'
+    };
+
+    function checkAnswers() {
+        let score = 0;
+        let total = 20;
+
+        for (let i = 1; i <= total; i++) {
+            let qName = 'q' + i;
+            let selected = document.querySelector(`input[name="${qName}"]:checked`);
+            let feedbackElement = document.getElementById('feedback-' + i);
+            
+            if (selected) {
+                if (selected.value === correctAnswers[qName]) {
+                    score++;
+                    feedbackElement.className = 'feedback correct';
+                } else {
+                    feedbackElement.className = 'feedback incorrect';
+                }
+            } else {
+                feedbackElement.className = 'feedback incorrect';
+                feedbackElement.innerHTML += ' (No respondiste)';
+            }
+        }
+
+        const scoreDiv = document.getElementById('score');
+        scoreDiv.style.display = 'block';
+        scoreDiv.innerHTML = `Puntaje Final: ${score} / ${total} <br> <span style="font-size:1rem;font-weight:normal;">(${score/total * 100}%)</span>`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

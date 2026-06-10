@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen 4 — Formulación del Problema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117; --surface: #1a1d2e; --surface2: #242840; --border: #2e3250;
+            --accent: #10b981; --accent2: #6ee7b7; --green: #22c55e; --red: #ef4444;
+            --yellow: #f59e0b; --text: #e2e8f0; --text-muted: #94a3b8; --radius: 14px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+        .hero { max-width: 860px; margin: 0 auto 2.5rem; text-align: center; }
+        .badge { display: inline-block; background: linear-gradient(135deg, var(--accent), #059669); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .9rem; border-radius: 999px; margin-bottom: 1rem; }
+        h1 { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; margin-bottom: .6rem; }
+        .subtitle { color: var(--text-muted); font-size: .95rem; }
+        .meta-bar { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.4rem; }
+        .meta-item { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--text-muted); }
+        .meta-item span { color: var(--accent2); font-weight: 600; }
+        #timer-box { position: fixed; top: 1.2rem; right: 1.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem 1.1rem; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: var(--accent2); z-index: 99; box-shadow: 0 4px 20px #0008; }
+        #timer-box.warn { color: var(--yellow); border-color: var(--yellow); }
+        #timer-box.danger { color: var(--red); border-color: var(--red); animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .progress-bar-wrap { max-width: 860px; margin: 0 auto 2rem; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--text-muted); margin-bottom: .4rem; }
+        .progress-track { height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width .4s ease; width: 0%; }
+        .exam-wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; transition: border-color .25s; }
+        .question-card:hover { border-color: #2a4a40; }
+        .q-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.2rem; }
+        .q-num { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; font-weight: 700; font-size: .78rem; border-radius: 8px; padding: .28rem .7rem; white-space: nowrap; }
+        .q-type-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); font-size: .72rem; font-weight: 500; border-radius: 6px; padding: .2rem .6rem; white-space: nowrap; }
+        .q-text { font-size: 1rem; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
+        .options { display: flex; flex-direction: column; gap: .7rem; }
+        .option-label { display: flex; align-items: flex-start; gap: .85rem; cursor: pointer; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: .85rem 1.1rem; transition: all .2s; user-select: none; }
+        .option-label:hover { border-color: var(--accent); }
+        .option-label input[type="radio"] { display: none; }
+        .option-label.selected { border-color: var(--accent); background: #1a3028; }
+        .option-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .option-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .opt-circle { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; transition: all .2s; }
+        .option-label.selected .opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .option-label.correct .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+        .option-label.wrong .opt-circle { border-color: var(--red); background: var(--red); color: #fff; }
+        .opt-text { font-size: .9rem; line-height: 1.5; color: var(--text); }
+        .open-answer { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: .92rem; line-height: 1.6; padding: 1rem 1.1rem; resize: vertical; min-height: 110px; outline: none; transition: border-color .2s; }
+        .open-answer:focus { border-color: var(--accent); }
+        .answer-reveal { display: none; margin-top: 1.2rem; background: #1a2e22; border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.2rem; }
+        .answer-reveal.show { display: block; }
+        .answer-reveal .ar-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--green); margin-bottom: .5rem; }
+        .answer-reveal p { font-size: .88rem; line-height: 1.6; color: var(--text-muted); }
+        .answer-reveal p strong { color: var(--text); }
+        .formula-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 1rem 1.2rem; margin: .8rem 0; font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: var(--accent2); line-height: 1.7; }
+        .section-divider { max-width: 860px; margin: .5rem auto; display: flex; align-items: center; gap: 1rem; }
+        .section-divider .sd-line { flex: 1; height: 1px; background: var(--border); }
+        .section-divider .sd-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent2); background: var(--surface2); border: 1px solid var(--border); border-radius: 999px; padding: .3rem .9rem; }
+        .submit-wrap { max-width: 860px; margin: 1rem auto; display: flex; justify-content: center; }
+        .btn-submit { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border: none; border-radius: 12px; padding: .9rem 2.8rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .25s; }
+        .btn-submit:hover { transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #results-panel { display: none; max-width: 860px; margin: 2rem auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; }
+        #results-panel.show { display: block; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--surface2) 0%); margin: 1rem auto; display: flex; align-items: center; justify-content: center; }
+        .score-inner { width: 90px; height: 90px; background: var(--surface); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-num { font-size: 1.5rem; font-weight: 700; color: var(--accent2); }
+        .score-label { font-size: .7rem; color: var(--text-muted); }
+        .results-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1.5rem; }
+        .result-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+        .rs-val { font-size: 1.5rem; font-weight: 700; }
+        .rs-label { font-size: .78rem; color: var(--text-muted); margin-top: .2rem; }
+        .rs-val.green{color:var(--green);}.rs-val.red{color:var(--red);}.rs-val.yellow{color:var(--yellow);}
+        .btn-retry { margin-top: 1.5rem; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; padding: .7rem 2rem; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+        .btn-retry:hover { border-color: var(--accent); color: var(--accent2); }
+    </style>
+</head>
+<body>
+
+<div id="timer-box">⏱ <span id="timer-display">35:00</span></div>
+
+<div class="hero">
+    <div class="badge">Examen Simulatorio · Nº 4 de 5</div>
+    <h1>Formulación del Problema de Investigación</h1>
+    <p class="subtitle">Sesión 6 — Fórmulas sintácticas, locuciones y conectores por nivel</p>
+    <div class="meta-bar">
+        <div class="meta-item">📝 <span>15 preguntas</span></div>
+        <div class="meta-item">⏱ <span>35 minutos</span></div>
+        <div class="meta-item">🎓 <span>Nivel universitario</span></div>
+        <div class="meta-item">📊 <span>Diagnóstico / construcción / análisis</span></div>
+    </div>
+</div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-labels">
+        <span id="prog-text">0 / 15 respondidas</span>
+        <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SECCIÓN A -->
+<div class="section-divider">
+    <div class="sd-line"></div><div class="sd-label">A — Identificación del nivel por fórmula</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q1 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">01</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">Lee la siguiente pregunta de investigación y determina a qué nivel pertenece: <br><br>
+        <em>«¿Cuál es el nivel de satisfacción laboral de los docentes de la UNSCH durante el semestre 2025-I?»</em></p></div>
+        <div class="options" id="opts-1">
+            <label class="option-label" onclick="selectOpt(this,1,'A')"><input type="radio" name="q1"><div class="opt-circle">A</div><div class="opt-text">Exploratorio — usa «¿Cómo se presenta?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'B')"><input type="radio" name="q1"><div class="opt-circle">B</div><div class="opt-text">Descriptivo — usa «¿Cuál es el nivel/estado de la variable X?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'C')"><input type="radio" name="q1"><div class="opt-circle">C</div><div class="opt-text">Relacional — busca relacionar satisfacción con otras variables.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'D')"><input type="radio" name="q1"><div class="opt-circle">D</div><div class="opt-text">Predictivo — pronostica el nivel de satisfacción futura.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-1">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La pregunta usa la fórmula del nivel <strong>descriptivo</strong>: «¿Cuál + conector (nivel/estado/magnitud) + de la variable X + en + Ámbito + Periodo?». No busca ninguna relación entre variables, solo caracteriza el estado de una sola variable (satisfacción laboral) en un contexto y tiempo específicos.</p>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">02</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál de las siguientes preguntas corresponde al nivel <em>relacional</em>?</p></div>
+        <div class="options" id="opts-2">
+            <label class="option-label" onclick="selectOpt(this,2,'A')"><input type="radio" name="q2"><div class="opt-circle">A</div><div class="opt-text">«¿Cuál será el índice de pobreza en Ayacucho en 2027 a partir de los datos del INEI?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'B')"><input type="radio" name="q2"><div class="opt-circle">B</div><div class="opt-text">«¿En qué medida el uso de metodologías ágiles influye en la productividad de equipos de desarrollo en Lima, 2024?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'C')"><input type="radio" name="q2"><div class="opt-circle">C</div><div class="opt-text">«¿Qué relación existe entre el nivel de estrés laboral y el rendimiento académico de los docentes de la UNSCH, 2025?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'D')"><input type="radio" name="q2"><div class="opt-circle">D</div><div class="opt-text">«¿Cómo se presenta el consumo de comida rápida en adolescentes de Huamanga, 2025?»</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-2">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>La opción C usa la fórmula del nivel <strong>relacional</strong>: «¿Qué relación existe entre la variable X y la variable Y, en el ámbito A, periodo T?». La A es predictiva (¿Cuál será...?), la B es explicativa (influye en...), y la D es exploratoria (¿Cómo se presenta...?).</p>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">03</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">Identifica el nivel de la siguiente pregunta general: <br><br>
+        <em>«¿En qué medida la implementación de un sistema de gestión de inventarios basado en IoT mejora la eficiencia operativa del almacén de la empresa XYZ, Ayacucho, 2025?»</em></p></div>
+        <div class="options" id="opts-3">
+            <label class="option-label" onclick="selectOpt(this,3,'A')"><input type="radio" name="q3"><div class="opt-circle">A</div><div class="opt-text">Explicativo — mide el efecto causal de una variable independiente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'B')"><input type="radio" name="q3"><div class="opt-circle">B</div><div class="opt-text">Aplicativo — implementa un artefacto tecnológico (sistema IoT) y mide su efecto en la eficiencia.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'C')"><input type="radio" name="q3"><div class="opt-circle">C</div><div class="opt-text">Relacional — relaciona IoT con eficiencia.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'D')"><input type="radio" name="q3"><div class="opt-circle">D</div><div class="opt-text">Predictivo — predice el nivel de eficiencia futura.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-3">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La fórmula usa «¿En qué medida + conector (mejora/optimiza) + la variable dependiente + mediante la implementación de (artefacto tecnológico)». Esto es característico del nivel <strong>aplicativo</strong>. Aunque «¿En qué medida...?» puede aparecer en el nivel explicativo, la clave diferenciadora es la <em>implementación de un artefacto</em> (sistema IoT), que es el sello del nivel aplicativo.</p>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">04</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál es la diferencia fundamental entre el <em>Problema General (PG)</em> y los <em>Problemas Específicos (PEi)</em> en cualquier nivel de investigación?</p></div>
+        <div class="options" id="opts-4">
+            <label class="option-label" onclick="selectOpt(this,4,'A')"><input type="radio" name="q4"><div class="opt-circle">A</div><div class="opt-text">El PG es más fácil de responder que los PEi.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'B')"><input type="radio" name="q4"><div class="opt-circle">B</div><div class="opt-text">El PG trabaja con las variables principales en su totalidad; los PEi desagregan las dimensiones o componentes de esas variables.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'C')"><input type="radio" name="q4"><div class="opt-circle">C</div><div class="opt-text">El PG siempre usa el nivel relacional; los PEi el nivel descriptivo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'D')"><input type="radio" name="q4"><div class="opt-circle">D</div><div class="opt-text">Los PEi son una copia del PG con diferente redacción.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-4">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El <strong>PG</strong> aborda la relación entre las variables principales completas (X e Y). Los <strong>PEi</strong> descomponen la variable en sus <em>dimensiones</em> (Xi) para abordar la relación entre cada dimensión y la variable dependiente. Esto permite un análisis más granular y específico del fenómeno.</p>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">05</span><span class="q-type-tag">Diagnóstico de errores</span>
+        <p class="q-text">Analiza la siguiente pregunta de investigación e identifica todos sus errores de formulación: <br><br>
+        <em>«¿Qué tal es el estrés en los estudiantes?»</em></p></div>
+        <textarea class="open-answer" id="open-5" placeholder="Lista todos los errores de formulación que encuentres..." oninput="markAnswered(5)"></textarea>
+        <div class="answer-reveal" id="reveal-5">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Error 1 — Ambigüedad:</strong> «¿Qué tal es?» no es una locución técnica; no se entiende qué aspecto del estrés se busca medir (nivel, frecuencia, impacto, etc.).<br>
+            <strong>Error 2 — Falta de especificidad de la variable:</strong> Solo dice «el estrés», sin especificar si es académico, laboral, social, etc.<br>
+            <strong>Error 3 — Falta de población/ámbito:</strong> «en los estudiantes» es demasiado vago (¿qué estudiantes?, ¿de qué institución?, ¿de qué nivel educativo?).<br>
+            <strong>Error 4 — Falta de delimitación temporal:</strong> No indica el periodo del estudio.<br>
+            <strong>Error 5 — No admite contraste empírico preciso:</strong> La pregunta no permite diseñar un instrumento de medición concreto ni define qué parámetro se estimará.<br>
+            <strong>Propuesta corregida:</strong> «¿Cuál es el nivel de estrés académico en los estudiantes de 5.° año de la Escuela Profesional de Ingeniería de Sistemas de la UNSCH, semestre 2025-I?»</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN B -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">B — Construcción de problemas</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q6 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">06</span><span class="q-type-tag">Construcción — Nivel relacional</span>
+        <p class="q-text">Aplica la fórmula del nivel relacional para construir el <strong>PG</strong> y dos <strong>PEi</strong> para el siguiente contexto: <br><br>
+        <em>Variable X: Gestión del tiempo (con dimensiones: planificación del tiempo, priorización de tareas)<br>Variable Y: Rendimiento académico<br>Ámbito: Estudiantes de ingeniería de la UNSCH<br>Periodo: 2025-I</em></p>
+        <div class="formula-box">PG = ¿Qué relación existe entre X y Y, en el ámbito A, periodo T?<br>PEi = ¿Qué relación existe entre dimensión Xi y Y, en el ámbito A, periodo T?</div>
+        <textarea class="open-answer" id="open-6" placeholder="Redacta el PG y los 2 PEi..." oninput="markAnswered(6)"></textarea>
+        <div class="answer-reveal" id="reveal-6">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>PG:</strong> «¿Qué relación existe entre la gestión del tiempo y el rendimiento académico de los estudiantes de ingeniería de la UNSCH, semestre 2025-I?»<br><br>
+            <strong>PE1:</strong> «¿Qué relación existe entre la planificación del tiempo y el rendimiento académico de los estudiantes de ingeniería de la UNSCH, semestre 2025-I?»<br><br>
+            <strong>PE2:</strong> «¿Qué relación existe entre la priorización de tareas y el rendimiento académico de los estudiantes de ingeniería de la UNSCH, semestre 2025-I?»</p>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">07</span><span class="q-type-tag">Selección múltiple — Locuciones predictivas</span>
+        <p class="q-text">¿Cuál de las siguientes locuciones es más adecuada para encabezar un Problema General del nivel <em>predictivo</em> cuando se quiere conocer la cantidad estimada de una variable futura?</p></div>
+        <div class="options" id="opts-7">
+            <label class="option-label" onclick="selectOpt(this,7,'A')"><input type="radio" name="q7"><div class="opt-circle">A</div><div class="opt-text">«¿En qué medida influye...?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'B')"><input type="radio" name="q7"><div class="opt-circle">B</div><div class="opt-text">«¿Qué relación existe entre...?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'C')"><input type="radio" name="q7"><div class="opt-circle">C</div><div class="opt-text">«¿Qué valor / nivel / tasa alcanzará...?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'D')"><input type="radio" name="q7"><div class="opt-circle">D</div><div class="opt-text">«¿Cómo se presenta...?»</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-7">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>«¿Qué valor/nivel/tasa alcanzará...?» es la locución del nivel <strong>predictivo</strong> para cuando se desea conocer la cuantía estimada de la variable futura. Las demás locuciones corresponden a: A = explicativo/aplicativo; B = relacional; D = exploratorio.</p>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">08</span><span class="q-type-tag">Construcción — Nivel aplicativo</span>
+        <p class="q-text">Aplica la fórmula del nivel aplicativo para construir el <strong>PG</strong> para el siguiente escenario: <br><br>
+        <em>Variable independiente (X): Sistema de recomendación de libros basado en Machine Learning<br>Variable dependiente (Y): Hábito de lectura<br>Ámbito: Alumnos de secundaria del colegio San Ramón de Ayacucho<br>Periodo: 2025</em></p>
+        <div class="formula-box">PG = [frase] + [conector 1: «mediante la implementación de»] + [X: VI] + [conector 2: «sobre / en»] + [VD] + [Ámbito] + [Periodo]</div>
+        <textarea class="open-answer" id="open-8" placeholder="Construye la pregunta general del nivel aplicativo..." oninput="markAnswered(8)"></textarea>
+        <div class="answer-reveal" id="reveal-8">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>PG:</strong> «¿En qué medida mejora el hábito de lectura mediante la implementación de un sistema de recomendación de libros basado en Machine Learning en los alumnos de secundaria del colegio San Ramón de Ayacucho, 2025?»<br><br>
+            Elementos: <strong>Locución</strong> = «¿En qué medida mejora...?» | <strong>VD</strong> = hábito de lectura | <strong>Conector 1</strong> = «mediante la implementación de» | <strong>VI/Artefacto</strong> = sistema de recomendación basado en ML | <strong>Ámbito y periodo</strong> correctamente especificados.</p>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">09</span><span class="q-type-tag">Selección múltiple — Conectores</span>
+        <p class="q-text">En el nivel <em>predictivo</em>, ¿cuál conector indica correctamente que la variable Y es <em>pronosticada</em> a partir de la variable X?</p></div>
+        <div class="options" id="opts-9">
+            <label class="option-label" onclick="selectOpt(this,9,'A')"><input type="radio" name="q9"><div class="opt-circle">A</div><div class="opt-text">«mediante la implementación de»</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'B')"><input type="radio" name="q9"><div class="opt-circle">B</div><div class="opt-text">«pronosticada/predicha a partir de»</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'C')"><input type="radio" name="q9"><div class="opt-circle">C</div><div class="opt-text">«a través de / con la aplicación de»</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'D')"><input type="radio" name="q9"><div class="opt-circle">D</div><div class="opt-text">«en función de la relación entre»</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-9">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p><strong>«Pronosticada/predicha a partir de»</strong> es el conector específico del nivel predictivo que indica la relación Y→derivada de X. «Mediante la implementación de» es conector aplicativo; «a través de / con la aplicación de» también puede ser aplicativo; «en función de» indica dependencia general.</p>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">10</span><span class="q-type-tag">Análisis comparativo</span>
+        <p class="q-text">Compara las siguientes dos preguntas e identifica a qué nivel pertenece cada una, explicando qué las diferencia epistemológicamente: <br><br>
+        <em>Pregunta A: «¿En qué medida la gamificación influye en la motivación de aprendizaje de los estudiantes de 5.° de secundaria del colegio San Cristóbal, 2025?»</em><br><br>
+        <em>Pregunta B: «¿En qué medida mejora la motivación de aprendizaje mediante la implementación de un sistema gamificado en los estudiantes de 5.° de secundaria del colegio San Cristóbal, 2025?»</em></p></div>
+        <textarea class="open-answer" id="open-10" placeholder="Analiza y diferencia ambas preguntas..." oninput="markAnswered(10)"></textarea>
+        <div class="answer-reveal" id="reveal-10">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Pregunta A → Nivel Explicativo:</strong> Usa «¿En qué medida + VI + influye en + VD?». Busca medir la relación causal entre la gamificación (VI) y la motivación (VD). El diseño sería cuasi-experimental o experimental.<br><br>
+            <strong>Pregunta B → Nivel Aplicativo:</strong> Usa «¿En qué medida mejora + VD + mediante la implementación de + artefacto?». La diferencia clave es el conector «mediante la implementación de» y el verbo «mejora», que indican que se está construyendo y validando un artefacto tecnológico (sistema gamificado), no solo midiendo el efecto de una variable.<br><br>
+            <strong>Diferencia epistemológica:</strong> El nivel explicativo busca establecer causalidad; el aplicativo busca demostrar la eficacia de una intervención tecnológica.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN C -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">C — Criterios de validez y casos complejos</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q11 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">11</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál de los siguientes criterios NO debe cumplir necesariamente un problema de investigación bien formulado?</p></div>
+        <div class="options" id="opts-11">
+            <label class="option-label" onclick="selectOpt(this,11,'A')"><input type="radio" name="q11"><div class="opt-circle">A</div><div class="opt-text">Expresar una relación entre dos o más variables.</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'B')"><input type="radio" name="q11"><div class="opt-circle">B</div><div class="opt-text">Plantearse como pregunta interrogativa clara y sin ambigüedad.</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'C')"><input type="radio" name="q11"><div class="opt-circle">C</div><div class="opt-text">Ser aprobado por un comité de ética antes de formularse.</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'D')"><input type="radio" name="q11"><div class="opt-circle">D</div><div class="opt-text">Admitir el contraste empírico.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-11">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>Los criterios de una buena formulación del problema son: (1) expresar relación entre variables, (2) plantearse como pregunta clara y sin ambigüedad, y (3) admitir contraste empírico. La <strong>aprobación ética</strong> es un requisito procedimental institucional, no un criterio de <em>formulación</em> del problema. Además, algunos estudios descriptivos no expresan relación entre variables, lo que implica que el criterio 1 aplica con excepciones según el nivel.</p>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">12</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">En el nivel <em>descriptivo multivariable</em>, cuando se formulan problemas específicos para dos variables (X e Y), ¿qué es importante aclarar en la formulación?</p></div>
+        <div class="options" id="opts-12">
+            <label class="option-label" onclick="selectOpt(this,12,'A')"><input type="radio" name="q12"><div class="opt-circle">A</div><div class="opt-text">Que las variables X e Y se relacionan y se influyen mutuamente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'B')"><input type="radio" name="q12"><div class="opt-circle">B</div><div class="opt-text">Que cada variable se describe de forma independiente sin buscar asociación entre ellas.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'C')"><input type="radio" name="q12"><div class="opt-circle">C</div><div class="opt-text">Que una variable es independiente y la otra dependiente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'D')"><input type="radio" name="q12"><div class="opt-circle">D</div><div class="opt-text">Que se requieren pruebas bivariadas para cada variable.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-12">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>En el nivel descriptivo multivariable, <strong>cada variable se describe de manera independiente</strong> sobre la misma población, pero no se busca ninguna correlación o asociación entre ellas. Si se busca esa relación, ya sería nivel relacional. Es un error frecuente confundir «describir dos variables en la misma población» con «relacionar las variables».</p>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">13</span><span class="q-type-tag">Construcción — Nivel predictivo</span>
+        <p class="q-text">Construye el PG y un PE para el siguiente escenario predictivo: <br><br>
+        <em>Variable endógena (Y): Demanda de electricidad en Ayacucho<br>Variable exógena (X): Temperatura ambiental, crecimiento poblacional, actividad industrial<br>Dimensión para PE: Temperatura ambiental (Xi)<br>Modelo: Red neuronal recurrente (LSTM)<br>Horizonte: 2026-2028</em></p>
+        <div class="formula-box">PG = ¿[Locución] + [conector 1] + variable X + conector 2 + variable Y + M(Modelo/opcional) + ámbito + periodo (T+K)?<br>PEi = ¿[Locución] + [conector 1] + Dimensión Xi + conector 2 + variable Y + ámbito + periodo (T+K)?</div>
+        <textarea class="open-answer" id="open-13" placeholder="Construye el PG y el PE con la fórmula del nivel predictivo..." oninput="markAnswered(13)"></textarea>
+        <div class="answer-reveal" id="reveal-13">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>PG:</strong> «¿Cuál será la demanda de electricidad en Ayacucho pronosticada a partir de la temperatura ambiental, el crecimiento poblacional y la actividad industrial, mediante un modelo LSTM, para el periodo 2026-2028?»<br><br>
+            <strong>PE1:</strong> «¿Cuál será la demanda de electricidad en Ayacucho predicha a partir de la temperatura ambiental para el periodo 2026-2028?»</p>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">14</span><span class="q-type-tag">Verdadero / Falso razonado</span>
+        <p class="q-text">«La fórmula sintáctica del nivel explicativo: ¿En qué medida la variable causa (X) influye/impacta en la variable efecto (Y)? — puede usarse también para el nivel aplicativo sin ninguna modificación.»</p></div>
+        <div class="options" id="opts-14">
+            <label class="option-label" onclick="selectOpt(this,14,'A')"><input type="radio" name="q14"><div class="opt-circle">V</div><div class="opt-text">Verdadero — ambas fórmulas son intercambiables.</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'B')"><input type="radio" name="q14"><div class="opt-circle">F</div><div class="opt-text">Falso — el nivel aplicativo requiere conectores específicos que indiquen la implementación del artefacto («mediante la implementación de», «a través de la aplicación de»).</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-14">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>Aunque ambos niveles comparten locuciones como «¿En qué medida...?», el nivel <strong>aplicativo</strong> exige conectores que indiquen explícitamente que existe una <em>intervención mediante un artefacto</em>: «mediante la implementación de», «a través de / con la aplicación de», «al implementar/aplicar». Sin estos conectores, la pregunta se confunde con el nivel explicativo.</p>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">15</span><span class="q-type-tag">Integración total — Caso completo</span>
+        <p class="q-text">Para el siguiente proyecto de tesis, formula el <strong>PG</strong> y <strong>tres PEi</strong> en el nivel que corresponda: <br><br>
+        <em>«Se desea estudiar si existe asociación entre la inteligencia emocional (con dimensiones: autoconciencia, autoregulación y empatía) y el liderazgo transformacional de los directivos de las UGEL de Ayacucho durante el año 2025.»</em></p>
+        <textarea class="open-answer" id="open-15" placeholder="PG y 3 PEi con el nivel correcto..." style="min-height:160px" oninput="markAnswered(15)"></textarea>
+        <div class="answer-reveal" id="reveal-15">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Nivel:</strong> Relacional (busca asociación entre variables, usa pruebas bivariadas).<br><br>
+            <strong>PG:</strong> «¿Qué relación existe entre la inteligencia emocional y el liderazgo transformacional de los directivos de las UGEL de Ayacucho, 2025?»<br><br>
+            <strong>PE1:</strong> «¿Qué relación existe entre la autoconciencia y el liderazgo transformacional de los directivos de las UGEL de Ayacucho, 2025?»<br><br>
+            <strong>PE2:</strong> «¿Qué relación existe entre la autoregulación y el liderazgo transformacional de los directivos de las UGEL de Ayacucho, 2025?»<br><br>
+            <strong>PE3:</strong> «¿Qué relación existe entre la empatía y el liderazgo transformacional de los directivos de las UGEL de Ayacucho, 2025?»</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="submit-wrap" style="margin-top:2rem">
+    <button class="btn-submit" id="btn-submit" onclick="submitExam()">Finalizar examen y ver respuestas</button>
+</div>
+
+<div id="results-panel">
+    <h2 style="font-size:1.5rem;margin-bottom:.5rem">📊 Resultados del Examen 4</h2>
+    <p style="color:var(--text-muted);font-size:.9rem">Formulación del Problema de Investigación</p>
+    <div class="score-circle" id="score-circle">
+        <div class="score-inner"><div class="score-num" id="score-num">—</div><div class="score-label">PUNTAJE</div></div>
+    </div>
+    <div class="results-grid">
+        <div class="result-stat"><div class="rs-val green" id="r-correct">—</div><div class="rs-label">Correctas (selección)</div></div>
+        <div class="result-stat"><div class="rs-val red" id="r-wrong">—</div><div class="rs-label">Incorrectas</div></div>
+        <div class="result-stat"><div class="rs-val yellow" id="r-open">—</div><div class="rs-label">Abiertas</div></div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:var(--text-muted)">Revisa cada ✅ para contrastar tus construcciones y análisis.</p>
+    <button class="btn-retry" onclick="location.reload()">🔄 Reintentar</button>
+</div>
+
+<script>
+    const TOTAL=15;const answered=new Set();let submitted=false;
+    const correctMap={1:'B',2:'C',3:'B',4:'B',7:'C',9:'B',11:'C',12:'B',14:'B'};
+    const userAnswers={};let timeLeft=35*60;
+    const timerEl=document.getElementById('timer-display'),timerBox=document.getElementById('timer-box');
+    const iv=setInterval(()=>{if(submitted){clearInterval(iv);return;}timeLeft--;const m=String(Math.floor(timeLeft/60)).padStart(2,'0'),s=String(timeLeft%60).padStart(2,'0');timerEl.textContent=`${m}:${s}`;if(timeLeft<=300)timerBox.className='warn';if(timeLeft<=60)timerBox.className='danger';if(timeLeft<=0){clearInterval(iv);submitExam();}},1000);
+    function updateProgress(){const n=answered.size;document.getElementById('prog-text').textContent=`${n} / ${TOTAL} respondidas`;document.getElementById('prog-pct').textContent=Math.round(n/TOTAL*100)+'%';document.getElementById('prog-fill').style.width=(n/TOTAL*100)+'%';}
+    function markAnswered(q){answered.add(q);updateProgress();}
+    function selectOpt(label,qNum,val){if(submitted)return;const group=document.getElementById('opts-'+qNum);if(!group)return;group.querySelectorAll('.option-label').forEach(l=>l.classList.remove('selected'));label.classList.add('selected');userAnswers[qNum]=val;markAnswered(qNum);}
+    function submitExam(){
+        submitted=true;clearInterval(iv);let correct=0,wrong=0;
+        Object.entries(correctMap).forEach(([q,ans])=>{const qNum=parseInt(q);const group=document.getElementById('opts-'+qNum);if(!group)return;const labels=group.querySelectorAll('.option-label');const letters='ABCDEFGH'.split('');labels.forEach((label,i)=>{const letter=letters[i];if(letter===ans){label.classList.add('correct');if(userAnswers[qNum]===letter)correct++;}else if(userAnswers[qNum]===letter){label.classList.add('wrong');wrong++;}});});
+        for(let i=1;i<=TOTAL;i++){const rev=document.getElementById('reveal-'+i);if(rev)rev.classList.add('show');}
+        const gradable=Object.keys(correctMap).length;const pct=Math.round(correct/gradable*100);
+        document.getElementById('score-num').textContent=pct+'%';document.getElementById('r-correct').textContent=correct+'/'+gradable;document.getElementById('r-wrong').textContent=wrong;document.getElementById('r-open').textContent='6 preg.';
+        document.getElementById('score-circle').style.background=`conic-gradient(var(--accent) ${pct*3.6}deg, var(--surface2) 0deg)`;
+        document.getElementById('btn-submit').disabled=true;document.getElementById('results-panel').classList.add('show');document.getElementById('results-panel').scrollIntoView({behavior:'smooth'});
+    }
+</script>
+</body>
+</html>

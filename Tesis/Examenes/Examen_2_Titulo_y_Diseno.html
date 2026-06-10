@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen 2 — Titulo, Diseño y Tipo de Investigación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d2e;
+            --surface2: #242840;
+            --border: #2e3250;
+            --accent: #06b6d4;
+            --accent2: #67e8f9;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --radius: 14px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+        .hero { max-width: 860px; margin: 0 auto 2.5rem; text-align: center; }
+        .badge { display: inline-block; background: linear-gradient(135deg, var(--accent), #0891b2); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .9rem; border-radius: 999px; margin-bottom: 1rem; }
+        h1 { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; margin-bottom: .6rem; }
+        .subtitle { color: var(--text-muted); font-size: .95rem; }
+        .meta-bar { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.4rem; }
+        .meta-item { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--text-muted); }
+        .meta-item span { color: var(--accent2); font-weight: 600; }
+        #timer-box { position: fixed; top: 1.2rem; right: 1.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem 1.1rem; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: var(--accent2); z-index: 99; box-shadow: 0 4px 20px #0008; }
+        #timer-box.warn { color: var(--yellow); border-color: var(--yellow); }
+        #timer-box.danger { color: var(--red); border-color: var(--red); animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .progress-bar-wrap { max-width: 860px; margin: 0 auto 2rem; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--text-muted); margin-bottom: .4rem; }
+        .progress-track { height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width .4s ease; width: 0%; }
+        .exam-wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; transition: border-color .25s, box-shadow .25s; }
+        .question-card:hover { border-color: #3d4270; box-shadow: 0 4px 24px #0005; }
+        .q-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.2rem; }
+        .q-num { background: linear-gradient(135deg, var(--accent), #0891b2); color: #fff; font-weight: 700; font-size: .78rem; border-radius: 8px; padding: .28rem .7rem; white-space: nowrap; }
+        .q-type-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); font-size: .72rem; font-weight: 500; border-radius: 6px; padding: .2rem .6rem; white-space: nowrap; }
+        .q-text { font-size: 1rem; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
+        .options { display: flex; flex-direction: column; gap: .7rem; }
+        .option-label { display: flex; align-items: flex-start; gap: .85rem; cursor: pointer; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: .85rem 1.1rem; transition: all .2s; user-select: none; }
+        .option-label:hover { border-color: var(--accent); background: #1e3040; }
+        .option-label input[type="radio"] { display: none; }
+        .option-label.selected { border-color: var(--accent); background: #1e3040; }
+        .option-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .option-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .opt-circle { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: .05rem; font-size: .7rem; font-weight: 700; transition: all .2s; }
+        .option-label.selected .opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .option-label.correct .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+        .option-label.wrong .opt-circle { border-color: var(--red); background: var(--red); color: #fff; }
+        .opt-text { font-size: .9rem; line-height: 1.5; color: var(--text); }
+        .open-answer { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: .92rem; line-height: 1.6; padding: 1rem 1.1rem; resize: vertical; min-height: 110px; transition: border-color .2s; outline: none; }
+        .open-answer:focus { border-color: var(--accent); }
+        .answer-reveal { display: none; margin-top: 1.2rem; background: #1e2640; border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.2rem; }
+        .answer-reveal.show { display: block; }
+        .answer-reveal .ar-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--green); margin-bottom: .5rem; }
+        .answer-reveal p { font-size: .88rem; line-height: 1.6; color: var(--text-muted); }
+        .answer-reveal p strong { color: var(--text); }
+        .section-divider { max-width: 860px; margin: .5rem auto; display: flex; align-items: center; gap: 1rem; }
+        .section-divider .sd-line { flex: 1; height: 1px; background: var(--border); }
+        .section-divider .sd-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent2); background: var(--surface2); border: 1px solid var(--border); border-radius: 999px; padding: .3rem .9rem; }
+        .submit-wrap { max-width: 860px; margin: 1rem auto; display: flex; justify-content: center; }
+        .btn-submit { background: linear-gradient(135deg, var(--accent), #0891b2); color: #fff; border: none; border-radius: 12px; padding: .9rem 2.8rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .25s; box-shadow: 0 4px 20px #06b6d444; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px #06b6d466; }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #results-panel { display: none; max-width: 860px; margin: 2rem auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; }
+        #results-panel.show { display: block; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--surface2) 0%); margin: 1rem auto; display: flex; align-items: center; justify-content: center; }
+        .score-inner { width: 90px; height: 90px; background: var(--surface); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-num { font-size: 1.5rem; font-weight: 700; color: var(--accent2); }
+        .score-label { font-size: .7rem; color: var(--text-muted); }
+        .results-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1.5rem; }
+        .result-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+        .result-stat .rs-val { font-size: 1.5rem; font-weight: 700; }
+        .result-stat .rs-label { font-size: .78rem; color: var(--text-muted); margin-top: .2rem; }
+        .rs-val.green { color: var(--green); } .rs-val.red { color: var(--red); } .rs-val.yellow { color: var(--yellow); }
+        .btn-retry { margin-top: 1.5rem; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; padding: .7rem 2rem; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+        .btn-retry:hover { border-color: var(--accent); color: var(--accent2); }
+        .formula-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: .88rem; color: var(--accent2); }
+    </style>
+</head>
+<body>
+
+<div id="timer-box">⏱ <span id="timer-display">30:00</span></div>
+
+<div class="hero">
+    <div class="badge">Examen Simulatorio · Nº 2 de 5</div>
+    <h1>Título, Diseño y Tipo de Investigación</h1>
+    <p class="subtitle">Sesiones 2 y 3 — Criterios del título, diseño metodológico y tipos de investigación</p>
+    <div class="meta-bar">
+        <div class="meta-item">📝 <span>15 preguntas</span></div>
+        <div class="meta-item">⏱ <span>30 minutos</span></div>
+        <div class="meta-item">🎓 <span>Nivel universitario</span></div>
+        <div class="meta-item">📊 <span>Mixto: selección / análisis / construcción</span></div>
+    </div>
+</div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-labels">
+        <span id="prog-text">0 / 15 respondidas</span>
+        <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SECCIÓN A -->
+<div class="section-divider">
+    <div class="sd-line"></div>
+    <div class="sd-label">A — Análisis del título de tesis</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q1 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">01</span>
+            <span class="q-type-tag">Construcción</span>
+            <p class="q-text">Usando la fórmula canónica del título de tesis, construye un título coherente para el siguiente escenario: <em>«Se quiere estudiar cómo el uso de plataformas digitales afecta el rendimiento académico de estudiantes universitarios de la UNSCH durante el año 2025»</em>. Identifica y etiqueta cada elemento de la fórmula en tu respuesta.</p>
+        </div>
+        <div class="formula-box">Variable independiente + conector relacional + variable dependiente + población/contexto + delimitación temporal</div>
+        <textarea class="open-answer" id="open-1" placeholder="Escribe tu título propuesto y etiqueta cada elemento..." oninput="markAnswered(1)"></textarea>
+        <div class="answer-reveal" id="reveal-1">
+            <div class="ar-title">✅ Ejemplo de respuesta válida</div>
+            <p><strong>Título:</strong> «Influencia del uso de plataformas digitales [VI] <em>en</em> [conector relacional] el rendimiento académico [VD] de estudiantes universitarios de la UNSCH [población/contexto], 2025 [delimitación temporal]».<br><br>
+            El título cumple los criterios de: <strong>claridad</strong> (se entiende qué se estudia), <strong>concisión</strong> (no tiene palabras innecesarias), <strong>especificidad</strong> (indica las variables y la población exacta), <strong>coherencia</strong> (las variables se conectan lógicamente) y <strong>pertinencia disciplinar</strong>.</p>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">02</span>
+            <span class="q-type-tag">Selección múltiple — Criterios de calidad</span>
+            <p class="q-text">Un tesista propone el siguiente título: <em>«Análisis exhaustivo y pormenorizado de la compleja problemática relacionada con los factores que posiblemente podrían influir en el rendimiento de los alumnos en la institución educativa de la ciudad de Ayacucho»</em>. ¿Cuál criterio de calidad viola principalmente este título?</p>
+        </div>
+        <div class="options" id="opts-2">
+            <label class="option-label" onclick="selectOpt(this,2,'A')"><input type="radio" name="q2"><div class="opt-circle">A</div><div class="opt-text">Originalidad — el tema es muy común.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'B')"><input type="radio" name="q2"><div class="opt-circle">B</div><div class="opt-text">Concisión y especificidad — es excesivamente largo, usa lenguaje vago y no identifica las variables concretas.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'C')"><input type="radio" name="q2"><div class="opt-circle">C</div><div class="opt-text">Coherencia — las variables no se relacionan lógicamente entre sí.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'D')"><input type="radio" name="q2"><div class="opt-circle">D</div><div class="opt-text">Pertinencia disciplinar — el tema no corresponde a ninguna disciplina específica.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-2">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El título es <strong>excesivamente redundante</strong> («análisis exhaustivo y pormenorizado»), usa <strong>lenguaje vago</strong> («compleja problemática», «posiblemente podrían influir») y no especifica las variables de investigación. Viola principalmente los criterios de <strong>concisión y especificidad</strong>. Un título debe informar de forma sintética el problema y las variables involucradas.</p>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">03</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">¿Cuál es el propósito del <em>resumen</em> (abstract) de una tesis y cuál es su extensión recomendada?</p>
+        </div>
+        <div class="options" id="opts-3">
+            <label class="option-label" onclick="selectOpt(this,3,'A')"><input type="radio" name="q3"><div class="opt-circle">A</div><div class="opt-text">Presentar el marco teórico completo; entre 800 y 1000 palabras.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'B')"><input type="radio" name="q3"><div class="opt-circle">B</div><div class="opt-text">Ser una síntesis estructurada de toda la tesis (propósito, método, resultados); entre 200 y 500 palabras.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'C')"><input type="radio" name="q3"><div class="opt-circle">C</div><div class="opt-text">Explicar únicamente los resultados obtenidos; entre 100 y 200 palabras.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'D')"><input type="radio" name="q3"><div class="opt-circle">D</div><div class="opt-text">Introducir el problema de investigación; extensión libre.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-3">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El resumen es una <strong>síntesis estructurada</strong> que debe incluir: propósito/objetivo, enfoque, tipo, nivel, diseño, población, muestra, técnica de muestreo, instrumento, validación y confiabilidad, y análisis estadístico. Se redacta en <strong>tiempo presente</strong> para describir el estudio y <strong>tiempo pasado</strong> para los resultados previos. Su extensión es de <strong>200 a 500 palabras</strong>.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN B -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">B — Diseño metodológico por nivel</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q4 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">04</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">Un investigador desea estudiar el efecto de un nuevo método de enseñanza de programación sobre el aprendizaje de algoritmos, formando dos grupos: uno que recibe el método nuevo y uno control. ¿Cuál es el nivel y el diseño más adecuado?</p>
+        </div>
+        <div class="options" id="opts-4">
+            <label class="option-label" onclick="selectOpt(this,4,'A')"><input type="radio" name="q4"><div class="opt-circle">A</div><div class="opt-text">Descriptivo — no experimental transversal descriptivo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'B')"><input type="radio" name="q4"><div class="opt-circle">B</div><div class="opt-text">Relacional — no experimental transversal relacional.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'C')"><input type="radio" name="q4"><div class="opt-circle">C</div><div class="opt-text">Explicativo — cuasi-experimental o experimental puro.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'D')"><input type="radio" name="q4"><div class="opt-circle">D</div><div class="opt-text">Aplicativo — DSR con ciclos iterativos.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-4">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>Al manipular una variable independiente (método de enseñanza) y medir su efecto sobre la variable dependiente (aprendizaje de algoritmos) con grupo control, el diseño es <strong>experimental o cuasi-experimental</strong>, propio del nivel <strong>explicativo</strong>. Si los grupos se forman al azar es experimental puro; si ya estaban formados (aulas existentes), es cuasi-experimental.</p>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">05</span>
+            <span class="q-type-tag">Análisis de caso</span>
+            <p class="q-text">Un tesista usa datos del INEI de los últimos 15 años para construir un modelo de regresión múltiple que prediga el PBI regional de Ayacucho en los próximos 2 años. Clasifica este estudio según los <strong>4 tipos de investigación</strong> (intervención del investigador, planificación de datos, número de mediciones, número de variables analíticas). Justifica cada clasificación.</p>
+        </div>
+        <textarea class="open-answer" id="open-5" placeholder="Desarrolla los 4 criterios de clasificación..." oninput="markAnswered(5)"></textarea>
+        <div class="answer-reveal" id="reveal-5">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>1. Intervención:</strong> Observacional — el investigador no manipula ninguna variable, solo trabaja con datos existentes.<br>
+            <strong>2. Planificación de datos:</strong> Retrospectivo — los datos del INEI no fueron recolectados para este estudio; provienen de fuentes secundarias/bases de datos preexistentes.<br>
+            <strong>3. Número de mediciones:</strong> Longitudinal — la variable (PBI) se mide en múltiples momentos durante 15 años.<br>
+            <strong>4. Variables analíticas:</strong> Analítico — se busca probar una relación predictiva entre múltiples variables (regresión múltiple), no solo estimar parámetros.</p>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">06</span>
+            <span class="q-type-tag">Selección múltiple — Trampa conceptual</span>
+            <p class="q-text">¿Cuál de los siguientes estudios corresponde a un diseño <em>transversal</em> y no <em>longitudinal</em>?</p>
+        </div>
+        <div class="options" id="opts-6">
+            <label class="option-label" onclick="selectOpt(this,6,'A')"><input type="radio" name="q6"><div class="opt-circle">A</div><div class="opt-text">Seguir a un cohorte de estudiantes durante 4 años para medir su rendimiento académico cada semestre.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'B')"><input type="radio" name="q6"><div class="opt-circle">B</div><div class="opt-text">Aplicar una encuesta a todos los alumnos de una facultad en un solo momento para medir el nivel de ansiedad académica.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'C')"><input type="radio" name="q6"><div class="opt-circle">C</div><div class="opt-text">Registrar el peso de un grupo de pacientes antes y después de una dieta de 6 meses.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'D')"><input type="radio" name="q6"><div class="opt-circle">D</div><div class="opt-text">Analizar series de tiempo de datos climáticos de 20 años para construir un modelo predictivo.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-6">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>En el diseño <strong>transversal</strong>, la variable se mide <strong>una sola vez</strong> por unidad de estudio. Una encuesta aplicada en un único momento a todos los alumnos es un diseño transversal por excelencia. Las opciones A, C y D implican mediciones repetidas en el tiempo (diseño longitudinal).</p>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">07</span>
+            <span class="q-type-tag">Verdadero / Falso razonado</span>
+            <p class="q-text">«Un estudio observacional y prospectivo puede ser también de nivel explicativo si se logra controlar adecuadamente las variables confusoras mediante análisis estadístico.»</p>
+        </div>
+        <div class="options" id="opts-7">
+            <label class="option-label" onclick="selectOpt(this,7,'A')"><input type="radio" name="q7"><div class="opt-circle">V</div><div class="opt-text">Verdadero — el control estadístico sustituye al control experimental.</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'B')"><input type="radio" name="q7"><div class="opt-circle">F</div><div class="opt-text">Falso — el nivel explicativo requiere manipulación directa de la variable independiente (diseño experimental o cuasi-experimental), no solo control estadístico.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-7">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>El nivel explicativo requiere <strong>manipulación activa</strong> de la variable independiente mediante un diseño experimental puro, cuasi-experimental o pre-experimental. Un estudio observacional, aunque controle estadísticamente las variables confusoras, no puede establecer causalidad con el mismo rigor que un experimento controlado. El control estadístico reduce el sesgo pero no elimina la posibilidad de variables confusoras no medidas.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN C -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">C — Coherencia epistemológica</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q8 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">08</span>
+            <span class="q-type-tag">Análisis de incoherencias</span>
+            <p class="q-text">Lee el siguiente diseño de tesis y detecta las <strong>incoherencias epistemológicas</strong>:
+            <br><br>
+            <em>Título: «Efecto de la gamificación [VI] en el aprendizaje de matemáticas [VD] en alumnos de 5.° de secundaria»<br>Nivel declarado: Descriptivo<br>Diseño declarado: No experimental transversal<br>Estadística: Chi-cuadrado de asociación</em></p>
+        </div>
+        <textarea class="open-answer" id="open-8" placeholder="Identifica las incoherencias y propón la corrección..." oninput="markAnswered(8)"></textarea>
+        <div class="answer-reveal" id="reveal-8">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Incoherencia 1:</strong> El título indica una relación causa-efecto («Efecto de…»), lo cual corresponde al nivel <strong>Explicativo</strong>, no descriptivo.<br>
+            <strong>Incoherencia 2:</strong> Si se manipula la gamificación (VI), el diseño debe ser <strong>experimental o cuasi-experimental</strong>, no no-experimental transversal.<br>
+            <strong>Incoherencia 3:</strong> El chi-cuadrado mide asociación, que corresponde al nivel <strong>relacional</strong>, no al descriptivo ni al explicativo.<br>
+            <strong>Corrección:</strong> Nivel Explicativo + Diseño cuasi-experimental (pre/post test con grupo control) + estadística inferencial comparativa (prueba t, ANOVA o equivalente no paramétrico).</p>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">09</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">La «coherencia epistemológica del enfoque cuantitativo» exige que el nivel de investigación determine el diseño. ¿Qué combinación es <em>correcta</em>?</p>
+        </div>
+        <div class="options" id="opts-9">
+            <label class="option-label" onclick="selectOpt(this,9,'A')"><input type="radio" name="q9"><div class="opt-circle">A</div><div class="opt-text">Relacional + Experimental puro</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'B')"><input type="radio" name="q9"><div class="opt-circle">B</div><div class="opt-text">Descriptivo + No experimental transversal descriptivo</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'C')"><input type="radio" name="q9"><div class="opt-circle">C</div><div class="opt-text">Predictivo + Experimental puro</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'D')"><input type="radio" name="q9"><div class="opt-circle">D</div><div class="opt-text">Exploratorio + Longitudinal retrospectivo</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-9">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La tabla de coherencia establece: <strong>Descriptivo → No experimental transversal descriptivo</strong>. Las demás opciones son incorrectas: Relacional usa no experimental transversal relacional; Predictivo usa no experimental longitudinal/retrospectivo con modelamiento; Exploratorio usa no experimental transversal exploratorio.</p>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">10</span>
+            <span class="q-type-tag">Selección múltiple — Síntesis</span>
+            <p class="q-text">El nivel <em>aplicativo</em> se distingue de todos los demás niveles porque:</p>
+        </div>
+        <div class="options" id="opts-10">
+            <label class="option-label" onclick="selectOpt(this,10,'A')"><input type="radio" name="q10"><div class="opt-circle">A</div><div class="opt-text">Solo describe el fenómeno sin manipular variables.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'B')"><input type="radio" name="q10"><div class="opt-circle">B</div><div class="opt-text">Utiliza únicamente modelos estadísticos de predicción.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'C')"><input type="radio" name="q10"><div class="opt-circle">C</div><div class="opt-text">Interviene en la realidad mediante la propuesta e implementación de un artefacto (software, modelo, sistema) y valida su eficacia.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'D')"><input type="radio" name="q10"><div class="opt-circle">D</div><div class="opt-text">Busca relaciones causales entre variables sin construir ningún artefacto.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-10">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>El nivel <strong>aplicativo</strong> es el único en el que el investigador <em>interviene activamente</em> en la realidad desarrollando y validando un artefacto tecnológico (software, modelo, sistema, etc.). Usa metodologías como DSR o ciclos iterativos de construcción. La diferencia clave con el nivel explicativo es que aquí el producto es el artefacto y su validación, no solo la causalidad entre variables.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN D -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">D — Aplicación integradora</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q11 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">11</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">Un estudiante de ingeniería de sistemas propone una tesis donde: primero <em>describe</em> el proceso actual de matrícula, luego detecta sus problemas, y finalmente <em>desarrolla un sistema web</em> que automatiza el proceso y mide si reduce los tiempos de espera. ¿En qué nivel encaja mejor este trabajo?</p>
+        </div>
+        <div class="options" id="opts-11">
+            <label class="option-label" onclick="selectOpt(this,11,'A')"><input type="radio" name="q11"><div class="opt-circle">A</div><div class="opt-text">Descriptivo + Aplicativo (mixto, siendo el nivel principal Aplicativo).</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'B')"><input type="radio" name="q11"><div class="opt-circle">B</div><div class="opt-text">Relacional — porque relaciona el sistema web con los tiempos de espera.</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'C')"><input type="radio" name="q11"><div class="opt-circle">C</div><div class="opt-text">Exploratorio — porque describe el proceso sin conocimiento previo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'D')"><input type="radio" name="q11"><div class="opt-circle">D</div><div class="opt-text">Solo Descriptivo — porque describe el proceso actual.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-11">
+            <div class="ar-title">✅ Respuesta correcta · Opción A</div>
+            <p>El nivel dominante es el <strong>Aplicativo</strong>, ya que el objetivo central es desarrollar e implementar un artefacto (sistema web) y validar su eficacia (reducción de tiempos). La fase descriptiva es preparatoria. En investigaciones de ingeniería de sistemas, el nivel aplicativo con DSR o metodologías ágiles es el más frecuente y pertinente.</p>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">12</span>
+            <span class="q-type-tag">Verdadero / Falso razonado</span>
+            <p class="q-text">«Si los datos de una investigación provienen de registros clínicos de un hospital de los últimos 10 años, el estudio es prospectivo porque el investigador sabe de antemano qué datos necesita.»</p>
+        </div>
+        <div class="options" id="opts-12">
+            <label class="option-label" onclick="selectOpt(this,12,'A')"><input type="radio" name="q12"><div class="opt-circle">V</div><div class="opt-text">Verdadero — la planificación del investigador determina el carácter prospectivo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'B')"><input type="radio" name="q12"><div class="opt-circle">F</div><div class="opt-text">Falso — es retrospectivo porque los datos ya fueron recolectados por otra instancia y no para este estudio.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-12">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>El criterio no es el conocimiento del investigador sino el <strong>origen de los datos</strong>: <strong>Prospectivo</strong> = datos recolectados intencionalmente para el estudio; <strong>Retrospectivo</strong> = datos provenientes de fuentes secundarias (historias clínicas, bases de datos, registros) que no fueron recolectados para este estudio en particular. Los registros hospitalarios son datos secundarios → <strong>retrospectivo</strong>.</p>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">13</span>
+            <span class="q-type-tag">Emparejamiento</span>
+            <p class="q-text">Asocia cada nivel de investigación con el diseño metodológico que le corresponde según la tabla de coherencia epistemológica:</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+            <div>
+                <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.4rem">Nivel</div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;margin-bottom:.5rem">Predictivo</div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;margin-bottom:.5rem">Exploratorio</div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;margin-bottom:.5rem">Aplicativo</div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.85rem">Relacional</div>
+            </div>
+            <div>
+                <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.4rem">Diseño</div>
+                <select class="match-select" id="m13a" onchange="markAnswered(13)" style="width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:.6rem .8rem;cursor:pointer;outline:none;margin-bottom:.5rem">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">No experimental transversal exploratorio</option>
+                    <option value="B">No experimental longitudinal / modelamiento estadístico</option>
+                    <option value="C">DSR / Ciclos iterativos del artefacto</option>
+                    <option value="D">No experimental transversal relacional</option>
+                </select>
+                <select class="match-select" id="m13b" onchange="markAnswered(13)" style="width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:.6rem .8rem;cursor:pointer;outline:none;margin-bottom:.5rem">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">No experimental transversal exploratorio</option>
+                    <option value="B">No experimental longitudinal / modelamiento estadístico</option>
+                    <option value="C">DSR / Ciclos iterativos del artefacto</option>
+                    <option value="D">No experimental transversal relacional</option>
+                </select>
+                <select class="match-select" id="m13c" onchange="markAnswered(13)" style="width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:.6rem .8rem;cursor:pointer;outline:none;margin-bottom:.5rem">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">No experimental transversal exploratorio</option>
+                    <option value="B">No experimental longitudinal / modelamiento estadístico</option>
+                    <option value="C">DSR / Ciclos iterativos del artefacto</option>
+                    <option value="D">No experimental transversal relacional</option>
+                </select>
+                <select class="match-select" id="m13d" onchange="markAnswered(13)" style="width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:.6rem .8rem;cursor:pointer;outline:none">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">No experimental transversal exploratorio</option>
+                    <option value="B">No experimental longitudinal / modelamiento estadístico</option>
+                    <option value="C">DSR / Ciclos iterativos del artefacto</option>
+                    <option value="D">No experimental transversal relacional</option>
+                </select>
+            </div>
+        </div>
+        <div class="answer-reveal" id="reveal-13" style="margin-top:1rem">
+            <div class="ar-title">✅ Respuestas correctas</div>
+            <p><strong>Predictivo → B</strong> | <strong>Exploratorio → A</strong> | <strong>Aplicativo → C</strong> | <strong>Relacional → D</strong></p>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">14</span>
+            <span class="q-type-tag">Análisis crítico</span>
+            <p class="q-text">¿Por qué es incorrecto decir que «el título de la tesis es solo un nombre formal y puede cambiarse libremente sin afectar la investigación»? Argumenta desde la función metodológica del título.</p>
+        </div>
+        <textarea class="open-answer" id="open-14" placeholder="Argumenta tu posición..." oninput="markAnswered(14)"></textarea>
+        <div class="answer-reveal" id="reveal-14">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>El título NO es solo un nombre formal. Cumple una función metodológica esencial: <strong>informa de manera sintética el problema de investigación y las variables involucradas</strong>. Cambiar el título implica cambiar las variables, el problema y por ende toda la estructura metodológica. Además, los criterios de calidad del título (claridad, concisión, especificidad, coherencia, originalidad, pertinencia disciplinar) son también criterios de la investigación misma. Un título mal formulado genera incoherencia epistemológica entre el problema, las hipótesis y el diseño.</p>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-num">15</span>
+            <span class="q-type-tag">Integración — Caso complejo</span>
+            <p class="q-text">Diseña el esquema metodológico completo (nivel, diseño, tipo según los 4 criterios) para el siguiente proyecto: <em>«Evaluar si la aplicación de redes neuronales convolucionales (CNN) mejora la precisión del diagnóstico de neumonía en radiografías, comparado con el diagnóstico clínico tradicional, en el Hospital Regional de Ayacucho».</em></p>
+        </div>
+        <textarea class="open-answer" id="open-15" placeholder="Esquema metodológico completo..." oninput="markAnswered(15)"></textarea>
+        <div class="answer-reveal" id="reveal-15">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Nivel:</strong> Aplicativo (se desarrolla e implementa un artefacto de IA y se mide su eficacia).<br>
+            <strong>Diseño:</strong> DSR o cuasi-experimental (pre/post comparación con grupo control: diagnóstico CNN vs. diagnóstico clínico).<br>
+            <strong>Tipo por intervención:</strong> Experimental (se implementa el sistema CNN y se mide el resultado).<br>
+            <strong>Tipo por planificación:</strong> Puede ser retrospectivo (usando radiografías históricas ya etiquetadas) o prospectivo (recolectando nuevas radiografías para el estudio).<br>
+            <strong>Tipo por mediciones:</strong> Puede ser transversal (en un momento único de evaluación comparativa).<br>
+            <strong>Tipo por variables:</strong> Analítico (se prueba si la precisión del CNN es estadísticamente superior al diagnóstico clínico).</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="submit-wrap" style="margin-top:2rem">
+    <button class="btn-submit" id="btn-submit" onclick="submitExam()">Finalizar examen y ver respuestas</button>
+</div>
+
+<div id="results-panel">
+    <h2 style="font-size:1.5rem;margin-bottom:.5rem">📊 Resultados del Examen 2</h2>
+    <p style="color:var(--text-muted);font-size:.9rem">Título, Diseño y Tipo de Investigación</p>
+    <div class="score-circle" id="score-circle">
+        <div class="score-inner">
+            <div class="score-num" id="score-num">—</div>
+            <div class="score-label">PUNTAJE</div>
+        </div>
+    </div>
+    <div class="results-grid">
+        <div class="result-stat"><div class="rs-val green" id="r-correct">—</div><div class="rs-label">Correctas (selección)</div></div>
+        <div class="result-stat"><div class="rs-val red" id="r-wrong">—</div><div class="rs-label">Incorrectas</div></div>
+        <div class="result-stat"><div class="rs-val yellow" id="r-open">—</div><div class="rs-label">Abiertas / Emparej.</div></div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:var(--text-muted)">Revisa cada ✅ para contrastar tus respuestas abiertas.</p>
+    <button class="btn-retry" onclick="location.reload()">🔄 Reintentar</button>
+</div>
+
+<script>
+    const TOTAL = 15;
+    const answered = new Set();
+    let submitted = false;
+    const correctMap = { 2:'B', 3:'B', 4:'C', 6:'B', 7:'B', 9:'B', 10:'C', 11:'A', 12:'B' };
+    const userAnswers = {};
+    let timeLeft = 30*60;
+    const timerEl = document.getElementById('timer-display');
+    const timerBox = document.getElementById('timer-box');
+    const timerInterval = setInterval(() => {
+        if(submitted){clearInterval(timerInterval);return;}
+        timeLeft--;
+        const m=String(Math.floor(timeLeft/60)).padStart(2,'0');
+        const s=String(timeLeft%60).padStart(2,'0');
+        timerEl.textContent=`${m}:${s}`;
+        if(timeLeft<=300)timerBox.className='warn';
+        if(timeLeft<=60)timerBox.className='danger';
+        if(timeLeft<=0){clearInterval(timerInterval);submitExam();}
+    },1000);
+    function updateProgress(){const n=answered.size;document.getElementById('prog-text').textContent=`${n} / ${TOTAL} respondidas`;document.getElementById('prog-pct').textContent=Math.round(n/TOTAL*100)+'%';document.getElementById('prog-fill').style.width=(n/TOTAL*100)+'%';}
+    function markAnswered(q){answered.add(q);updateProgress();}
+    function selectOpt(label,qNum,val){if(submitted)return;const group=document.getElementById('opts-'+qNum);if(!group)return;group.querySelectorAll('.option-label').forEach(l=>l.classList.remove('selected'));label.classList.add('selected');userAnswers[qNum]=val;markAnswered(qNum);}
+    function submitExam(){
+        submitted=true;clearInterval(timerInterval);
+        let correct=0,wrong=0;
+        Object.entries(correctMap).forEach(([q,ans])=>{
+            const qNum=parseInt(q);const group=document.getElementById('opts-'+qNum);if(!group)return;
+            const labels=group.querySelectorAll('.option-label');
+            const letters='ABCDEFGH'.split('');
+            labels.forEach((label,i)=>{const letter=letters[i];if(letter===ans){label.classList.add('correct');if(userAnswers[qNum]===letter)correct++;}else if(userAnswers[qNum]===letter){label.classList.add('wrong');wrong++;}});
+        });
+        for(let i=1;i<=TOTAL;i++){const rev=document.getElementById('reveal-'+i);if(rev)rev.classList.add('show');}
+        const gradable=Object.keys(correctMap).length;
+        const pct=Math.round(correct/gradable*100);
+        document.getElementById('score-num').textContent=pct+'%';
+        document.getElementById('r-correct').textContent=correct+'/'+gradable;
+        document.getElementById('r-wrong').textContent=wrong;
+        document.getElementById('r-open').textContent='6 preguntas';
+        document.getElementById('score-circle').style.background=`conic-gradient(var(--accent) ${pct*3.6}deg, var(--surface2) 0deg)`;
+        document.getElementById('btn-submit').disabled=true;
+        document.getElementById('results-panel').classList.add('show');
+        document.getElementById('results-panel').scrollIntoView({behavior:'smooth'});
+    }
+</script>
+</body>
+</html>

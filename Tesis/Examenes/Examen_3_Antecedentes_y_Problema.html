@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen 3 — Antecedentes y Planteamiento del Problema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117; --surface: #1a1d2e; --surface2: #242840; --border: #2e3250;
+            --accent: #f59e0b; --accent2: #fcd34d; --green: #22c55e; --red: #ef4444;
+            --yellow: #f59e0b; --text: #e2e8f0; --text-muted: #94a3b8; --radius: 14px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+        .hero { max-width: 860px; margin: 0 auto 2.5rem; text-align: center; }
+        .badge { display: inline-block; background: linear-gradient(135deg, var(--accent), #d97706); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .9rem; border-radius: 999px; margin-bottom: 1rem; }
+        h1 { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; margin-bottom: .6rem; }
+        .subtitle { color: var(--text-muted); font-size: .95rem; }
+        .meta-bar { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.4rem; }
+        .meta-item { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--text-muted); }
+        .meta-item span { color: var(--accent2); font-weight: 600; }
+        #timer-box { position: fixed; top: 1.2rem; right: 1.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem 1.1rem; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: var(--accent2); z-index: 99; box-shadow: 0 4px 20px #0008; }
+        #timer-box.warn { color: var(--yellow); border-color: var(--yellow); }
+        #timer-box.danger { color: var(--red); border-color: var(--red); animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .progress-bar-wrap { max-width: 860px; margin: 0 auto 2rem; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--text-muted); margin-bottom: .4rem; }
+        .progress-track { height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width .4s ease; width: 0%; }
+        .exam-wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; transition: border-color .25s; }
+        .question-card:hover { border-color: #3d4270; }
+        .q-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.2rem; }
+        .q-num { background: linear-gradient(135deg, var(--accent), #d97706); color: #fff; font-weight: 700; font-size: .78rem; border-radius: 8px; padding: .28rem .7rem; white-space: nowrap; }
+        .q-type-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); font-size: .72rem; font-weight: 500; border-radius: 6px; padding: .2rem .6rem; white-space: nowrap; }
+        .q-text { font-size: 1rem; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
+        .options { display: flex; flex-direction: column; gap: .7rem; }
+        .option-label { display: flex; align-items: flex-start; gap: .85rem; cursor: pointer; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: .85rem 1.1rem; transition: all .2s; user-select: none; }
+        .option-label:hover { border-color: var(--accent); }
+        .option-label input[type="radio"] { display: none; }
+        .option-label.selected { border-color: var(--accent); background: #2d2010; }
+        .option-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .option-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .opt-circle { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; transition: all .2s; }
+        .option-label.selected .opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .option-label.correct .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+        .option-label.wrong .opt-circle { border-color: var(--red); background: var(--red); color: #fff; }
+        .opt-text { font-size: .9rem; line-height: 1.5; color: var(--text); }
+        .open-answer { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: .92rem; line-height: 1.6; padding: 1rem 1.1rem; resize: vertical; min-height: 110px; outline: none; transition: border-color .2s; }
+        .open-answer:focus { border-color: var(--accent); }
+        .answer-reveal { display: none; margin-top: 1.2rem; background: #1e2640; border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.2rem; }
+        .answer-reveal.show { display: block; }
+        .answer-reveal .ar-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--green); margin-bottom: .5rem; }
+        .answer-reveal p { font-size: .88rem; line-height: 1.6; color: var(--text-muted); }
+        .answer-reveal p strong { color: var(--text); }
+        .section-divider { max-width: 860px; margin: .5rem auto; display: flex; align-items: center; gap: 1rem; }
+        .section-divider .sd-line { flex: 1; height: 1px; background: var(--border); }
+        .section-divider .sd-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent2); background: var(--surface2); border: 1px solid var(--border); border-radius: 999px; padding: .3rem .9rem; }
+        .submit-wrap { max-width: 860px; margin: 1rem auto; display: flex; justify-content: center; }
+        .btn-submit { background: linear-gradient(135deg, var(--accent), #d97706); color: #fff; border: none; border-radius: 12px; padding: .9rem 2.8rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .25s; }
+        .btn-submit:hover { transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #results-panel { display: none; max-width: 860px; margin: 2rem auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; }
+        #results-panel.show { display: block; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--surface2) 0%); margin: 1rem auto; display: flex; align-items: center; justify-content: center; }
+        .score-inner { width: 90px; height: 90px; background: var(--surface); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-num { font-size: 1.5rem; font-weight: 700; color: var(--accent2); }
+        .score-label { font-size: .7rem; color: var(--text-muted); }
+        .results-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1.5rem; }
+        .result-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+        .rs-val { font-size: 1.5rem; font-weight: 700; }
+        .rs-label { font-size: .78rem; color: var(--text-muted); margin-top: .2rem; }
+        .rs-val.green{color:var(--green);}.rs-val.red{color:var(--red);}.rs-val.yellow{color:var(--yellow);}
+        .btn-retry { margin-top: 1.5rem; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; padding: .7rem 2rem; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+        .btn-retry:hover { border-color: var(--accent); color: var(--accent2); }
+        table { width: 100%; border-collapse: collapse; margin: .8rem 0; font-size: .85rem; }
+        th { background: var(--surface2); color: var(--accent2); font-weight: 700; padding: .6rem .8rem; text-align: left; border: 1px solid var(--border); }
+        td { padding: .55rem .8rem; border: 1px solid var(--border); color: var(--text-muted); }
+        .checkbox-group { display: flex; flex-direction: column; gap: .6rem; }
+        .check-label { display: flex; align-items: flex-start; gap: .85rem; cursor: pointer; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: .75rem 1rem; transition: all .2s; user-select: none; }
+        .check-label:hover { border-color: var(--accent); }
+        .check-label input[type="checkbox"] { display: none; }
+        .check-label.selected { border-color: var(--accent); background: #2d2010; }
+        .check-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .check-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .check-box { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .75rem; transition: all .2s; }
+        .check-label.selected .check-box { border-color: var(--accent); background: var(--accent); color: #fff; }
+    </style>
+</head>
+<body>
+
+<div id="timer-box">⏱ <span id="timer-display">35:00</span></div>
+
+<div class="hero">
+    <div class="badge">Examen Simulatorio · Nº 3 de 5</div>
+    <h1>Antecedentes y Planteamiento del Problema</h1>
+    <p class="subtitle">Sesiones 4 y 5 — Antecedentes de investigación, contextualización, delimitación y justificación</p>
+    <div class="meta-bar">
+        <div class="meta-item">📝 <span>15 preguntas</span></div>
+        <div class="meta-item">⏱ <span>35 minutos</span></div>
+        <div class="meta-item">🎓 <span>Nivel universitario</span></div>
+        <div class="meta-item">📊 <span>Selección / análisis / construcción</span></div>
+    </div>
+</div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-labels">
+        <span id="prog-text">0 / 15 respondidas</span>
+        <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SECCIÓN A -->
+<div class="section-divider">
+    <div class="sd-line"></div><div class="sd-label">A — Antecedentes de investigación</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q1 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">01</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál es la función epistemológica principal de los antecedentes de investigación?</p></div>
+        <div class="options" id="opts-1">
+            <label class="option-label" onclick="selectOpt(this,1,'A')"><input type="radio" name="q1"><div class="opt-circle">A</div><div class="opt-text">Demostrar que el investigador leyó muchos libros y artículos.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'B')"><input type="radio" name="q1"><div class="opt-circle">B</div><div class="opt-text">Identificar los vacíos del conocimiento y justificar la construcción y validación del conocimiento nuevo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'C')"><input type="radio" name="q1"><div class="opt-circle">C</div><div class="opt-text">Enumerar todas las investigaciones realizadas en el mundo sobre cualquier tema relacionado.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'D')"><input type="radio" name="q1"><div class="opt-circle">D</div><div class="opt-text">Reemplazar el marco teórico cuando no hay suficiente bibliografía.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-1">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La función epistemológica de los antecedentes es <strong>construir y justificar el conocimiento</strong> nuevo que aportará la investigación, identificando los <strong>vacíos del conocimiento</strong> (aquello que todavía no se ha estudiado o respondido suficientemente). No se trata de acumular referencias sino de argumentar por qué la investigación actual es necesaria.</p>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">02</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">Según los criterios de selección de antecedentes, ¿cuántos años de antigüedad como máximo debe tener un estudio para ser considerado válido como antecedente?</p></div>
+        <div class="options" id="opts-2">
+            <label class="option-label" onclick="selectOpt(this,2,'A')"><input type="radio" name="q2"><div class="opt-circle">A</div><div class="opt-text">10 años</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'B')"><input type="radio" name="q2"><div class="opt-circle">B</div><div class="opt-text">3 años</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'C')"><input type="radio" name="q2"><div class="opt-circle">C</div><div class="opt-text">5 años</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'D')"><input type="radio" name="q2"><div class="opt-circle">D</div><div class="opt-text">7 años</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-2">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>El criterio de <strong>actualidad</strong> establece que los antecedentes no deben ser menores a <strong>5 años</strong> de antigüedad. Estudios más antiguos pueden perder vigencia epistémica en áreas de rápido avance como tecnología, medicina o ciencias sociales.</p>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">03</span><span class="q-type-tag">Múltiple selección — marca todas las correctas</span>
+        <p class="q-text">¿Cuáles de los siguientes elementos DEBEN incluirse en la estructura argumentativa de un antecedente? (Selecciona todas las correctas)</p></div>
+        <div class="checkbox-group" id="opts-3">
+            <label class="check-label" onclick="toggleCheck(this,3,'A')"><input type="checkbox"><div class="check-box">☑</div><div class="opt-text">A) Referencia completa del autor y año</div></label>
+            <label class="check-label" onclick="toggleCheck(this,3,'B')"><input type="checkbox"><div class="check-box">☑</div><div class="opt-text">B) Precio de la publicación y editorial</div></label>
+            <label class="check-label" onclick="toggleCheck(this,3,'C')"><input type="checkbox"><div class="check-box">☑</div><div class="opt-text">C) Nivel, tipo y diseño metodológico del estudio citado</div></label>
+            <label class="check-label" onclick="toggleCheck(this,3,'D')"><input type="checkbox"><div class="check-box">☑</div><div class="opt-text">D) Población y muestra del estudio citado</div></label>
+            <label class="check-label" onclick="toggleCheck(this,3,'E')"><input type="checkbox"><div class="check-box">☑</div><div class="opt-text">E) Resultados y conclusiones del estudio</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-3">
+            <div class="ar-title">✅ Respuestas correctas: A, C, D, E</div>
+            <p>La estructura argumentativa de un antecedente incluye: (1) referencia autor/año, (2) objetivo, (3) nivel/tipo/diseño metodológico, (4) población y muestra, (5) instrumentos de recolección, (6) resultados, (7) conclusiones. El precio y la editorial <strong>no son elementos metodológicamente relevantes</strong>.</p>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">04</span><span class="q-type-tag">Aplicación de operadores booleanos</span>
+        <p class="q-text">Un investigador busca artículos sobre «inteligencia artificial» aplicada a «diagnóstico médico» pero quiere excluir todo lo relacionado con «radiología». ¿Cuál es la cadena de búsqueda booleana más precisa?</p></div>
+        <div class="options" id="opts-4">
+            <label class="option-label" onclick="selectOpt(this,4,'A')"><input type="radio" name="q4"><div class="opt-circle">A</div><div class="opt-text">"inteligencia artificial" OR "diagnóstico médico" NOT radiología</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'B')"><input type="radio" name="q4"><div class="opt-circle">B</div><div class="opt-text">"inteligencia artificial" AND "diagnóstico médico" NOT radiología</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'C')"><input type="radio" name="q4"><div class="opt-circle">C</div><div class="opt-text">inteligencia AND artificial OR diagnóstico AND médico</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'D')"><input type="radio" name="q4"><div class="opt-circle">D</div><div class="opt-text">"inteligencia artificial" * "diagnóstico médico"</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-4">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p><strong>AND</strong> (intersección) combina los dos temas obligatorios; las comillas garantizan la búsqueda de la frase exacta; <strong>NOT</strong> excluye el término no deseado. La opción A usa OR (unión), lo que devolvería resultados de uno u otro tema por separado. La opción D usa * (truncamiento para variantes morfológicas), no para combinar frases.</p>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">05</span><span class="q-type-tag">Análisis crítico</span>
+        <p class="q-text">Un tesista incluye como antecedentes 5 estudios, todos publicados en la misma revista de un solo país latinoamericano. ¿Qué criterio de selección viola y qué consecuencia tiene para la validez de su investigación?</p></div>
+        <textarea class="open-answer" id="open-5" placeholder="Identifica el criterio violado y sus consecuencias..." oninput="markAnswered(5)"></textarea>
+        <div class="answer-reveal" id="reveal-5">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>Viola el criterio de <strong>Diversidad Geográfica</strong> (los antecedentes internacionales deben provenir de al menos 3 países diferentes) y posiblemente el de <strong>Calidad de la fuente</strong> (si la revista no está indexada en bases como WoS o Scopus). <br><strong>Consecuencias:</strong> La investigación pierde generalización internacional; los hallazgos pueden estar sesgados por el contexto geográfico y cultural particular; el vacío del conocimiento identificado podría ser artificial (quizás ya está resuelto en otras regiones); se reduce el rigor epistemológico de la revisión de literatura.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN B -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">B — Planteamiento del problema</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q6 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">06</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál de los siguientes NO es un requisito para que una pregunta pueda considerarse un problema científico válido?</p></div>
+        <div class="options" id="opts-6">
+            <label class="option-label" onclick="selectOpt(this,6,'A')"><input type="radio" name="q6"><div class="opt-circle">A</div><div class="opt-text">Que sus variables sean observables o medibles.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'B')"><input type="radio" name="q6"><div class="opt-circle">B</div><div class="opt-text">Que pueda formularse como pregunta interrogativa.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'C')"><input type="radio" name="q6"><div class="opt-circle">C</div><div class="opt-text">Que todavía no tenga ninguna respuesta en la literatura científica existente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'D')"><input type="radio" name="q6"><div class="opt-circle">D</div><div class="opt-text">Que admita respuesta empírica o teórica.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-6">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>No es requisito que el problema <em>no tenga ninguna respuesta</em>; de hecho, muchos problemas ya tienen respuestas parciales y la investigación busca completar, refinar o contradecir esas respuestas (esto se denomina el <strong>vacío del conocimiento</strong>). Los requisitos reales son: (1) formularse como pregunta interrogativa, (2) admitir respuesta empírica o teórica, y (3) tener variables observables o medibles.</p>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">07</span><span class="q-type-tag">Ordenamiento</span>
+        <p class="q-text">Ordena los tres párrafos del planteamiento del problema según la secuencia correcta arrastrando las tarjetas:</p></div>
+        <ul class="order-list" id="order-7" style="display:flex;flex-direction:column;gap:.55rem">
+            <li class="order-item" draggable="true" data-id="a" style="display:flex;align-items:center;gap:.8rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;cursor:grab;transition:all .2s">
+                <span style="color:var(--text-muted);font-size:1rem">⠿</span>
+                <span style="width:26px;height:26px;background:var(--surface);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--accent2);flex-shrink:0" id="on7a">—</span>
+                <span style="font-size:.88rem">Control del pronóstico: ¿Qué se propone hacer para evitar el escenario negativo?</span>
+            </li>
+            <li class="order-item" draggable="true" data-id="b" style="display:flex;align-items:center;gap:.8rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;cursor:grab;transition:all .2s">
+                <span style="color:var(--text-muted);font-size:1rem">⠿</span>
+                <span style="width:26px;height:26px;background:var(--surface);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--accent2);flex-shrink:0" id="on7b">—</span>
+                <span style="font-size:.88rem">Diagnóstico: Describir la situación actual con datos reales</span>
+            </li>
+            <li class="order-item" draggable="true" data-id="c" style="display:flex;align-items:center;gap:.8rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;cursor:grab;transition:all .2s">
+                <span style="color:var(--text-muted);font-size:1rem">⠿</span>
+                <span style="width:26px;height:26px;background:var(--surface);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--accent2);flex-shrink:0" id="on7c">—</span>
+                <span style="font-size:.88rem">Pronóstico: ¿Qué pasará si no se soluciona el problema?</span>
+            </li>
+        </ul>
+        <div class="answer-reveal" id="reveal-7" style="margin-top:1rem">
+            <div class="ar-title">✅ Orden correcto</div>
+            <p><strong>1.</strong> Diagnóstico → <strong>2.</strong> Pronóstico → <strong>3.</strong> Control del pronóstico. Importante: el control del pronóstico NO es la solución implementada, sino la propuesta de lo que se hará para evitar el escenario negativo.</p>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">08</span><span class="q-type-tag">Tabla de aplicación</span>
+        <p class="q-text">Lee el siguiente extracto de un planteamiento del problema: <br><br>
+        <em>«Según datos de la OMS (2023), la mortalidad infantil por enfermedades prevenibles en países en desarrollo alcanza el 42% [...] En el Perú, el MINSA reporta que el 30% de los niños menores de 5 años no completan su calendario de vacunación [...] En la región de Ayacucho, el 45% de centros de salud rurales no cuenta con sistema de seguimiento automatizado [...] En el distrito de Huamanga, el 60% de madres con hijos menores de 5 años desconoce el estado de vacunación de sus hijos.»</em>
+        <br><br>
+        ¿A qué tipo de contextualización corresponde cada dato? Identifica el nivel (Internacional / Nacional / Regional / Local).</p></div>
+        <textarea class="open-answer" id="open-8" placeholder="Asocia cada dato con su nivel de contextualización..." oninput="markAnswered(8)"></textarea>
+        <div class="answer-reveal" id="reveal-8">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Internacional:</strong> Dato de la OMS sobre mortalidad infantil global (42%).<br>
+            <strong>Nacional:</strong> Dato del MINSA sobre incumplimiento del calendario de vacunación en el Perú (30%).<br>
+            <strong>Regional:</strong> Dato sobre centros de salud rurales en Ayacucho sin sistema automatizado (45%).<br>
+            <strong>Local:</strong> Dato sobre madres en el distrito de Huamanga que desconocen el estado de vacunación (60%). <br><br>
+            Esta estructura piramidal de mayor a menor escala es la forma correcta de contextualizar el problema de investigación.</p>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">09</span><span class="q-type-tag">Selección múltiple — Delimitación</span>
+        <p class="q-text">Un tesista declara: «Mi estudio se realizará en la Facultad de Ingeniería de Sistemas de la UNSCH, con alumnos de 3.° al 5.° año, durante el semestre 2025-I, analizando la variable estrés académico». ¿Cuántos tipos de delimitación ha establecido correctamente?</p></div>
+        <div class="options" id="opts-9">
+            <label class="option-label" onclick="selectOpt(this,9,'A')"><input type="radio" name="q9"><div class="opt-circle">A</div><div class="opt-text">1 — solo la delimitación espacial.</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'B')"><input type="radio" name="q9"><div class="opt-circle">B</div><div class="opt-text">2 — espacial y temporal.</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'C')"><input type="radio" name="q9"><div class="opt-circle">C</div><div class="opt-text">4 — espacial (Facultad), temporal (2025-I), social (alumnos 3.°-5.°) y conceptual (estrés académico).</div></label>
+            <label class="option-label" onclick="selectOpt(this,9,'D')"><input type="radio" name="q9"><div class="opt-circle">D</div><div class="opt-text">5 — todos los tipos incluyendo la muestral.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-9">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>Se identifican 4 tipos de delimitación: <strong>Espacial</strong> (Facultad de Ingeniería de Sistemas UNSCH), <strong>Temporal</strong> (semestre 2025-I), <strong>Social</strong> (alumnos de 3.° al 5.° año) y <strong>Conceptual</strong> (variable estrés académico). Falta la delimitación <strong>Muestral</strong> (¿cuántos y cómo se seleccionarán los participantes?), que no está explícitamente declarada.</p>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">10</span><span class="q-type-tag">Construcción — Justificación</span>
+        <p class="q-text">Para el siguiente proyecto: <em>«Desarrollo de un chatbot con IA para atención de consultas académicas en la UNSCH»</em>, redacta la justificación desde las 4 dimensiones (teórica, metodológica, práctica y social), indicando qué aportaría en cada dimensión.</p></div>
+        <textarea class="open-answer" id="open-10" placeholder="Redacta la justificación desde las 4 dimensiones..." oninput="markAnswered(10)"></textarea>
+        <div class="answer-reveal" id="reveal-10">
+            <div class="ar-title">✅ Respuesta esperada (modelo)</div>
+            <p><strong>Teórica:</strong> Aporta al cuerpo de conocimiento sobre aplicación de modelos de lenguaje natural (NLP) en contextos educativos universitarios latinoamericanos, área con escasa literatura en español.<br>
+            <strong>Metodológica:</strong> Propone y valida un protocolo de evaluación de chatbots educativos adaptado al contexto de universidades públicas peruanas, que puede replicarse en otras instituciones.<br>
+            <strong>Práctica:</strong> Resuelve el problema concreto de la sobrecarga del personal administrativo y los tiempos de espera en la atención a consultas académicas de los estudiantes.<br>
+            <strong>Social:</strong> Beneficia directamente a los más de X estudiantes de la UNSCH, mejorando su experiencia académica y reduciendo brechas de acceso a información institucional, especialmente para estudiantes de zonas rurales.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN C -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">C — Integración y análisis crítico</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q11 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">11</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">El «pronóstico» dentro del planteamiento del problema responde a:</p></div>
+        <div class="options" id="opts-11">
+            <label class="option-label" onclick="selectOpt(this,11,'A')"><input type="radio" name="q11"><div class="opt-circle">A</div><div class="opt-text">¿Qué solución se implementará para resolver el problema?</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'B')"><input type="radio" name="q11"><div class="opt-circle">B</div><div class="opt-text">¿Cuál es la situación actual del problema con datos reales?</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'C')"><input type="radio" name="q11"><div class="opt-circle">C</div><div class="opt-text">¿Qué consecuencias negativas ocurrirán si el problema no se aborda?</div></label>
+            <label class="option-label" onclick="selectOpt(this,11,'D')"><input type="radio" name="q11"><div class="opt-circle">D</div><div class="opt-text">¿Cómo se relacionan las variables del estudio entre sí?</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-11">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>El <strong>pronóstico</strong> responde a: ¿Qué pasará si no se soluciona el problema? Proyecta el escenario futuro negativo si el problema persiste sin intervención. El diagnóstico describe la situación actual; el control del pronóstico propone qué se hará (pero sin ser la solución ya implementada).</p>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">12</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Por qué se afirma que «un proyecto de tesis sin contextualización es retórica vacía»?</p></div>
+        <div class="options" id="opts-12">
+            <label class="option-label" onclick="selectOpt(this,12,'A')"><input type="radio" name="q12"><div class="opt-circle">A</div><div class="opt-text">Porque sin datos no es posible calcular el tamaño de muestra.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'B')"><input type="radio" name="q12"><div class="opt-circle">B</div><div class="opt-text">Porque la contextualización con datos reales demuestra que el problema existe y es relevante en diferentes escalas, dotando de validez empírica al planteamiento.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'C')"><input type="radio" name="q12"><div class="opt-circle">C</div><div class="opt-text">Porque los asesores exigen como requisito mínimo 10 citas por nivel.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'D')"><input type="radio" name="q12"><div class="opt-circle">D</div><div class="opt-text">Porque sin contextualización no se puede elegir el nivel de investigación.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-12">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La contextualización sirve para demostrar con <strong>evidencia empírica real</strong> (estadísticas, informes, datos) que el problema existe y es relevante en distintas escalas (internacional, nacional, regional, local). Sin ella, el planteamiento es solo una afirmación sin respaldo, lo que le quita toda credibilidad epistemológica.</p>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">13</span><span class="q-type-tag">Verdadero / Falso razonado</span>
+        <p class="q-text">«La justificación teórica de una investigación es válida únicamente cuando se realiza un estudio de nivel teórico o bibliográfico, no cuando se desarrolla un software o sistema.»</p></div>
+        <div class="options" id="opts-13">
+            <label class="option-label" onclick="selectOpt(this,13,'A')"><input type="radio" name="q13"><div class="opt-circle">V</div><div class="opt-text">Verdadero — la justificación teórica solo aplica a investigaciones puramente teóricas.</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'B')"><input type="radio" name="q13"><div class="opt-circle">F</div><div class="opt-text">Falso — toda investigación, incluidas las aplicativas, aporta al conocimiento teórico de su disciplina y debe justificar ese aporte.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-13">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>Toda investigación, independientemente de su nivel, aporta conocimiento. Una tesis que desarrolla un software aporta conocimiento teórico sobre las metodologías de desarrollo, las arquitecturas usadas, la eficacia de ciertos algoritmos en ese contexto, etc. La <strong>justificación teórica</strong> pregunta «¿qué aporta al cuerpo de conocimiento de la disciplina?», y eso aplica a todos los niveles.</p>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">14</span><span class="q-type-tag">Selección múltiple — Trampa</span>
+        <p class="q-text">¿Cuál de las siguientes afirmaciones sobre el «vacío del conocimiento» es la más precisa?</p></div>
+        <div class="options" id="opts-14">
+            <label class="option-label" onclick="selectOpt(this,14,'A')"><input type="radio" name="q14"><div class="opt-circle">A</div><div class="opt-text">Es cuando el investigador no encontró bibliografía sobre el tema en Internet.</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'B')"><input type="radio" name="q14"><div class="opt-circle">B</div><div class="opt-text">Es la brecha o laguna en el conocimiento científico acumulado sobre un fenómeno que la investigación actual busca llenar con evidencia empírica.</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'C')"><input type="radio" name="q14"><div class="opt-circle">C</div><div class="opt-text">Es cuando el investigador no tiene suficiente experiencia previa en el tema de estudio.</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'D')"><input type="radio" name="q14"><div class="opt-circle">D</div><div class="opt-text">Es la ausencia total de cualquier investigación previa sobre el tema en toda la historia.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-14">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El <strong>vacío del conocimiento</strong> es la brecha epistemológica identificada en la revisión de la literatura: algo que todavía no se ha estudiado suficientemente, o sobre lo que no se ha respondido con evidencia empírica en el contexto específico del estudio. No implica ausencia total de investigación previa, sino la existencia de una laguna que la nueva investigación viene a llenar.</p>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">15</span><span class="q-type-tag">Síntesis — Construcción de un planteamiento</span>
+        <p class="q-text">Redacta un planteamiento del problema completo (los 3 párrafos: diagnóstico, pronóstico y control del pronóstico) para el siguiente escenario: <em>«Alto índice de deserción universitaria en el primer año de la carrera de Ingeniería de Sistemas de la UNSCH durante el periodo 2020-2025»</em>. Incluye datos hipotéticos realistas para la contextualización en los 4 niveles.</p></div>
+        <textarea class="open-answer" id="open-15" placeholder="Redacta los 3 párrafos del planteamiento con los 4 niveles de contextualización..." style="min-height:180px" oninput="markAnswered(15)"></textarea>
+        <div class="answer-reveal" id="reveal-15">
+            <div class="ar-title">✅ Estructura esperada</div>
+            <p><strong>Diagnóstico:</strong> [Internacional] La UNESCO (2024) reporta que en Latinoamérica el 45% de los estudiantes universitarios abandona en el primer año. [Nacional] El MINEDU (2023) señala que en Perú la deserción universitaria en el primer ciclo alcanza el 38%. [Regional] En Ayacucho, el 52% de los ingresantes a universidades públicas no culmina el primer año. [Local] En la Escuela Profesional de Ingeniería de Sistemas de la UNSCH, entre 2020 y 2025, el 60% de los ingresantes desertó en el primer semestre (datos OASE-UNSCH).<br><br>
+            <strong>Pronóstico:</strong> De continuar esta tendencia, la UNSCH verá reducida su capacidad de formación de profesionales en TI, limitando el desarrollo tecnológico de la región de Ayacucho y perpetuando la brecha digital con otras regiones.<br><br>
+            <strong>Control del pronóstico:</strong> Ante esta situación, se propone investigar los factores determinantes de la deserción en el primer año para identificar intervenciones tempranas de acompañamiento académico y socioemocional.</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="submit-wrap" style="margin-top:2rem">
+    <button class="btn-submit" id="btn-submit" onclick="submitExam()">Finalizar examen y ver respuestas</button>
+</div>
+
+<div id="results-panel">
+    <h2 style="font-size:1.5rem;margin-bottom:.5rem">📊 Resultados del Examen 3</h2>
+    <p style="color:var(--text-muted);font-size:.9rem">Antecedentes y Planteamiento del Problema</p>
+    <div class="score-circle" id="score-circle">
+        <div class="score-inner"><div class="score-num" id="score-num">—</div><div class="score-label">PUNTAJE</div></div>
+    </div>
+    <div class="results-grid">
+        <div class="result-stat"><div class="rs-val green" id="r-correct">—</div><div class="rs-label">Correctas (selección)</div></div>
+        <div class="result-stat"><div class="rs-val red" id="r-wrong">—</div><div class="rs-label">Incorrectas</div></div>
+        <div class="result-stat"><div class="rs-val yellow" id="r-open">—</div><div class="rs-label">Abiertas / Ordena.</div></div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:var(--text-muted)">Revisa cada ✅ para contrastar tus respuestas abiertas y de ordenamiento.</p>
+    <button class="btn-retry" onclick="location.reload()">🔄 Reintentar</button>
+</div>
+
+<script>
+    const TOTAL=15; const answered=new Set(); let submitted=false;
+    const correctMap={1:'B',2:'C',4:'B',6:'C',9:'C',11:'C',12:'B',13:'B',14:'B'};
+    const userAnswers={}; const checkAnswers={3:new Set()};
+    let timeLeft=35*60;
+    const timerEl=document.getElementById('timer-display'), timerBox=document.getElementById('timer-box');
+    const iv=setInterval(()=>{if(submitted){clearInterval(iv);return;}timeLeft--;const m=String(Math.floor(timeLeft/60)).padStart(2,'0'),s=String(timeLeft%60).padStart(2,'0');timerEl.textContent=`${m}:${s}`;if(timeLeft<=300)timerBox.className='warn';if(timeLeft<=60)timerBox.className='danger';if(timeLeft<=0){clearInterval(iv);submitExam();}},1000);
+    function updateProgress(){const n=answered.size;document.getElementById('prog-text').textContent=`${n} / ${TOTAL} respondidas`;document.getElementById('prog-pct').textContent=Math.round(n/TOTAL*100)+'%';document.getElementById('prog-fill').style.width=(n/TOTAL*100)+'%';}
+    function markAnswered(q){answered.add(q);updateProgress();}
+    function selectOpt(label,qNum,val){if(submitted)return;const group=document.getElementById('opts-'+qNum);if(!group)return;group.querySelectorAll('.option-label').forEach(l=>l.classList.remove('selected'));label.classList.add('selected');userAnswers[qNum]=val;markAnswered(qNum);}
+    function toggleCheck(label,qNum,val){if(submitted)return;if(!checkAnswers[qNum])checkAnswers[qNum]=new Set();if(checkAnswers[qNum].has(val)){checkAnswers[qNum].delete(val);label.classList.remove('selected');}else{checkAnswers[qNum].add(val);label.classList.add('selected');}markAnswered(qNum);}
+    // drag
+    const ol7=document.getElementById('order-7');
+    if(ol7){let dragged=null;ol7.addEventListener('dragstart',e=>{dragged=e.target.closest('.order-item');setTimeout(()=>dragged.classList.add('dragging'),0);});ol7.addEventListener('dragend',e=>{e.target.closest('.order-item').classList.remove('dragging');updateON7();markAnswered(7);});ol7.addEventListener('dragover',e=>{e.preventDefault();const after=getDragAfter(ol7,e.clientY);if(after==null)ol7.appendChild(dragged);else ol7.insertBefore(dragged,after);});}
+    function getDragAfter(c,y){const els=[...c.querySelectorAll('.order-item:not(.dragging)')];return els.reduce((cl,ch)=>{const box=ch.getBoundingClientRect(),offset=y-box.top-box.height/2;return(offset<0&&offset>cl.offset)?{offset,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;}
+    function updateON7(){const items=ol7.querySelectorAll('.order-item');items.forEach((it,i)=>{const id=it.dataset.id;document.getElementById('on7'+id).textContent=i+1;});}
+    function submitExam(){
+        submitted=true;clearInterval(iv);let correct=0,wrong=0;
+        Object.entries(correctMap).forEach(([q,ans])=>{const qNum=parseInt(q);const group=document.getElementById('opts-'+qNum);if(!group)return;const labels=group.querySelectorAll('.option-label');const letters='ABCDEFGH'.split('');labels.forEach((label,i)=>{const letter=letters[i];if(letter===ans){label.classList.add('correct');if(userAnswers[qNum]===letter)correct++;}else if(userAnswers[qNum]===letter){label.classList.add('wrong');wrong++;}});});
+        for(let i=1;i<=TOTAL;i++){const rev=document.getElementById('reveal-'+i);if(rev)rev.classList.add('show');}
+        const gradable=Object.keys(correctMap).length;const pct=Math.round(correct/gradable*100);
+        document.getElementById('score-num').textContent=pct+'%';document.getElementById('r-correct').textContent=correct+'/'+gradable;document.getElementById('r-wrong').textContent=wrong;document.getElementById('r-open').textContent='6 preg.';
+        document.getElementById('score-circle').style.background=`conic-gradient(var(--accent) ${pct*3.6}deg, var(--surface2) 0deg)`;
+        document.getElementById('btn-submit').disabled=true;document.getElementById('results-panel').classList.add('show');document.getElementById('results-panel').scrollIntoView({behavior:'smooth'});
+    }
+</script>
+</body>
+</html>

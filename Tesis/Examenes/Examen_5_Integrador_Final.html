@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen 5 — Integración Total: Metodología de Investigación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117; --surface: #1a1d2e; --surface2: #242840; --border: #2e3250;
+            --accent: #e11d48; --accent2: #fda4af; --green: #22c55e; --red: #ef4444;
+            --yellow: #f59e0b; --text: #e2e8f0; --text-muted: #94a3b8; --radius: 14px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+        .hero { max-width: 860px; margin: 0 auto 2.5rem; text-align: center; }
+        .badge { display: inline-block; background: linear-gradient(135deg, var(--accent), #9f1239); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .9rem; border-radius: 999px; margin-bottom: 1rem; }
+        h1 { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; margin-bottom: .6rem; }
+        .subtitle { color: var(--text-muted); font-size: .95rem; }
+        .meta-bar { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.4rem; }
+        .meta-item { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--text-muted); }
+        .meta-item span { color: var(--accent2); font-weight: 600; }
+        #timer-box { position: fixed; top: 1.2rem; right: 1.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem 1.1rem; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: var(--accent2); z-index: 99; box-shadow: 0 4px 20px #0008; }
+        #timer-box.warn { color: var(--yellow); border-color: var(--yellow); }
+        #timer-box.danger { color: var(--red); border-color: var(--red); animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .progress-bar-wrap { max-width: 860px; margin: 0 auto 2rem; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--text-muted); margin-bottom: .4rem; }
+        .progress-track { height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width .4s ease; width: 0%; }
+        .exam-wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; transition: border-color .25s; }
+        .question-card:hover { border-color: #4a2030; }
+        .q-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.2rem; }
+        .q-num { background: linear-gradient(135deg, var(--accent), #9f1239); color: #fff; font-weight: 700; font-size: .78rem; border-radius: 8px; padding: .28rem .7rem; white-space: nowrap; }
+        .q-type-tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); font-size: .72rem; font-weight: 500; border-radius: 6px; padding: .2rem .6rem; white-space: nowrap; }
+        .q-text { font-size: 1rem; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
+        .options { display: flex; flex-direction: column; gap: .7rem; }
+        .option-label { display: flex; align-items: flex-start; gap: .85rem; cursor: pointer; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: .85rem 1.1rem; transition: all .2s; user-select: none; }
+        .option-label:hover { border-color: var(--accent); }
+        .option-label input[type="radio"] { display: none; }
+        .option-label.selected { border-color: var(--accent); background: #2a1018; }
+        .option-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .option-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .opt-circle { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; transition: all .2s; }
+        .option-label.selected .opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .option-label.correct .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+        .option-label.wrong .opt-circle { border-color: var(--red); background: var(--red); color: #fff; }
+        .opt-text { font-size: .9rem; line-height: 1.5; color: var(--text); }
+        .open-answer { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: .92rem; line-height: 1.6; padding: 1rem 1.1rem; resize: vertical; min-height: 120px; outline: none; transition: border-color .2s; }
+        .open-answer:focus { border-color: var(--accent); }
+        .answer-reveal { display: none; margin-top: 1.2rem; background: #1a1e30; border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.2rem; }
+        .answer-reveal.show { display: block; }
+        .answer-reveal .ar-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--green); margin-bottom: .5rem; }
+        .answer-reveal p { font-size: .88rem; line-height: 1.7; color: var(--text-muted); }
+        .answer-reveal p strong { color: var(--text); }
+        .case-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 1.1rem 1.3rem; margin: .8rem 0; font-size: .9rem; line-height: 1.7; color: var(--text-muted); }
+        .case-box strong { color: var(--text); }
+        .section-divider { max-width: 860px; margin: .5rem auto; display: flex; align-items: center; gap: 1rem; }
+        .section-divider .sd-line { flex: 1; height: 1px; background: var(--border); }
+        .section-divider .sd-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent2); background: var(--surface2); border: 1px solid var(--border); border-radius: 999px; padding: .3rem .9rem; }
+        .submit-wrap { max-width: 860px; margin: 1rem auto; display: flex; justify-content: center; }
+        .btn-submit { background: linear-gradient(135deg, var(--accent), #9f1239); color: #fff; border: none; border-radius: 12px; padding: .9rem 2.8rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .25s; }
+        .btn-submit:hover { transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #results-panel { display: none; max-width: 860px; margin: 2rem auto 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; }
+        #results-panel.show { display: block; }
+        .score-circle { width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--surface2) 0%); margin: 1rem auto; display: flex; align-items: center; justify-content: center; }
+        .score-inner { width: 106px; height: 106px; background: var(--surface); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem; }
+        .score-num { font-size: 1.8rem; font-weight: 700; color: var(--accent2); }
+        .score-label { font-size: .7rem; color: var(--text-muted); }
+        .results-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1.5rem; }
+        .result-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+        .rs-val { font-size: 1.5rem; font-weight: 700; }
+        .rs-label { font-size: .78rem; color: var(--text-muted); margin-top: .2rem; }
+        .rs-val.green{color:var(--green);}.rs-val.red{color:var(--red);}.rs-val.yellow{color:var(--yellow);}
+        .btn-retry { margin-top: 1.5rem; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; padding: .7rem 2rem; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+        .btn-retry:hover { border-color: var(--accent); color: var(--accent2); }
+        .final-note { margin-top: 2rem; padding: 1.2rem; background: linear-gradient(135deg, #1a1d2e, #242840); border: 1px solid var(--border); border-radius: 12px; font-size: .88rem; line-height: 1.6; color: var(--text-muted); }
+        .final-note strong { color: var(--accent2); }
+        .trophy { font-size: 3rem; margin: .5rem auto; display: block; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div id="timer-box">⏱ <span id="timer-display">40:00</span></div>
+
+<div class="hero">
+    <div class="badge">Examen Final Simulatorio · Nº 5 de 5 · Integración Total</div>
+    <h1>Metodología de Investigación — Examen Integrador</h1>
+    <p class="subtitle">Evaluación de todos los temas: ciencia, método, niveles, diseño, antecedentes, planteamiento y formulación del problema</p>
+    <div class="meta-bar">
+        <div class="meta-item">📝 <span>15 preguntas</span></div>
+        <div class="meta-item">⏱ <span>40 minutos</span></div>
+        <div class="meta-item">🎓 <span>Nivel universitario avanzado</span></div>
+        <div class="meta-item">🔥 <span>Mayor dificultad — casos complejos</span></div>
+    </div>
+</div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-labels">
+        <span id="prog-text">0 / 15 respondidas</span>
+        <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SECCIÓN A -->
+<div class="section-divider">
+    <div class="sd-line"></div><div class="sd-label">A — Casos de investigación complejos</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q1 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">01</span><span class="q-type-tag">Caso complejo — Análisis total</span>
+        <p class="q-text">Lee el siguiente proyecto de tesis y realiza un <strong>diagnóstico metodológico completo</strong>:</p></div>
+        <div class="case-box">
+            <strong>Título:</strong> «Inteligencia Artificial en el rendimiento académico de los estudiantes de la UNSCH, 2025»<br>
+            <strong>Nivel declarado:</strong> Relacional<br>
+            <strong>Diseño:</strong> No experimental transversal<br>
+            <strong>Tipo:</strong> Observacional, prospectivo, transversal, analítico<br>
+            <strong>PG:</strong> «¿Cómo afecta la Inteligencia Artificial al rendimiento académico?»<br>
+            <strong>Justificación:</strong> «El estudio es importante porque la IA es una tecnología nueva y útil.»<br>
+            <strong>Antecedentes:</strong> 4 estudios de la misma universidad, todos del año 2023.
+        </div>
+        <textarea class="open-answer" id="open-1" placeholder="Lista todos los problemas metodológicos y propón correcciones para cada uno..." style="min-height:200px" oninput="markAnswered(1)"></textarea>
+        <div class="answer-reveal" id="reveal-1">
+            <div class="ar-title">✅ Diagnóstico completo</div>
+            <p>
+            <strong>Error 1 — Título:</strong> No sigue la fórmula canónica. Debería ser: «[X: Tipo de uso de IA] y su relación con [Y: Rendimiento académico] en [Población] [Año]».<br>
+            <strong>Error 2 — Nivel vs. PG:</strong> El PG «¿Cómo afecta...?» implica causalidad (nivel explicativo), pero el nivel declarado es relacional. Incoherencia epistémica.<br>
+            <strong>Error 3 — PG mal formulado:</strong> No especifica las variables con precisión, no incluye ámbito ni periodo, y usa lenguaje vago («Inteligencia Artificial» sin definir qué aspecto de la IA).<br>
+            <strong>Error 4 — Justificación insuficiente:</strong> No desarrolla las 4 dimensiones (teórica, metodológica, práctica, social). «Es importante porque la IA es nueva y útil» no es argumentación científica.<br>
+            <strong>Error 5 — Antecedentes:</strong> Solo 4 estudios de una misma universidad viola el criterio de diversidad geográfica (se requieren al menos 3 países para los internacionales). Además todos son de 2023, apenas cumple el criterio de actualidad pero no hay diversidad de fuentes.<br>
+            <strong>Error 6 — Coherencia de tipo:</strong> Si el nivel es relacional y el diseño es correcto (no experimental transversal), el tipo debe ser «analítico» (ya lo dice), pero la estadística debería ser bivariada (chi-cuadrado, correlación), no solo descriptiva.
+            </p>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">02</span><span class="q-type-tag">Selección múltiple — Integración</span>
+        <p class="q-text">Un investigador tiene el siguiente PG: <em>«¿Cuál será la tasa de deserción universitaria en las universidades públicas de Ayacucho pronosticada a partir del rendimiento académico del primer ciclo, mediante modelos de regresión logística, para el periodo 2026-2029?»</em> ¿Cuál es el nivel, diseño y tipo (por planificación de datos y por mediciones) coherente con este PG?</p></div>
+        <div class="options" id="opts-2">
+            <label class="option-label" onclick="selectOpt(this,2,'A')"><input type="radio" name="q2"><div class="opt-circle">A</div><div class="opt-text">Nivel: Explicativo | Diseño: Experimental | Tipo: Prospectivo, transversal</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'B')"><input type="radio" name="q2"><div class="opt-circle">B</div><div class="opt-text">Nivel: Predictivo | Diseño: No experimental, longitudinal retrospectivo | Tipo: Retrospectivo, longitudinal</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'C')"><input type="radio" name="q2"><div class="opt-circle">C</div><div class="opt-text">Nivel: Descriptivo | Diseño: No experimental transversal | Tipo: Prospectivo, transversal</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'D')"><input type="radio" name="q2"><div class="opt-circle">D</div><div class="opt-text">Nivel: Relacional | Diseño: No experimental transversal relacional | Tipo: Observacional, transversal</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-2">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p><strong>Nivel predictivo:</strong> busca pronosticar el valor futuro (T+K = 2026-2029) de la variable deserción usando modelos estadísticos. <strong>Diseño:</strong> no experimental longitudinal retrospectivo (datos históricos de rendimiento del primer ciclo). <strong>Tipo:</strong> retrospectivo (datos de registros históricos universitarios) + longitudinal (múltiples mediciones en el tiempo). <strong>Estadística:</strong> regresión logística (modelamiento estadístico). Todo es coherente.</p>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">03</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Cuál de las siguientes afirmaciones describe mejor el concepto de «coherencia epistemológica» en una investigación cuantitativa?</p></div>
+        <div class="options" id="opts-3">
+            <label class="option-label" onclick="selectOpt(this,3,'A')"><input type="radio" name="q3"><div class="opt-circle">A</div><div class="opt-text">Que el investigador sea consistente en su posición política y filosófica.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'B')"><input type="radio" name="q3"><div class="opt-circle">B</div><div class="opt-text">Que existe alineación lógica y necesaria entre el problema, el nivel, el diseño, el tipo, los instrumentos, las hipótesis y el análisis estadístico.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'C')"><input type="radio" name="q3"><div class="opt-circle">C</div><div class="opt-text">Que el investigador cita correctamente todas las fuentes bibliográficas.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'D')"><input type="radio" name="q3"><div class="opt-circle">D</div><div class="opt-text">Que el título y el resumen de la tesis sean coherentes entre sí.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-3">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La coherencia epistemológica es la <strong>alineación lógica e integral</strong> de todos los elementos de la investigación: el problema determina el nivel, el nivel determina el diseño, el diseño determina el tipo, los instrumentos deben medir lo que el problema pregunta, las hipótesis deben responder al problema, y el análisis estadístico debe ser coherente con el nivel. Si cualquier elemento está desalineado, la investigación pierde validez epistemológica.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN B -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">B — Evaluación de tesis completa</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q4 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">04</span><span class="q-type-tag">Caso integrador — Diseño completo</span>
+        <p class="q-text">Diseña el <strong>esquema metodológico completo</strong> para el siguiente proyecto. Incluye: nivel, diseño, 4 tipos, título, PG, 2 PEi, y la justificación desde las 4 dimensiones: <br><br>
+        <em>«Se quiere evaluar si un sistema de detección temprana de abandono escolar basado en Machine Learning reduce la tasa de deserción en colegios secundarios rurales de Ayacucho, comparando datos del 2023 al 2025.»</em></p>
+        <textarea class="open-answer" id="open-4" placeholder="Diseña el esquema completo..." style="min-height:220px" oninput="markAnswered(4)"></textarea>
+        <div class="answer-reveal" id="reveal-4">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>
+            <strong>Nivel:</strong> Aplicativo (implementa un sistema de ML y mide su efecto en la deserción).<br>
+            <strong>Diseño:</strong> Cuasi-experimental / DSR con evaluación pre-post o con grupo control.<br>
+            <strong>Tipos:</strong> Experimental (se implementa el sistema), Retrospectivo/Prospectivo mixto (datos 2023-2024 retrospectivos + 2025 prospectivo), Longitudinal (medición en múltiples periodos), Analítico (se prueba si el sistema reduce la tasa).<br>
+            <strong>Título:</strong> «Sistema de detección temprana de abandono escolar basado en Machine Learning y su efecto en la tasa de deserción en colegios secundarios rurales de Ayacucho, 2023-2025».<br>
+            <strong>PG:</strong> «¿En qué medida reduce la tasa de deserción la implementación de un sistema de detección temprana basado en Machine Learning en colegios secundarios rurales de Ayacucho, 2023-2025?»<br>
+            <strong>PE1:</strong> «¿En qué medida reduce la tasa de deserción la aplicación del módulo de alertas tempranas del sistema ML en colegios secundarios rurales de Ayacucho, 2023-2025?»<br>
+            <strong>PE2:</strong> «¿En qué medida mejora la tasa de intervención docente mediante el módulo de seguimiento del sistema ML en colegios secundarios rurales de Ayacucho, 2023-2025?»<br>
+            <strong>Justificación Teórica:</strong> Aporta conocimiento sobre aplicación de ML en contextos rurales latinoamericanos. <strong>Metodológica:</strong> Propone un protocolo de evaluación de sistemas de alerta temprana en educación rural. <strong>Práctica:</strong> Reduce la deserción concreta de estudiantes en situación de vulnerabilidad. <strong>Social:</strong> Beneficia a comunidades rurales de Ayacucho con mayor permanencia escolar.
+            </p>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">05</span><span class="q-type-tag">Selección múltiple — Análisis de antecedentes</span>
+        <p class="q-text">Un investigador encuentra un artículo publicado en 2019 en la revista Nature (WoS, Q1) sobre un tema directamente relacionado con su tesis. Sin embargo, es de hace 6 años. ¿Debe incluirlo como antecedente?</p></div>
+        <div class="options" id="opts-5">
+            <label class="option-label" onclick="selectOpt(this,5,'A')"><input type="radio" name="q5"><div class="opt-circle">A</div><div class="opt-text">No, porque viola el criterio de actualidad (más de 5 años).</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'B')"><input type="radio" name="q5"><div class="opt-circle">B</div><div class="opt-text">Sí, porque la calidad de la fuente (Nature, WoS Q1) y la pertinencia temática compensan la antigüedad, y debe justificarse su inclusión.</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'C')"><input type="radio" name="q5"><div class="opt-circle">C</div><div class="opt-text">Solo si el asesor lo aprueba explícitamente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'D')"><input type="radio" name="q5"><div class="opt-circle">D</div><div class="opt-text">No, los criterios no admiten excepciones sin importar la calidad.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-5">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>Los criterios de selección son guías metodológicas, no reglas absolutas. Un artículo de una revista de altísimo impacto (Nature, WoS Q1) con alta pertinencia temática puede incluirse justificando su valor epistémico a pesar de su antigüedad. La clave está en <strong>justificar la excepción</strong> explícitamente en la tesis, señalando por qué ese estudio sigue siendo relevante y si no existe un estudio más reciente de igual o mayor calidad sobre el mismo tema.</p>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">06</span><span class="q-type-tag">Verdadero / Falso razonado</span>
+        <p class="q-text">«El "control del pronóstico" en el planteamiento del problema es equivalente a la "solución implementada" en la tesis; ambos responden a ¿qué se hará para solucionar el problema?»</p></div>
+        <div class="options" id="opts-6">
+            <label class="option-label" onclick="selectOpt(this,6,'A')"><input type="radio" name="q6"><div class="opt-circle">V</div><div class="opt-text">Verdadero — ambos conceptos son sinónimos y equivalentes.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'B')"><input type="radio" name="q6"><div class="opt-circle">F</div><div class="opt-text">Falso — el control del pronóstico propone qué se investigará para evitar el escenario negativo, pero NO es la solución ya implementada ni los resultados de la tesis.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-6">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>El <strong>control del pronóstico</strong> anticipa qué se propone hacer para evitar el escenario negativo pronosticado, pero es una propuesta en el contexto del planteamiento del problema. <strong>No es la solución implementada</strong> —eso vendría en los capítulos de resultados y conclusiones. Es un error muy frecuente confundir ambos conceptos.</p>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">07</span><span class="q-type-tag">Selección múltiple — Trampa avanzada</span>
+        <p class="q-text">Un tesista formula el siguiente PG para nivel relacional: <em>«¿En qué medida el liderazgo directivo influye en el clima organizacional de los docentes del UGEL Huamanga, 2025?»</em>. ¿Cuál es el error en esta formulación?</p></div>
+        <div class="options" id="opts-7">
+            <label class="option-label" onclick="selectOpt(this,7,'A')"><input type="radio" name="q7"><div class="opt-circle">A</div><div class="opt-text">No hay error, la pregunta es válida para el nivel relacional.</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'B')"><input type="radio" name="q7"><div class="opt-circle">B</div><div class="opt-text">Usa la locución «¿En qué medida...influye?» que corresponde al nivel explicativo, no al relacional. El nivel relacional usa «¿Qué relación existe entre...?»</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'C')"><input type="radio" name="q7"><div class="opt-circle">C</div><div class="opt-text">No especifica la población correctamente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'D')"><input type="radio" name="q7"><div class="opt-circle">D</div><div class="opt-text">El ámbito es demasiado específico para un nivel relacional.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-7">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La locución «¿En qué medida...influye?» implica una relación de <strong>causalidad o impacto</strong>, propia del nivel <strong>explicativo</strong>. El nivel <strong>relacional</strong> usa «¿Qué relación existe entre...?» que solo afirma asociación estadística sin implicar causalidad. Reformulación correcta: «¿Qué relación existe entre el liderazgo directivo y el clima organizacional de los docentes del UGEL Huamanga, 2025?»</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN C -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">C — Síntesis y metacognición</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q8 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">08</span><span class="q-type-tag">Selección múltiple — Meta-análisis</span>
+        <p class="q-text">¿Cuál de las siguientes secuencias describe correctamente el flujo lógico que debe seguir un investigador desde la identificación del problema hasta la formulación del PG?</p></div>
+        <div class="options" id="opts-8">
+            <label class="option-label" onclick="selectOpt(this,8,'A')"><input type="radio" name="q8"><div class="opt-circle">A</div><div class="opt-text">Formular el PG → elegir el nivel → identificar variables → hacer diagnóstico contextual</div></label>
+            <label class="option-label" onclick="selectOpt(this,8,'B')"><input type="radio" name="q8"><div class="opt-circle">B</div><div class="opt-text">Contextualizar el problema → identificar el vacío del conocimiento → identificar variables → elegir el nivel → aplicar la fórmula sintáctica → formular el PG</div></label>
+            <label class="option-label" onclick="selectOpt(this,8,'C')"><input type="radio" name="q8"><div class="opt-circle">C</div><div class="opt-text">Elegir el nivel → hacer la revisión de la literatura → identificar variables → formular el PG</div></label>
+            <label class="option-label" onclick="selectOpt(this,8,'D')"><input type="radio" name="q8"><div class="opt-circle">D</div><div class="opt-text">Buscar antecedentes → formular hipótesis → elegir diseño → formular el PG</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-8">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El flujo correcto es: (1) contextualizar el problema en sus 4 niveles con datos reales, (2) identificar el vacío del conocimiento mediante la revisión de la literatura, (3) identificar claramente las variables de interés, (4) elegir el nivel de investigación coherente con el tipo de relación entre variables, y (5) aplicar la fórmula sintáctica del nivel elegido para construir el PG. Este orden garantiza la coherencia epistemológica.</p>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">09</span><span class="q-type-tag">Aplicación — Búsqueda booleana avanzada</span>
+        <p class="q-text">Diseña la cadena de búsqueda booleana más precisa para encontrar artículos sobre: «modelos de aprendizaje automático para la predicción de rendimiento académico en estudiantes universitarios de Latinoamérica, publicados entre 2020 y 2025». Indica qué operadores usarías y por qué.</p></div>
+        <textarea class="open-answer" id="open-9" placeholder="Escribe la cadena de búsqueda y explica cada operador..." oninput="markAnswered(9)"></textarea>
+        <div class="answer-reveal" id="reveal-9">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>Cadena propuesta:</strong><br>
+            <code>("machine learning" OR "aprendizaje automático" OR "inteligencia artificial") AND ("rendimiento académico" OR "academic performance") AND ("universitario*" OR "educación superior") AND ("Latinoamérica" OR "América Latina" OR "Latin America")</code><br><br>
+            <strong>Explicación:</strong><br>
+            — <strong>OR</strong>: para capturar variantes terminológicas del mismo concepto (machine learning = aprendizaje automático en español).<br>
+            — <strong>AND</strong>: intersección para que todos los conceptos clave aparezcan simultáneamente.<br>
+            — <strong>""</strong> (comillas): frases exactas que no deben separarse.<br>
+            — <strong>*</strong> (truncamiento): «universitario*» captura «universitario», «universitaria», «universitarios», «universitarias».<br>
+            — El filtro de fechas 2020-2025 se aplica directamente en la base de datos (no como operador booleano).</p>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">10</span><span class="q-type-tag">Selección múltiple — Trampa de niveles</span>
+        <p class="q-text">¿Cuál de las siguientes investigaciones puede clasificarse simultáneamente como del nivel <em>explicativo</em> y no como aplicativo, aunque use tecnología de software?</p></div>
+        <div class="options" id="opts-10">
+            <label class="option-label" onclick="selectOpt(this,10,'A')"><input type="radio" name="q10"><div class="opt-circle">A</div><div class="opt-text">Desarrollar un chatbot y medir si mejora la satisfacción de los usuarios.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'B')"><input type="radio" name="q10"><div class="opt-circle">B</div><div class="opt-text">Medir el efecto de usar una app de idiomas (ya existente en el mercado) sobre el aprendizaje del inglés, usando un grupo experimental y un grupo control sin modificar la app.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'C')"><input type="radio" name="q10"><div class="opt-circle">C</div><div class="opt-text">Diseñar e implementar un sistema de gestión hospitalaria y medir si reduce los tiempos de atención.</div></label>
+            <label class="option-label" onclick="selectOpt(this,10,'D')"><input type="radio" name="q10"><div class="opt-circle">D</div><div class="opt-text">Crear un prototipo de software educativo y validar su usabilidad con los usuarios.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-10">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La opción B usa tecnología (una app existente) pero el investigador <strong>no la desarrolla ni implementa</strong>; solo la usa como variable independiente en un diseño cuasi-experimental para medir su efecto causal sobre el aprendizaje. Eso lo clasifica como <strong>nivel explicativo</strong>. Las opciones A, C y D implican diseño, implementación o creación de un artefacto → nivel aplicativo.</p>
+        </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">11</span><span class="q-type-tag">Construcción integradora total</span>
+        <p class="q-text">Para el siguiente contexto, realiza una <strong>ficha metodológica completa</strong> que incluya: (1) Título con la fórmula, (2) PG del nivel correcto, (3) 2 PEi, (4) Nivel y diseño con justificación, (5) Tipo según los 4 criterios, (6) Justificación en las 4 dimensiones (una oración por dimensión): <br><br>
+        <em>«El 65% de microempresas de la provincia de Huamanga quiebran en los primeros 2 años. Se quiere identificar qué factores (capital inicial, nivel educativo del emprendedor, acceso a crédito, capacitación empresarial) se asocian estadísticamente con la supervivencia empresarial.»</em></p>
+        <textarea class="open-answer" id="open-11" placeholder="Ficha metodológica completa..." style="min-height:240px" oninput="markAnswered(11)"></textarea>
+        <div class="answer-reveal" id="reveal-11">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>
+            <strong>(1) Título:</strong> «Factores asociados a la supervivencia empresarial de microempresas en la provincia de Huamanga, 2023-2025»<br>
+            <strong>(2) PG (Relacional):</strong> «¿Qué relación existe entre los factores (capital inicial, nivel educativo, acceso a crédito y capacitación) y la supervivencia empresarial de las microempresas de la provincia de Huamanga, 2023-2025?»<br>
+            <strong>(3) PE1:</strong> «¿Qué relación existe entre el capital inicial y la supervivencia empresarial de las microempresas de Huamanga, 2023-2025?»<br>
+            <strong>PE2:</strong> «¿Qué relación existe entre el acceso a crédito y la supervivencia empresarial de las microempresas de Huamanga, 2023-2025?»<br>
+            <strong>(4) Nivel:</strong> Relacional (busca asociación entre múltiples variables independientes y una dependiente). <strong>Diseño:</strong> No experimental transversal relacional.<br>
+            <strong>(5) Tipo:</strong> Observacional (no manipula variables), Retrospectivo (datos de registros de SUNARP/SUNAT), Transversal (medición en un punto del tiempo), Analítico (prueba relaciones entre variables — regresión logística, chi-cuadrado).<br>
+            <strong>(6) Justificación:</strong> Teórica: aporta al conocimiento sobre factores de éxito empresarial en contextos rurales andinos. Metodológica: propone un modelo multivariante para analizar supervivencia empresarial en pequeñas economías locales. Práctica: permite diseñar políticas públicas de apoyo a emprendedores. Social: beneficia a las familias de Huamanga cuya economía depende de las microempresas.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- SECCIÓN D -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div><div class="sd-label">D — Preguntas de cierre avanzadas</div><div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q12 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">12</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">¿Por qué es epistemológicamente incorrecto «saltar» del nivel exploratorio directamente al nivel explicativo sin pasar por los niveles descriptivo y relacional?</p></div>
+        <div class="options" id="opts-12">
+            <label class="option-label" onclick="selectOpt(this,12,'A')"><input type="radio" name="q12"><div class="opt-circle">A</div><div class="opt-text">Porque los reglamentos universitarios lo prohíben expresamente.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'B')"><input type="radio" name="q12"><div class="opt-circle">B</div><div class="opt-text">Porque cada nivel provee el fundamento empírico necesario para el siguiente: sin describir las variables no se puede relacionarlas, y sin relacionarlas no se puede afirmar causalidad.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'C')"><input type="radio" name="q12"><div class="opt-circle">C</div><div class="opt-text">Porque el presupuesto de investigación siempre obliga a seguir la jerarquía en orden.</div></label>
+            <label class="option-label" onclick="selectOpt(this,12,'D')"><input type="radio" name="q12"><div class="opt-circle">D</div><div class="opt-text">Porque los niveles intermedios son requisito administrativo, no epistemológico.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-12">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La jerarquía de niveles es <strong>epistemológica y acumulativa</strong>: para afirmar causalidad (nivel explicativo) se requiere haber establecido primero que existe una relación (nivel relacional), y para afirmar que hay relación se requiere haber descrito el comportamiento individual de las variables (nivel descriptivo). «Saltar» niveles implicaría afirmar causalidad sin base empírica previa, lo que violaría el principio de construcción progresiva del conocimiento científico.</p>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">13</span><span class="q-type-tag">Selección múltiple</span>
+        <p class="q-text">Un artículo de investigación del año 2022 publicado en una revista de renombre aborda la variable «estrés académico» en estudiantes universitarios de Brasil y México. Según los criterios de selección de antecedentes, ¿puede usarse como antecedente internacional?</p></div>
+        <div class="options" id="opts-13">
+            <label class="option-label" onclick="selectOpt(this,13,'A')"><input type="radio" name="q13"><div class="opt-circle">A</div><div class="opt-text">No, porque solo cubre 2 países y se requieren mínimo 3 para el criterio de diversidad geográfica internacional.</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'B')"><input type="radio" name="q13"><div class="opt-circle">B</div><div class="opt-text">Sí, es válido como un antecedente internacional, pero la colección completa de antecedentes internacionales debe cubrir mínimo 3 países diferentes entre todos los estudios.</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'C')"><input type="radio" name="q13"><div class="opt-circle">C</div><div class="opt-text">No, porque los estudios de países latinoamericanos no se consideran internacionales para una tesis peruana.</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'D')"><input type="radio" name="q13"><div class="opt-circle">D</div><div class="opt-text">Solo si el autor es extranjero.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-13">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El criterio de diversidad geográfica establece que los <strong>antecedentes internacionales deben provenir de al menos 3 países diferentes</strong> en total. Esto no significa que cada artículo individual deba cubrir 3 países; un estudio de Brasil y México es perfectamente válido como antecedente internacional, siempre que el conjunto de antecedentes internacionales que se seleccionen colectivamente represente al menos 3 países distintos.</p>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">14</span><span class="q-type-tag">Pregunta de síntesis final — Reflexión epistemológica</span>
+        <p class="q-text">Desde la perspectiva de la metodología de la investigación científica, ¿por qué se afirma que «el problema de investigación es el eje vertebrador de toda la tesis»? Argumenta mencionando al menos 4 elementos metodológicos que se derivan del problema.</p></div>
+        <textarea class="open-answer" id="open-14" placeholder="Desarrolla el argumento con 4 elementos metodológicos derivados del problema..." oninput="markAnswered(14)"></textarea>
+        <div class="answer-reveal" id="reveal-14">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>El problema de investigación es el eje vertebrador porque todos los demás elementos se derivan lógicamente de él:<br><br>
+            <strong>1. El nivel de investigación</strong> se determina a partir del tipo de pregunta que plantea el problema (¿describe, relaciona, explica, predice o aplica?). Un problema mal formulado llevará al nivel incorrecto.<br>
+            <strong>2. El diseño metodológico</strong> se selecciona en función del nivel que determina el problema: no experimental, experimental, DSR, etc.<br>
+            <strong>3. Las hipótesis</strong> son respuestas tentativas al problema: si el problema cambia, las hipótesis también deben cambiar.<br>
+            <strong>4. Los objetivos</strong> son la traducción afirmativa del problema: cada PEi origina un objetivo específico.<br>
+            <strong>5. El instrumento de medición</strong> debe medir exactamente las variables que el problema pregunta. Sin un problema claro, no es posible construir un instrumento válido.<br>
+            Si el problema está mal formulado, toda la tesis queda epistemológicamente comprometida.</p>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card">
+        <div class="q-header"><span class="q-num">15</span><span class="q-type-tag">🏆 Pregunta maestra — Integración total</span>
+        <p class="q-text">Tienes 15 minutos para este último punto. Elabora el <strong>resumen ejecutivo de tu propia tesis</strong> (real o hipotética) aplicando <strong>todos</strong> los conocimientos del curso: titulo (con la fórmula), nivel, diseño, tipo (4 criterios), planteamiento del problema (3 párrafos con contextualización en 4 niveles usando datos hipotéticos realistas), PG y 2 PEi, justificación en 4 dimensiones, y un antecedente inventado con la estructura correcta completa.</p></div>
+        <textarea class="open-answer" id="open-15" placeholder="Tu resumen ejecutivo completo — ¡demuestra todo lo que sabes!..." style="min-height:300px" oninput="markAnswered(15)"></textarea>
+        <div class="answer-reveal" id="reveal-15">
+            <div class="ar-title">✅ Lista de verificación para autoevaluación</div>
+            <p>Verifica que tu respuesta incluya todos estos elementos:<br><br>
+            ☐ <strong>Título:</strong> Sigue la fórmula VI + conector + VD + población + delimitación temporal.<br>
+            ☐ <strong>Nivel y diseño:</strong> Son coherentes entre sí.<br>
+            ☐ <strong>4 Tipos:</strong> Intervención (observacional/experimental), planificación (prospectivo/retrospectivo), mediciones (transversal/longitudinal), variables (descriptivo/analítico).<br>
+            ☐ <strong>Diagnóstico:</strong> Datos en los 4 niveles (internacional, nacional, regional, local).<br>
+            ☐ <strong>Pronóstico:</strong> Consecuencias si no se actúa.<br>
+            ☐ <strong>Control del pronóstico:</strong> Propuesta de investigación (no la solución implementada).<br>
+            ☐ <strong>PG:</strong> Usa la fórmula correcta del nivel elegido.<br>
+            ☐ <strong>2 PEi:</strong> Usan las dimensiones de las variables.<br>
+            ☐ <strong>Justificación:</strong> 4 dimensiones (teórica, metodológica, práctica, social).<br>
+            ☐ <strong>Antecedente:</strong> Incluye autor/año, objetivo, nivel/tipo/diseño, muestra, instrumento, resultados y conclusiones.</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="submit-wrap" style="margin-top:2rem">
+    <button class="btn-submit" id="btn-submit" onclick="submitExam()">Finalizar examen final y ver respuestas</button>
+</div>
+
+<div id="results-panel">
+    <span class="trophy">🏆</span>
+    <h2 style="font-size:1.6rem;margin-bottom:.5rem">¡Examen Final Completado!</h2>
+    <p style="color:var(--text-muted);font-size:.9rem">Metodología de Investigación — Integración Total</p>
+    <div class="score-circle" id="score-circle">
+        <div class="score-inner"><div class="score-num" id="score-num">—</div><div class="score-label">PUNTAJE</div></div>
+    </div>
+    <div class="results-grid">
+        <div class="result-stat"><div class="rs-val green" id="r-correct">—</div><div class="rs-label">Correctas (selección)</div></div>
+        <div class="result-stat"><div class="rs-val red" id="r-wrong">—</div><div class="rs-label">Incorrectas</div></div>
+        <div class="result-stat"><div class="rs-val yellow" id="r-open">—</div><div class="rs-label">Abiertas para autoevaluar</div></div>
+    </div>
+    <div class="final-note">
+        <strong>🎓 Has completado los 5 exámenes simulatorios.</strong> Revisa cada ✅ para contrastar tus respuestas abiertas con las esperadas. Recuerda: en los exámenes reales de tesis, los jurados valoran especialmente la <strong>coherencia epistemológica</strong>, la precisión en la <strong>formulación del problema</strong> y la correcta aplicación de las <strong>fórmulas sintácticas</strong> por nivel.
+    </div>
+    <button class="btn-retry" onclick="location.reload()">🔄 Reintentar</button>
+</div>
+
+<script>
+    const TOTAL=15;const answered=new Set();let submitted=false;
+    const correctMap={2:'B',3:'B',5:'B',6:'B',7:'B',8:'B',10:'B',12:'B',13:'B'};
+    const userAnswers={};let timeLeft=40*60;
+    const timerEl=document.getElementById('timer-display'),timerBox=document.getElementById('timer-box');
+    const iv=setInterval(()=>{if(submitted){clearInterval(iv);return;}timeLeft--;const m=String(Math.floor(timeLeft/60)).padStart(2,'0'),s=String(timeLeft%60).padStart(2,'0');timerEl.textContent=`${m}:${s}`;if(timeLeft<=300)timerBox.className='warn';if(timeLeft<=60)timerBox.className='danger';if(timeLeft<=0){clearInterval(iv);submitExam();}},1000);
+    function updateProgress(){const n=answered.size;document.getElementById('prog-text').textContent=`${n} / ${TOTAL} respondidas`;document.getElementById('prog-pct').textContent=Math.round(n/TOTAL*100)+'%';document.getElementById('prog-fill').style.width=(n/TOTAL*100)+'%';}
+    function markAnswered(q){answered.add(q);updateProgress();}
+    function selectOpt(label,qNum,val){if(submitted)return;const group=document.getElementById('opts-'+qNum);if(!group)return;group.querySelectorAll('.option-label').forEach(l=>l.classList.remove('selected'));label.classList.add('selected');userAnswers[qNum]=val;markAnswered(qNum);}
+    function submitExam(){
+        submitted=true;clearInterval(iv);let correct=0,wrong=0;
+        Object.entries(correctMap).forEach(([q,ans])=>{const qNum=parseInt(q);const group=document.getElementById('opts-'+qNum);if(!group)return;const labels=group.querySelectorAll('.option-label');const letters='ABCDEFGH'.split('');labels.forEach((label,i)=>{const letter=letters[i];if(letter===ans){label.classList.add('correct');if(userAnswers[qNum]===letter)correct++;}else if(userAnswers[qNum]===letter){label.classList.add('wrong');wrong++;}});});
+        for(let i=1;i<=TOTAL;i++){const rev=document.getElementById('reveal-'+i);if(rev)rev.classList.add('show');}
+        const gradable=Object.keys(correctMap).length;const pct=Math.round(correct/gradable*100);
+        document.getElementById('score-num').textContent=pct+'%';document.getElementById('r-correct').textContent=correct+'/'+gradable;document.getElementById('r-wrong').textContent=wrong;document.getElementById('r-open').textContent='6 preg.';
+        document.getElementById('score-circle').style.background=`conic-gradient(var(--accent) ${pct*3.6}deg, var(--surface2) 0deg)`;
+        document.getElementById('btn-submit').disabled=true;document.getElementById('results-panel').classList.add('show');document.getElementById('results-panel').scrollIntoView({behavior:'smooth'});
+    }
+</script>
+</body>
+</html>

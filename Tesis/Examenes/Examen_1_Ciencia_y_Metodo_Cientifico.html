@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen 1 — Ciencia y Método Científico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d2e;
+            --surface2: #242840;
+            --border: #2e3250;
+            --accent: #7c6cfc;
+            --accent2: #a78bfa;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .hero {
+            max-width: 860px;
+            margin: 0 auto 2.5rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .35rem .9rem;
+            border-radius: 999px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e2e8f0, var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            margin-bottom: .6rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: .95rem;
+        }
+
+        .meta-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.4rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            font-size: .82rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item span { color: var(--accent2); font-weight: 600; }
+
+        /* timer */
+        #timer-box {
+            position: fixed;
+            top: 1.2rem;
+            right: 1.4rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: .5rem 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            color: var(--accent2);
+            z-index: 99;
+            box-shadow: 0 4px 20px #0008;
+        }
+
+        #timer-box.warn { color: var(--yellow); border-color: var(--yellow); }
+        #timer-box.danger { color: var(--red); border-color: var(--red); animation: pulse .8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+        /* progress */
+        .progress-bar-wrap {
+            max-width: 860px;
+            margin: 0 auto 2rem;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: .78rem;
+            color: var(--text-muted);
+            margin-bottom: .4rem;
+        }
+
+        .progress-track {
+            height: 6px;
+            background: var(--surface2);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 999px;
+            transition: width .4s ease;
+            width: 0%;
+        }
+
+        /* exam container */
+        .exam-wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            transition: border-color .25s, box-shadow .25s;
+        }
+
+        .question-card:hover { border-color: #3d4270; box-shadow: 0 4px 24px #0005; }
+
+        .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: .9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .q-num {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+            font-weight: 700;
+            font-size: .78rem;
+            border-radius: 8px;
+            padding: .28rem .7rem;
+            white-space: nowrap;
+        }
+
+        .q-type-tag {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: .72rem;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: .2rem .6rem;
+            white-space: nowrap;
+        }
+
+        .q-text {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--text);
+            flex: 1;
+        }
+
+        /* opciones */
+        .options { display: flex; flex-direction: column; gap: .7rem; }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: .85rem;
+            cursor: pointer;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: .85rem 1.1rem;
+            transition: all .2s;
+            user-select: none;
+        }
+
+        .option-label:hover { border-color: var(--accent); background: #2a2f50; }
+
+        .option-label input[type="radio"],
+        .option-label input[type="checkbox"] { display: none; }
+
+        .option-label.selected { border-color: var(--accent); background: #2a2f50; }
+        .option-label.correct { border-color: var(--green) !important; background: #14301f !important; }
+        .option-label.wrong { border-color: var(--red) !important; background: #2c1414 !important; }
+        .option-label.missed { border-color: var(--green) !important; background: #14301f !important; opacity: .75; }
+
+        .opt-circle {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: .05rem;
+            font-size: .7rem;
+            font-weight: 700;
+            transition: all .2s;
+        }
+
+        .option-label.selected .opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .option-label.correct .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+        .option-label.wrong .opt-circle { border-color: var(--red); background: var(--red); color: #fff; }
+        .option-label.missed .opt-circle { border-color: var(--green); background: var(--green); color: #fff; }
+
+        .opt-text { font-size: .9rem; line-height: 1.5; color: var(--text); }
+
+        /* open answer */
+        .open-answer {
+            width: 100%;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: .92rem;
+            line-height: 1.6;
+            padding: 1rem 1.1rem;
+            resize: vertical;
+            min-height: 110px;
+            transition: border-color .2s;
+            outline: none;
+        }
+
+        .open-answer:focus { border-color: var(--accent); }
+
+        /* answer reveal */
+        .answer-reveal {
+            display: none;
+            margin-top: 1.2rem;
+            background: #1e2640;
+            border-left: 4px solid var(--green);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+        }
+
+        .answer-reveal.show { display: block; }
+
+        .answer-reveal .ar-title {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: .5rem;
+        }
+
+        .answer-reveal p { font-size: .88rem; line-height: 1.6; color: var(--text-muted); }
+        .answer-reveal p strong { color: var(--text); }
+
+        /* feedback icon */
+        .feedback-icon {
+            display: none;
+            font-size: 1.2rem;
+            margin-left: auto;
+        }
+
+        .feedback-icon.show { display: block; }
+
+        /* ordering */
+        .order-list { display: flex; flex-direction: column; gap: .55rem; }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: .75rem 1rem;
+            cursor: grab;
+            transition: all .2s;
+        }
+
+        .order-item:active { cursor: grabbing; opacity: .7; }
+        .order-item.dragging { opacity: .4; }
+
+        .drag-icon { color: var(--text-muted); font-size: 1rem; cursor: grab; }
+
+        .order-num {
+            width: 26px;
+            height: 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--accent2);
+            flex-shrink: 0;
+        }
+
+        /* matching */
+        .match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .7rem;
+        }
+
+        .match-col-label {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--text-muted);
+            margin-bottom: .4rem;
+        }
+
+        .match-item {
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: .7rem .9rem;
+            font-size: .85rem;
+            line-height: 1.4;
+        }
+
+        select.match-select {
+            width: 100%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: .85rem;
+            padding: .6rem .8rem;
+            cursor: pointer;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        select.match-select:focus { border-color: var(--accent); }
+
+        /* section divider */
+        .section-divider {
+            max-width: 860px;
+            margin: .5rem auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-divider .sd-line { flex: 1; height: 1px; background: var(--border); }
+
+        .section-divider .sd-label {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--accent2);
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: .3rem .9rem;
+        }
+
+        /* submit button */
+        .submit-wrap {
+            max-width: 860px;
+            margin: 1rem auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: .9rem 2.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s;
+            box-shadow: 0 4px 20px #7c6cfc44;
+        }
+
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px #7c6cfc66; }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+        /* results panel */
+        #results-panel {
+            display: none;
+            max-width: 860px;
+            margin: 2rem auto 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        #results-panel.show { display: block; }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) 0%, var(--surface2) 0%);
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .score-inner {
+            width: 90px;
+            height: 90px;
+            background: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-num { font-size: 1.5rem; font-weight: 700; color: var(--accent2); }
+        .score-label { font-size: .7rem; color: var(--text-muted); }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-stat {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .result-stat .rs-val { font-size: 1.5rem; font-weight: 700; }
+        .result-stat .rs-label { font-size: .78rem; color: var(--text-muted); margin-top: .2rem; }
+
+        .rs-val.green { color: var(--green); }
+        .rs-val.red { color: var(--red); }
+        .rs-val.yellow { color: var(--yellow); }
+
+        .btn-retry {
+            margin-top: 1.5rem;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            border-radius: 10px;
+            padding: .7rem 2rem;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-retry:hover { border-color: var(--accent); color: var(--accent2); }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            .results-grid { grid-template-columns: 1fr; }
+            .match-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="timer-box">⏱ <span id="timer-display">30:00</span></div>
+
+<div class="hero">
+    <div class="badge">Examen Simulatorio · Nº 1 de 5</div>
+    <h1>Ciencia y Método Científico</h1>
+    <p class="subtitle">Sesión 1 — Niveles y funciones de la investigación científica</p>
+    <div class="meta-bar">
+        <div class="meta-item">📝 <span>15 preguntas</span></div>
+        <div class="meta-item">⏱ <span>30 minutos</span></div>
+        <div class="meta-item">🎓 <span>Nivel universitario</span></div>
+        <div class="meta-item">📊 <span>Mixto: selección / análisis / ordenamiento</span></div>
+    </div>
+</div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-labels">
+        <span id="prog-text">0 / 15 respondidas</span>
+        <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- ═══════════════════════════ SECCIÓN A ═══════════════════════════ -->
+<div class="section-divider">
+    <div class="sd-line"></div>
+    <div class="sd-label">A — Selección múltiple</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap" id="exam">
+
+    <!-- Q1 -->
+    <div class="question-card" id="qcard-1">
+        <div class="q-header">
+            <span class="q-num">01</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">Un investigador observa que los estudiantes universitarios de zonas rurales presentan menor rendimiento académico que los urbanos, pero no manipula ninguna variable ni establece una relación de causalidad. ¿En qué nivel de investigación se ubica este estudio?</p>
+        </div>
+        <div class="options" id="opts-1">
+            <label class="option-label" onclick="selectOpt(this,1,'A')"><input type="radio" name="q1"><div class="opt-circle">A</div><div class="opt-text">Exploratorio, porque describe un fenómeno desconocido.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'B')"><input type="radio" name="q1"><div class="opt-circle">B</div><div class="opt-text">Descriptivo, porque caracteriza el comportamiento de una variable sin buscar causalidad.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'C')"><input type="radio" name="q1"><div class="opt-circle">C</div><div class="opt-text">Relacional, porque compara dos grupos distintos.</div></label>
+            <label class="option-label" onclick="selectOpt(this,1,'D')"><input type="radio" name="q1"><div class="opt-circle">D</div><div class="opt-text">Explicativo, porque busca identificar las causas del bajo rendimiento.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-1">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El estudio <strong>describe el comportamiento de la variable rendimiento académico</strong> en distintos contextos sin manipular variables ni establecer relaciones de causa-efecto. La estadística empleada sería univariada. El nivel exploratorio se usa cuando prácticamente no existe conocimiento previo; el relacional requiere buscar asociaciones estadísticas entre variables; el explicativo implica manipulación experimental.</p>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card" id="qcard-2">
+        <div class="q-header">
+            <span class="q-num">02</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">¿Cuál de las siguientes afirmaciones refleja con mayor precisión la diferencia epistemológica entre el nivel <em>relacional</em> y el nivel <em>explicativo</em>?</p>
+        </div>
+        <div class="options" id="opts-2">
+            <label class="option-label" onclick="selectOpt(this,2,'A')"><input type="radio" name="q2"><div class="opt-circle">A</div><div class="opt-text">El relacional mide una sola variable; el explicativo mide al menos dos.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'B')"><input type="radio" name="q2"><div class="opt-circle">B</div><div class="opt-text">El relacional establece asociación estadística; el explicativo establece causalidad mediante diseño experimental o cuasi-experimental.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'C')"><input type="radio" name="q2"><div class="opt-circle">C</div><div class="opt-text">El relacional usa diseño experimental; el explicativo usa diseño no experimental.</div></label>
+            <label class="option-label" onclick="selectOpt(this,2,'D')"><input type="radio" name="q2"><div class="opt-circle">D</div><div class="opt-text">Ambos niveles buscan causalidad, pero el explicativo requiere mayor muestra.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-2">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El nivel <strong>relacional</strong> aplica pruebas bivariadas para detectar si existe asociación, pero no puede afirmar que una variable <em>causa</em> a la otra. El nivel <strong>explicativo</strong>, en cambio, emplea diseños experimentales, cuasi-experimentales o pre-experimentales que permiten controlar variables extrañas y afirmar causalidad mediante la pregunta «¿Por qué?».</p>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card" id="qcard-3">
+        <div class="q-header">
+            <span class="q-num">03</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">Un científico quiere <em>pronosticar</em> el número de contagios de una enfermedad en los próximos 6 meses usando datos históricos de los últimos 5 años. Según la jerarquía de niveles de investigación cuantitativa, ¿cuál es el nivel más adecuado y por qué?</p>
+        </div>
+        <div class="options" id="opts-3">
+            <label class="option-label" onclick="selectOpt(this,3,'A')"><input type="radio" name="q3"><div class="opt-circle">A</div><div class="opt-text">Descriptivo, porque describe el comportamiento pasado de los contagios.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'B')"><input type="radio" name="q3"><div class="opt-circle">B</div><div class="opt-text">Relacional, porque relaciona tiempo y número de contagios.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'C')"><input type="radio" name="q3"><div class="opt-circle">C</div><div class="opt-text">Predictivo, porque construye un modelo para estimar valores futuros de la variable con horizonte T+K.</div></label>
+            <label class="option-label" onclick="selectOpt(this,3,'D')"><input type="radio" name="q3"><div class="opt-circle">D</div><div class="opt-text">Aplicativo, porque aplica un modelo de machine learning para intervenir en la realidad.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-3">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>El nivel <strong>predictivo</strong> tiene como propósito pronosticar el valor futuro (T+K) de una variable endógena a partir de variables exógenas. Usa diseños longitudinales/retrospectivos con modelamiento estadístico o de machine learning. No solo describe ni relaciona; su valor epistémico es la anticipación cuantificada del fenómeno.</p>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card" id="qcard-4">
+        <div class="q-header">
+            <span class="q-num">04</span>
+            <span class="q-type-tag">Selección múltiple</span>
+            <p class="q-text">La función de «<em>controlar las variables</em>» en la investigación científica hace referencia principalmente a:</p>
+        </div>
+        <div class="options" id="opts-4">
+            <label class="option-label" onclick="selectOpt(this,4,'A')"><input type="radio" name="q4"><div class="opt-circle">A</div><div class="opt-text">Describir cómo se distribuye una variable en la población.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'B')"><input type="radio" name="q4"><div class="opt-circle">B</div><div class="opt-text">Publicar en revistas indexadas con alto factor de impacto.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'C')"><input type="radio" name="q4"><div class="opt-circle">C</div><div class="opt-text">Aislar o neutralizar el efecto de variables extrañas para establecer con mayor precisión la relación entre las variables de interés.</div></label>
+            <label class="option-label" onclick="selectOpt(this,4,'D')"><input type="radio" name="q4"><div class="opt-circle">D</div><div class="opt-text">Medir la misma variable en múltiples momentos del tiempo.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-4">
+            <div class="ar-title">✅ Respuesta correcta · Opción C</div>
+            <p>Controlar variables es una función fundamental de la investigación científica que permite <strong>aislar el efecto de las variables de interés</strong> eliminando o neutralizando el impacto de factores externos o de confusión. Es la base que distingue el rigor experimental de la mera observación.</p>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card" id="qcard-5">
+        <div class="q-header">
+            <span class="q-num">05</span>
+            <span class="q-type-tag">Selección múltiple — Analítica</span>
+            <p class="q-text">Una investigadora desea implementar un sistema de recomendación de materiales educativos con IA y medir si <em>mejora</em> el rendimiento académico en estudiantes de secundaria. ¿Cuál es el nivel de investigación y el diseño más coherente?</p>
+        </div>
+        <div class="options" id="opts-5">
+            <label class="option-label" onclick="selectOpt(this,5,'A')"><input type="radio" name="q5"><div class="opt-circle">A</div><div class="opt-text">Descriptivo — diseño no experimental transversal descriptivo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'B')"><input type="radio" name="q5"><div class="opt-circle">B</div><div class="opt-text">Aplicativo — DSR o ciclos iterativos de construcción del artefacto tecnológico.</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'C')"><input type="radio" name="q5"><div class="opt-circle">C</div><div class="opt-text">Relacional — diseño no experimental transversal relacional.</div></label>
+            <label class="option-label" onclick="selectOpt(this,5,'D')"><input type="radio" name="q5"><div class="opt-circle">D</div><div class="opt-text">Predictivo — diseño longitudinal con modelamiento de machine learning.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-5">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>El nivel <strong>aplicativo</strong> es el adecuado cuando se interviene en la realidad mediante la creación y validación de un artefacto (software, sistema, modelo). La metodología DSR (<em>Design Science Research</em>) o los ciclos iterativos de construcción son los diseños canónicos para este nivel. La investigadora no solo mide una relación, sino que <em>propone e implementa</em> una solución tecnológica.</p>
+        </div>
+    </div>
+
+</div><!-- end section A -->
+
+<!-- ═══════════════════════════ SECCIÓN B ═══════════════════════════ -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">B — Verdadero / Falso razonado</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+
+    <!-- Q6 -->
+    <div class="question-card" id="qcard-6">
+        <div class="q-header">
+            <span class="q-num">06</span>
+            <span class="q-type-tag">Verdadero / Falso</span>
+            <p class="q-text">«El método científico garantiza conocimiento <em>absoluto</em> y <em>libre de toda duda</em> sobre la realidad estudiada.»</p>
+        </div>
+        <div class="options" id="opts-6">
+            <label class="option-label" onclick="selectOpt(this,6,'A')"><input type="radio" name="q6"><div class="opt-circle">V</div><div class="opt-text">Verdadero — La ciencia produce verdades absolutas verificadas.</div></label>
+            <label class="option-label" onclick="selectOpt(this,6,'B')"><input type="radio" name="q6"><div class="opt-circle">F</div><div class="opt-text">Falso — La ciencia produce conocimiento racional, cierto o probable, pero siempre sujeto a revisión y verificación.</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-6">
+            <div class="ar-title">✅ Respuesta correcta · FALSO</div>
+            <p>La definición de ciencia establece que produce conocimiento <strong>racional, cierto o probable</strong>, obtenido metódicamente y verificado. El carácter <em>probable</em> implica que el conocimiento científico es falible y revisable (principio de falsabilidad de Popper). Nunca se alcanza certeza absoluta.</p>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card" id="qcard-7">
+        <div class="q-header">
+            <span class="q-num">07</span>
+            <span class="q-type-tag">Verdadero / Falso</span>
+            <p class="q-text">«Un estudio que usa estadística univariada y responde a la pregunta "¿Cómo es X?" necesariamente se ubica en el nivel descriptivo de la jerarquía cuantitativa.»</p>
+        </div>
+        <div class="options" id="opts-7">
+            <label class="option-label" onclick="selectOpt(this,7,'A')"><input type="radio" name="q7"><div class="opt-circle">V</div><div class="opt-text">Verdadero — Esas son las características definitorias del nivel descriptivo.</div></label>
+            <label class="option-label" onclick="selectOpt(this,7,'B')"><input type="radio" name="q7"><div class="opt-circle">F</div><div class="opt-text">Falso — Puede ser exploratorio, ya que también usa frecuencias y responde «¿Cuántos?».</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-7">
+            <div class="ar-title">✅ Respuesta correcta · VERDADERO</div>
+            <p>El nivel <strong>descriptivo</strong> se distingue por caracterizar el comportamiento de una variable, usar estadística <em>univariada</em> y responder a «¿Cómo es?». El nivel exploratorio, en cambio, trabaja con una sola variable de interés, solo frecuencias y responde «¿Cuántos?».</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ═══════════════════════════ SECCIÓN C ═══════════════════════════ -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">C — Ordenamiento lógico</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+    <!-- Q8 -->
+    <div class="question-card" id="qcard-8">
+        <div class="q-header">
+            <span class="q-num">08</span>
+            <span class="q-type-tag">Ordenamiento</span>
+            <p class="q-text">Ordena las siguientes fases del método científico en la secuencia correcta arrastrando los elementos:</p>
+        </div>
+        <ul class="order-list" id="order-8">
+            <li class="order-item" draggable="true" data-id="a"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-a">—</span><span>Análisis de datos y comunicación de resultados</span></li>
+            <li class="order-item" draggable="true" data-id="b"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-b">—</span><span>Revisión de la literatura</span></li>
+            <li class="order-item" draggable="true" data-id="c"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-c">—</span><span>Planteamiento del problema</span></li>
+            <li class="order-item" draggable="true" data-id="d"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-d">—</span><span>Formulación de la hipótesis</span></li>
+            <li class="order-item" draggable="true" data-id="e"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-e">—</span><span>Recolección de datos</span></li>
+            <li class="order-item" draggable="true" data-id="f"><span class="drag-icon">⠿</span><span class="order-num" id="onum-8-f">—</span><span>Diseño metodológico</span></li>
+        </ul>
+        <div class="answer-reveal" id="reveal-8" style="margin-top:1rem">
+            <div class="ar-title">✅ Orden correcto</div>
+            <p><strong>1.</strong> Planteamiento del problema → <strong>2.</strong> Revisión de la literatura → <strong>3.</strong> Formulación de la hipótesis → <strong>4.</strong> Diseño metodológico → <strong>5.</strong> Recolección de datos → <strong>6.</strong> Análisis de datos y comunicación de resultados.</p>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card" id="qcard-9">
+        <div class="q-header">
+            <span class="q-num">09</span>
+            <span class="q-type-tag">Ordenamiento — Jerarquía</span>
+            <p class="q-text">Ordena los niveles de investigación cuantitativa de menor a mayor complejidad epistémica, considerando que cada uno <em>aporta al siguiente</em>:</p>
+        </div>
+        <ul class="order-list" id="order-9">
+            <li class="order-item" draggable="true" data-id="a"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-a">—</span><span>Explicativo</span></li>
+            <li class="order-item" draggable="true" data-id="b"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-b">—</span><span>Exploratorio</span></li>
+            <li class="order-item" draggable="true" data-id="c"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-c">—</span><span>Aplicativo</span></li>
+            <li class="order-item" draggable="true" data-id="d"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-d">—</span><span>Relacional</span></li>
+            <li class="order-item" draggable="true" data-id="e"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-e">—</span><span>Descriptivo</span></li>
+            <li class="order-item" draggable="true" data-id="f"><span class="drag-icon">⠿</span><span class="order-num" id="onum-9-f">—</span><span>Predictivo</span></li>
+        </ul>
+        <div class="answer-reveal" id="reveal-9" style="margin-top:1rem">
+            <div class="ar-title">✅ Orden correcto (menor → mayor complejidad)</div>
+            <p><strong>1.</strong> Exploratorio → <strong>2.</strong> Descriptivo → <strong>3.</strong> Relacional → <strong>4.</strong> Explicativo → <strong>5.</strong> Predictivo → <strong>6.</strong> Aplicativo.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ═══════════════════════════ SECCIÓN D ═══════════════════════════ -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">D — Relación de columnas</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+    <!-- Q10 -->
+    <div class="question-card" id="qcard-10">
+        <div class="q-header">
+            <span class="q-num">10</span>
+            <span class="q-type-tag">Emparejamiento</span>
+            <p class="q-text">Relaciona cada nivel de investigación con su pregunta clave y el tipo de estadística que emplea:</p>
+        </div>
+        <div class="match-grid">
+            <div>
+                <div class="match-col-label">Nivel</div>
+                <div class="match-item" style="margin-bottom:.5rem">Exploratorio</div>
+                <div class="match-item" style="margin-bottom:.5rem">Descriptivo</div>
+                <div class="match-item" style="margin-bottom:.5rem">Relacional</div>
+                <div class="match-item">Explicativo</div>
+            </div>
+            <div>
+                <div class="match-col-label">Pregunta / Estadística</div>
+                <select class="match-select" id="match-10-a" onchange="markAnswered(10)">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">¿Cómo es? / Estadística univariada</option>
+                    <option value="B">¿Por qué? / Diseño experimental</option>
+                    <option value="C">¿Cuántos? / Solo frecuencias</option>
+                    <option value="D">¿Existe relación? / Pruebas bivariadas</option>
+                </select>
+                <select class="match-select" id="match-10-b" style="margin-top:.5rem" onchange="markAnswered(10)">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">¿Cómo es? / Estadística univariada</option>
+                    <option value="B">¿Por qué? / Diseño experimental</option>
+                    <option value="C">¿Cuántos? / Solo frecuencias</option>
+                    <option value="D">¿Existe relación? / Pruebas bivariadas</option>
+                </select>
+                <select class="match-select" id="match-10-c" style="margin-top:.5rem" onchange="markAnswered(10)">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">¿Cómo es? / Estadística univariada</option>
+                    <option value="B">¿Por qué? / Diseño experimental</option>
+                    <option value="C">¿Cuántos? / Solo frecuencias</option>
+                    <option value="D">¿Existe relación? / Pruebas bivariadas</option>
+                </select>
+                <select class="match-select" id="match-10-d" style="margin-top:.5rem" onchange="markAnswered(10)">
+                    <option value="">— Selecciona —</option>
+                    <option value="A">¿Cómo es? / Estadística univariada</option>
+                    <option value="B">¿Por qué? / Diseño experimental</option>
+                    <option value="C">¿Cuántos? / Solo frecuencias</option>
+                    <option value="D">¿Existe relación? / Pruebas bivariadas</option>
+                </select>
+            </div>
+        </div>
+        <div class="answer-reveal" id="reveal-10" style="margin-top:1rem">
+            <div class="ar-title">✅ Respuestas correctas</div>
+            <p><strong>Exploratorio → C</strong> (¿Cuántos? / Solo frecuencias) | <strong>Descriptivo → A</strong> (¿Cómo es? / Univariada) | <strong>Relacional → D</strong> (¿Existe relación? / Bivariadas) | <strong>Explicativo → B</strong> (¿Por qué? / Experimental)</p>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════ SECCIÓN E ═══════════════════════════ -->
+<div class="section-divider" style="margin-top:2rem">
+    <div class="sd-line"></div>
+    <div class="sd-label">E — Análisis de caso</div>
+    <div class="sd-line"></div>
+</div>
+
+<div class="exam-wrap">
+    <!-- Q11 -->
+    <div class="question-card" id="qcard-11">
+        <div class="q-header">
+            <span class="q-num">11</span>
+            <span class="q-type-tag">Análisis de caso</span>
+            <p class="q-text">Lee el siguiente caso y responde:
+            <br><br>
+            <em>«Un equipo de investigadores recoge datos sobre temperatura, humedad y velocidad del viento de los últimos 10 años en Ayacucho, y construye un modelo ARIMA para estimar la temperatura promedio de los próximos 3 meses».</em>
+            <br><br>
+            Identifica: (a) nivel de investigación, (b) tipo según planificación de los datos, (c) tipo según número de ocasiones de medición.</p>
+        </div>
+        <textarea class="open-answer" id="open-11" placeholder="Escribe tu análisis aquí…" oninput="markAnswered(11)"></textarea>
+        <div class="answer-reveal" id="reveal-11" style="margin-top:1rem">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>(a) Nivel Predictivo:</strong> se construye un modelo (ARIMA) para estimar el valor futuro de la variable temperatura con horizonte T+K (3 meses).<br>
+            <strong>(b) Retrospectivo:</strong> los datos históricos fueron recolectados de fuentes secundarias (bases de datos meteorológicos), no para este estudio en particular.<br>
+            <strong>(c) Longitudinal:</strong> se mide la misma variable (temperatura) en múltiples momentos del tiempo a lo largo de 10 años.</p>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-card" id="qcard-12">
+        <div class="q-header">
+            <span class="q-num">12</span>
+            <span class="q-type-tag">Análisis crítico</span>
+            <p class="q-text">Un investigador afirma: <em>«Mi tesis es relacional porque comparo los resultados de matemáticas entre hombres y mujeres»</em>. ¿Es correcto este razonamiento? Justifica tu respuesta con base en los niveles de investigación.</p>
+        </div>
+        <textarea class="open-answer" id="open-12" placeholder="Escribe tu justificación aquí…" oninput="markAnswered(12)"></textarea>
+        <div class="answer-reveal" id="reveal-12" style="margin-top:1rem">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p><strong>No es correcto.</strong> Comparar grupos (hombres vs. mujeres) en una variable (rendimiento en matemáticas) sin buscar una correlación entre dos variables sigue siendo un diseño <strong>descriptivo</strong>. El nivel <strong>relacional</strong> requiere aplicar pruebas estadísticas bivariadas para determinar si existe una asociación entre dos o más variables (por ejemplo, ¿existe relación entre género y rendimiento en matemáticas?). La comparación entre grupos es un diseño descriptivo comparativo, no relacional en sentido estricto.</p>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card" id="qcard-13">
+        <div class="q-header">
+            <span class="q-num">13</span>
+            <span class="q-type-tag">Completar</span>
+            <p class="q-text">Completa la siguiente proposición con el concepto correcto: «La <strong>coherencia epistemológica</strong> del enfoque cuantitativo se refiere a que debe existir una alineación lógica entre el __________, la hipótesis, las herramientas, el diseño, etc.»</p>
+        </div>
+        <div class="options" id="opts-13">
+            <label class="option-label" onclick="selectOpt(this,13,'A')"><input type="radio" name="q13"><div class="opt-circle">A</div><div class="opt-text">Marco teórico</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'B')"><input type="radio" name="q13"><div class="opt-circle">B</div><div class="opt-text">Problema</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'C')"><input type="radio" name="q13"><div class="opt-circle">C</div><div class="opt-text">Presupuesto</div></label>
+            <label class="option-label" onclick="selectOpt(this,13,'D')"><input type="radio" name="q13"><div class="opt-circle">D</div><div class="opt-text">Cronograma</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-13">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>La coherencia epistemológica exige que el <strong>problema de investigación</strong> sea el eje articulador que determine y sea consistente con la hipótesis, las herramientas de medición, el diseño metodológico y el análisis estadístico seleccionados.</p>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card" id="qcard-14">
+        <div class="q-header">
+            <span class="q-num">14</span>
+            <span class="q-type-tag">Selección múltiple — Trampa conceptual</span>
+            <p class="q-text">Según la clasificación por <em>número de variables analíticas</em>, un estudio que «<em>solo estima parámetros</em>» sin probar ninguna relación entre variables se clasifica como:</p>
+        </div>
+        <div class="options" id="opts-14">
+            <label class="option-label" onclick="selectOpt(this,14,'A')"><input type="radio" name="q14"><div class="opt-circle">A</div><div class="opt-text">Analítico</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'B')"><input type="radio" name="q14"><div class="opt-circle">B</div><div class="opt-text">Descriptivo</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'C')"><input type="radio" name="q14"><div class="opt-circle">C</div><div class="opt-text">Experimental</div></label>
+            <label class="option-label" onclick="selectOpt(this,14,'D')"><input type="radio" name="q14"><div class="opt-circle">D</div><div class="opt-text">Prospectivo</div></label>
+        </div>
+        <div class="answer-reveal" id="reveal-14">
+            <div class="ar-title">✅ Respuesta correcta · Opción B</div>
+            <p>Según la clasificación por número de variables analíticas: <strong>Descriptivo</strong> cuando solo se estiman parámetros (sin probar relación alguna); <strong>Analítico</strong> cuando se prueban relaciones entre dos o más variables. Esta clasificación es diferente a los <em>niveles de investigación</em> y hace referencia al tipo de análisis estadístico aplicado.</p>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card" id="qcard-15">
+        <div class="q-header">
+            <span class="q-num">15</span>
+            <span class="q-type-tag">Síntesis integradora</span>
+            <p class="q-text">¿Por qué la jerarquía de niveles de investigación cuantitativa implica que no es posible realizar un estudio de nivel <em>relacional</em> sin antes haber superado el nivel <em>descriptivo</em>? Argumenta desde la perspectiva epistemológica.</p>
+        </div>
+        <textarea class="open-answer" id="open-15" placeholder="Desarrolla tu argumento aquí (mínimo 5 líneas)…" oninput="markAnswered(15)"></textarea>
+        <div class="answer-reveal" id="reveal-15" style="margin-top:1rem">
+            <div class="ar-title">✅ Respuesta esperada</div>
+            <p>Para establecer una <strong>relación</strong> entre dos variables, primero es necesario haber descrito y comprendido el comportamiento individual de cada una (nivel descriptivo). Sin conocer la distribución, tendencias y características de X e Y por separado, no existe base empírica suficiente para hipotetizar que existe una asociación entre ellas. Epistémicamente, la jerarquía garantiza que el conocimiento se construye de forma acumulativa: no se puede afirmar que «X e Y se relacionan» si no se sabe «cómo es X» y «cómo es Y». Además, instrumentalmente, el nivel descriptivo valida y calibra los instrumentos de medición antes de aplicar pruebas bivariadas, reduciendo el error de medición.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- submit -->
+<div class="submit-wrap" style="margin-top:2rem">
+    <button class="btn-submit" id="btn-submit" onclick="submitExam()">Finalizar examen y ver respuestas</button>
+</div>
+
+<!-- results panel -->
+<div id="results-panel">
+    <h2 style="font-size:1.5rem;margin-bottom:.5rem">📊 Resultados del Examen 1</h2>
+    <p style="color:var(--text-muted);font-size:.9rem">Ciencia y Método Científico</p>
+    <div class="score-circle" id="score-circle">
+        <div class="score-inner">
+            <div class="score-num" id="score-num">—</div>
+            <div class="score-label">PUNTAJE</div>
+        </div>
+    </div>
+    <div class="results-grid">
+        <div class="result-stat"><div class="rs-val green" id="r-correct">—</div><div class="rs-label">Correctas (sel. / emparej.)</div></div>
+        <div class="result-stat"><div class="rs-val red" id="r-wrong">—</div><div class="rs-label">Incorrectas</div></div>
+        <div class="result-stat"><div class="rs-val yellow" id="r-open">—</div><div class="rs-label">Abiertas / Ordena.</div></div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:var(--text-muted)">Las respuestas de preguntas abiertas y de ordenamiento requieren autoevaluación. Revisa cada <strong>✅ Respuesta correcta</strong> para contrastar.</p>
+    <button class="btn-retry" onclick="retryExam()">🔄 Reintentar examen</button>
+</div>
+
+<script>
+    // ─── State ───────────────────────────────────────────────────────────────
+    const TOTAL = 15;
+    const answered = new Set();
+    let submitted = false;
+
+    // correct answers for auto-graded questions
+    const correctMap = {
+        1: 'B', 2: 'B', 3: 'C', 4: 'C', 5: 'B',
+        6: 'B', 7: 'A', 13: 'B', 14: 'B'
+    };
+
+    const userAnswers = {};
+
+    // ─── Timer ────────────────────────────────────────────────────────────────
+    let timeLeft = 30 * 60;
+    const timerEl = document.getElementById('timer-display');
+    const timerBox = document.getElementById('timer-box');
+
+    const timerInterval = setInterval(() => {
+        if (submitted) { clearInterval(timerInterval); return; }
+        timeLeft--;
+        const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const s = String(timeLeft % 60).padStart(2, '0');
+        timerEl.textContent = `${m}:${s}`;
+        if (timeLeft <= 300) timerBox.className = 'warn';
+        if (timeLeft <= 60) timerBox.className = 'danger';
+        if (timeLeft <= 0) { clearInterval(timerInterval); submitExam(); }
+    }, 1000);
+
+    // ─── Progress ─────────────────────────────────────────────────────────────
+    function updateProgress() {
+        const n = answered.size;
+        document.getElementById('prog-text').textContent = `${n} / ${TOTAL} respondidas`;
+        document.getElementById('prog-pct').textContent = Math.round(n / TOTAL * 100) + '%';
+        document.getElementById('prog-fill').style.width = (n / TOTAL * 100) + '%';
+    }
+
+    function markAnswered(qNum) { answered.add(qNum); updateProgress(); }
+
+    // ─── Option selection ─────────────────────────────────────────────────────
+    function selectOpt(label, qNum, val) {
+        if (submitted) return;
+        const group = document.getElementById('opts-' + qNum);
+        group.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        userAnswers[qNum] = val;
+        markAnswered(qNum);
+    }
+
+    // ─── Drag-and-drop ordering ────────────────────────────────────────────────
+    document.querySelectorAll('.order-list').forEach(list => {
+        let dragged = null;
+        list.addEventListener('dragstart', e => {
+            dragged = e.target.closest('.order-item');
+            setTimeout(() => dragged.classList.add('dragging'), 0);
+        });
+        list.addEventListener('dragend', e => {
+            e.target.closest('.order-item').classList.remove('dragging');
+            updateOrderNums(list);
+            const listId = list.id.split('-')[1];
+            markAnswered(parseInt(listId));
+        });
+        list.addEventListener('dragover', e => {
+            e.preventDefault();
+            const after = getDragAfterElement(list, e.clientY);
+            if (after == null) list.appendChild(dragged);
+            else list.insertBefore(dragged, after);
+        });
+    });
+
+    function getDragAfterElement(container, y) {
+        const els = [...container.querySelectorAll('.order-item:not(.dragging)')];
+        return els.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            return (offset < 0 && offset > closest.offset) ? { offset, element: child } : closest;
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function updateOrderNums(list) {
+        list.querySelectorAll('.order-item').forEach((item, i) => {
+            const id = item.dataset.id;
+            const listId = list.id.split('-')[1];
+            document.getElementById('onum-' + listId + '-' + id).textContent = i + 1;
+        });
+    }
+
+    // ─── Submit ────────────────────────────────────────────────────────────────
+    function submitExam() {
+        submitted = true;
+        clearInterval(timerInterval);
+
+        let correct = 0, wrong = 0, open = 0;
+
+        // auto-graded
+        Object.entries(correctMap).forEach(([q, ans]) => {
+            const qNum = parseInt(q);
+            const group = document.getElementById('opts-' + qNum);
+            if (!group) return;
+            const labels = group.querySelectorAll('.option-label');
+            const letters = 'ABCDEFGH'.split('');
+            labels.forEach((label, i) => {
+                const letter = letters[i];
+                if (letter === ans) {
+                    label.classList.add('correct');
+                    if (userAnswers[qNum] === letter) correct++;
+                } else if (userAnswers[qNum] === letter) {
+                    label.classList.add('wrong');
+                    wrong++;
+                }
+            });
+        });
+
+        // open / ordering count
+        [8, 9, 10, 11, 12, 15].forEach(q => open++);
+
+        // reveal all answers
+        for (let i = 1; i <= TOTAL; i++) {
+            const rev = document.getElementById('reveal-' + i);
+            if (rev) rev.classList.add('show');
+        }
+
+        // score
+        const gradableTotal = Object.keys(correctMap).length;
+        const pct = Math.round(correct / gradableTotal * 100);
+        document.getElementById('score-num').textContent = pct + '%';
+        document.getElementById('r-correct').textContent = correct + '/' + gradableTotal;
+        document.getElementById('r-wrong').textContent = wrong;
+        document.getElementById('r-open').textContent = open + ' preguntas';
+
+        // animate circle
+        const circle = document.getElementById('score-circle');
+        circle.style.background = `conic-gradient(var(--accent) ${pct * 3.6}deg, var(--surface2) 0deg)`;
+
+        document.getElementById('btn-submit').disabled = true;
+        document.getElementById('results-panel').classList.add('show');
+        document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function retryExam() { location.reload(); }
+</script>
+</body>
+</html>
