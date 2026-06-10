@@ -7,7 +7,7 @@ Definición :  El proyecto es una solución inteligente a un planteamiento de pr
 Definición : Es la salida o desembolsó de dinero con el fin de obtener beneficios de ella ya sea a largo plazo o corto plazo .
 
 ## Proyecto de inversión.
-Definición : Es la formolización de una idea de negocio que tiene como objetivo encontrar una solución inteligente a un planteamiento de problema .
+Definición : Es la formalización de una idea de negocio que tiene como objetivo encontrar una solución inteligente a un planteamiento de problema .
 
 >[!NOTA] Nota Importante
 >Es necesario o tarea importante del proyecto realizar el análisis de que si es viable es su implementación y desarrollo  proyecto 
