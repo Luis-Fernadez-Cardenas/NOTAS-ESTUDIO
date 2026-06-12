@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario 2 — Metodología de Tesis · 50 Preguntas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f18;--surf:#141726;--surf2:#1c2035;--surf3:#232844;
+  --border:#2a2f52;--border2:#353b68;
+  --p:#f59e0b;--p2:#fcd34d;--p3:#fef3c7;
+  --green:#22c55e;--red:#ef4444;--blue:#818cf8;
+  --text:#e2e8f0;--muted:#94a3b8;--r:14px;--r2:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:0 0 6rem}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,15,24,.93);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:.75rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.tb-left{display:flex;align-items:center;gap:.8rem}
+.tb-num{background:linear-gradient(135deg,var(--p),#d97706);color:#000;font-weight:800;font-size:.75rem;border-radius:99px;padding:.25rem .8rem}
+.tb-title{font-size:.82rem;font-weight:700;color:var(--p2)}
+.tb-right{display:flex;align-items:center;gap:1.4rem}
+.tb-stat{font-size:.8rem;color:var(--muted)}
+.tb-stat b{color:var(--p2);font-weight:700}
+#timer{font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--p2);font-weight:600;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:.2rem .7rem}
+#timer.warn{color:var(--p);border-color:var(--p)}
+#timer.danger{color:var(--red);border-color:var(--red);animation:blink .7s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* PROGRESS */
+.prog-wrap{max-width:920px;margin:.8rem auto;padding:0 1rem}
+.prog-bar-bg{height:7px;background:var(--surf3);border-radius:99px;overflow:hidden;margin-top:.35rem}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--p),var(--p2));border-radius:99px;transition:width .35s ease;width:0}
+.prog-labels{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)}
+
+/* HERO */
+.hero{max-width:920px;margin:2rem auto 2.5rem;padding:0 1rem;text-align:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,#92400e33,#78350f22);
+  border:1px solid var(--p);color:var(--p2);
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.4rem 1.1rem;border-radius:99px;margin-bottom:1.2rem;
+}
+.hero h1{
+  font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,#e2e8f0 20%,var(--p2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.2;margin-bottom:.6rem;
+}
+.hero p{color:var(--muted);font-size:.9rem;line-height:1.6;max-width:600px;margin:0 auto}
+.hero-stats{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+.hs{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r2);padding:.55rem 1.1rem;font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.hs b{color:var(--p2);font-weight:700}
+
+/* SECTION */
+.sec-label{max-width:920px;margin:2.2rem auto .4rem;padding:0 1rem;display:flex;align-items:center;gap:.8rem}
+.sec-label .line{flex:1;height:1px;background:var(--border)}
+.sec-label span{background:var(--surf2);border:1px solid var(--border2);color:var(--p2);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.3rem .9rem;border-radius:99px;white-space:nowrap}
+
+/* CARDS */
+.q-wrap{max-width:920px;margin:0 auto;padding:0 1rem;display:flex;flex-direction:column;gap:1.15rem}
+.q-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color .2s;position:relative;overflow:hidden}
+.q-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--p)00,var(--p),var(--p)00);opacity:0;transition:opacity .3s}
+.q-card.answered::after{opacity:1}
+.q-card:hover{border-color:var(--border2)}
+.q-card.got-right{border-color:#22c55e66!important}
+.q-card.got-wrong{border-color:#ef444455!important}
+
+.q-top{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1.1rem}
+.q-badge{background:linear-gradient(135deg,var(--p),#d97706);color:#000;font-weight:800;font-size:.74rem;border-radius:var(--r2);padding:.24rem .65rem;white-space:nowrap;flex-shrink:0;margin-top:.06rem}
+.q-tag{background:var(--surf3);border:1px solid var(--border);color:var(--muted);font-size:.68rem;font-weight:600;border-radius:99px;padding:.18rem .6rem;white-space:nowrap;flex-shrink:0;margin-top:.1rem}
+.q-text{font-size:.95rem;font-weight:500;line-height:1.65;color:var(--text);flex:1}
+.q-text em{color:var(--p2);font-style:normal;font-weight:600}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:.52rem}
+.opt{display:flex;align-items:flex-start;gap:.8rem;background:var(--surf2);border:1.5px solid var(--border);border-radius:var(--r2);padding:.75rem 1rem;cursor:pointer;transition:all .17s;user-select:none}
+.opt:hover{border-color:var(--p);background:var(--surf3)}
+.opt input{display:none}
+.opt.selected{border-color:var(--p);background:#2a2000}
+.opt.correct{border-color:var(--green)!important;background:#0e2a17!important}
+.opt.wrong{border-color:var(--red)!important;background:#2a0e0e!important}
+.opt.missed{border-color:var(--green)!important;background:#0e2a17!important;opacity:.75}
+.opt-dot{width:22px;height:22px;border:2px solid var(--border2);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:var(--muted);transition:all .17s;margin-top:.03rem}
+.opt.selected .opt-dot{border-color:var(--p);background:var(--p);color:#000}
+.opt.correct .opt-dot{border-color:var(--green);background:var(--green);color:#fff}
+.opt.wrong .opt-dot{border-color:var(--red);background:var(--red);color:#fff}
+.opt.missed .opt-dot{border-color:var(--green);background:var(--green);color:#fff}
+.opt-text{font-size:.87rem;line-height:1.55;color:var(--text)}
+
+/* REVEAL */
+.reveal{display:none;margin-top:1rem;background:#0e1f14;border-left:3px solid var(--green);border-radius:var(--r2);padding:.9rem 1.1rem}
+.reveal.show{display:block}
+.rev-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:.4rem}
+.reveal p{font-size:.84rem;line-height:1.65;color:var(--muted)}
+.reveal p strong{color:var(--text)}
+.reveal code{font-family:'JetBrains Mono',monospace;font-size:.8rem;background:var(--surf3);border:1px solid var(--border);border-radius:5px;padding:.1rem .4rem;color:var(--p2)}
+
+/* HIGHLIGHT BOX */
+.hi-box{background:var(--surf3);border:1px solid var(--border);border-left:3px solid var(--p);border-radius:var(--r2);padding:.85rem 1.1rem;margin:.8rem 0;font-size:.88rem;line-height:1.65;color:var(--muted)}
+.hi-box strong{color:var(--text)}
+
+/* SUBMIT */
+.submit-area{max-width:920px;margin:2.5rem auto 0;padding:0 1rem;display:flex;flex-direction:column;align-items:center;gap:.85rem}
+.btn-sub{background:linear-gradient(135deg,var(--p),#d97706);color:#000;border:none;border-radius:var(--r);padding:.95rem 3.5rem;font-size:1rem;font-weight:800;cursor:pointer;transition:all .25s;box-shadow:0 4px 24px #f59e0b44;letter-spacing:.03em}
+.btn-sub:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px #f59e0b66}
+.btn-sub:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.sub-note{font-size:.8rem;color:var(--muted);text-align:center}
+
+/* RESULTS */
+#results{display:none;max-width:920px;margin:2.5rem auto 0;padding:0 1rem}
+#results.show{display:block}
+.res-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:2.5rem;text-align:center}
+.res-trophy{font-size:3.5rem;margin-bottom:.5rem}
+.res-title{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+.res-sub{color:var(--muted);font-size:.88rem;margin-bottom:1.8rem}
+
+/* RING */
+.ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 1.5rem}
+.ring-svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--surf3);stroke-width:13}
+.ring-fill{fill:none;stroke:url(#grd);stroke-width:13;stroke-linecap:round;stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset 1.3s ease}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:2.2rem;font-weight:800;color:var(--p2)}
+.ring-lbl{font-size:.68rem;color:var(--muted);font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+
+.grade{display:inline-block;padding:.4rem 1.5rem;border-radius:99px;font-weight:800;font-size:.95rem;margin-bottom:1.5rem}
+.g-s{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}
+.g-a{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+.g-b{background:linear-gradient(135deg,#818cf8,#6366f1);color:#fff}
+.g-c{background:linear-gradient(135deg,#64748b,#475569);color:#fff}
+.g-d{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.res-stat{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem}
+.rs-val{font-size:1.6rem;font-weight:800}
+.rs-val.g{color:var(--green)}.rs-val.r{color:var(--red)}.rs-val.y{color:var(--p2)}
+.rs-lbl{font-size:.74rem;color:var(--muted);margin-top:.2rem}
+
+.breakdown{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r2);padding:1.2rem;margin-bottom:1.2rem;text-align:left}
+.bd-title{font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.9rem}
+.bd-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.65rem}
+.bd-name{font-size:.79rem;color:var(--text);min-width:175px;font-weight:500}
+.bd-bar-bg{flex:1;height:8px;background:var(--surf3);border-radius:99px;overflow:hidden}
+.bd-bar-fill{height:100%;border-radius:99px;transition:width .9s ease}
+.bd-pct{font-size:.78rem;color:var(--p2);font-weight:700;min-width:38px;text-align:right}
+
+.weak-box{background:linear-gradient(135deg,#ef444410,var(--surf2));border:1px solid #ef444433;border-radius:var(--r2);padding:1rem 1.2rem;margin-bottom:1.5rem;text-align:left}
+.weak-title{font-size:.76rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.weak-list{font-size:.83rem;color:var(--muted);line-height:1.85;list-style:none;padding:0}
+.weak-list li::before{content:"→ ";color:var(--red)}
+
+.btn-retry{margin-top:1.5rem;background:var(--surf2);border:1.5px solid var(--border2);color:var(--text);border-radius:var(--r2);padding:.75rem 2.2rem;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-retry:hover{border-color:var(--p);color:var(--p2)}
+
+@media(max-width:600px){
+  .hero h1{font-size:1.5rem}
+  .res-grid{grid-template-columns:1fr 1fr}
+  .bd-name{min-width:120px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <span class="tb-num">Cuestionario 2</span>
+    <span class="tb-title">Metodología de Tesis · UNSCH</span>
+  </div>
+  <div class="tb-right">
+    <div class="tb-stat">Progreso: <b id="prog-n">0</b> / 50</div>
+    <span id="timer">45:00</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-labels">
+    <span id="prog-label">0 de 50 respondidas</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SVG GRADIENT -->
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="grd" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#f59e0b"/>
+    <stop offset="100%" stop-color="#fcd34d"/>
+  </linearGradient>
+</defs></svg>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🔄 Segunda Batería · Nuevas Preguntas · Sesiones 1–6</div>
+  <h1>Cuestionario de Tesis — Vol. 2</h1>
+  <p>50 preguntas completamente nuevas para consolidar y profundizar tus conocimientos de Metodología de Investigación. ¡Demuestra que lo dominás!</p>
+  <div class="hero-stats">
+    <div class="hs">📝 <b>50</b> preguntas nuevas</div>
+    <div class="hs">⏱ <b>45</b> minutos</div>
+    <div class="hs">🎯 <b>4</b> opciones por pregunta</div>
+    <div class="hs">📊 Análisis por sesión</div>
+  </div>
+</div>
+
+<!-- ═══════════ SESIÓN 1 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 1 · Ciencia y Método Científico</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c1">
+<div class="q-top"><span class="q-badge">01</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">¿Cuál es la característica que distingue al <em>conocimiento científico</em> del conocimiento ordinario o empírico?</p></div>
+<div class="opts" id="o1">
+<label class="opt" onclick="pick(this,1,'A')"><input type="radio" name="q1"><div class="opt-dot">A</div><div class="opt-text">El conocimiento científico proviene exclusivamente de la intuición y la experiencia personal acumulada.</div></label>
+<label class="opt" onclick="pick(this,1,'B')"><input type="radio" name="q1"><div class="opt-dot">B</div><div class="opt-text">El conocimiento científico es obtenido de forma metódica y sistemática, y puede ser verificado y refutado.</div></label>
+<label class="opt" onclick="pick(this,1,'C')"><input type="radio" name="q1"><div class="opt-dot">C</div><div class="opt-text">El conocimiento científico solo existe cuando es publicado en revistas indexadas WoS o Scopus.</div></label>
+<label class="opt" onclick="pick(this,1,'D')"><input type="radio" name="q1"><div class="opt-dot">D</div><div class="opt-text">El conocimiento científico es siempre verdadero y no puede ser revisado ni modificado.</div></label>
+</div>
+<div class="reveal" id="r1"><div class="rev-title">✅ Correcta · B</div><p>La ciencia produce conocimiento <strong>metódico, sistemático y verificable</strong>. Además, es <em>falible</em>: puede ser revisado y refutado, lo cual es su gran fortaleza epistemológica.</p></div>
+</div>
+
+<div class="q-card" id="c2">
+<div class="q-top"><span class="q-badge">02</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">¿Qué tipo de estadística se emplea principalmente en el nivel <em>Descriptivo</em>?</p></div>
+<div class="opts" id="o2">
+<label class="opt" onclick="pick(this,2,'A')"><input type="radio" name="q2"><div class="opt-dot">A</div><div class="opt-text">Estadística multivariada (regresión logística, ANOVA multifactorial)</div></label>
+<label class="opt" onclick="pick(this,2,'B')"><input type="radio" name="q2"><div class="opt-dot">B</div><div class="opt-text">Modelos de series de tiempo y redes neuronales</div></label>
+<label class="opt" onclick="pick(this,2,'C')"><input type="radio" name="q2"><div class="opt-dot">C</div><div class="opt-text">Estadística univariada (media, mediana, desviación estándar, frecuencias)</div></label>
+<label class="opt" onclick="pick(this,2,'D')"><input type="radio" name="q2"><div class="opt-dot">D</div><div class="opt-text">Pruebas bivariadas (chi-cuadrado, correlación de Pearson)</div></label>
+</div>
+<div class="reveal" id="r2"><div class="rev-title">✅ Correcta · C</div><p>El nivel <strong>Descriptivo</strong> emplea estadística <em>univariada</em>: medidas de tendencia central y dispersión, frecuencias, porcentajes. Solo describe una variable a la vez, sin probar relaciones.</p></div>
+</div>
+
+<div class="q-card" id="c3">
+<div class="q-top"><span class="q-badge">03</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">Un investigador desea conocer si el modelo de regresión lineal puede <em>predecir</em> el precio del aguacate en Ayacucho para los próximos 12 meses. ¿A qué nivel corresponde?</p></div>
+<div class="opts" id="o3">
+<label class="opt" onclick="pick(this,3,'A')"><input type="radio" name="q3"><div class="opt-dot">A</div><div class="opt-text">Explicativo</div></label>
+<label class="opt" onclick="pick(this,3,'B')"><input type="radio" name="q3"><div class="opt-dot">B</div><div class="opt-text">Relacional</div></label>
+<label class="opt" onclick="pick(this,3,'C')"><input type="radio" name="q3"><div class="opt-dot">C</div><div class="opt-text">Predictivo</div></label>
+<label class="opt" onclick="pick(this,3,'D')"><input type="radio" name="q3"><div class="opt-dot">D</div><div class="opt-text">Exploratorio</div></label>
+</div>
+<div class="reveal" id="r3"><div class="rev-title">✅ Correcta · C</div><p><strong>Predictivo</strong>: busca pronosticar el valor futuro (precio) usando un modelo estadístico. El horizonte es T+K = 12 meses a futuro. Los datos históricos son la variable exógena (X).</p></div>
+</div>
+
+<div class="q-card" id="c4">
+<div class="q-top"><span class="q-badge">04</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">¿Cuál de las siguientes afirmaciones sobre el nivel <em>Relacional</em> es INCORRECTA?</p></div>
+<div class="opts" id="o4">
+<label class="opt" onclick="pick(this,4,'A')"><input type="radio" name="q4"><div class="opt-dot">A</div><div class="opt-text">Usa pruebas estadísticas bivariadas como chi-cuadrado o correlación de Pearson.</div></label>
+<label class="opt" onclick="pick(this,4,'B')"><input type="radio" name="q4"><div class="opt-dot">B</div><div class="opt-text">Establece que una variable causa o determina a la otra.</div></label>
+<label class="opt" onclick="pick(this,4,'C')"><input type="radio" name="q4"><div class="opt-dot">C</div><div class="opt-text">Busca identificar si existe asociación entre dos o más variables.</div></label>
+<label class="opt" onclick="pick(this,4,'D')"><input type="radio" name="q4"><div class="opt-dot">D</div><div class="opt-text">El diseño más común es no experimental transversal relacional.</div></label>
+</div>
+<div class="reveal" id="r4"><div class="rev-title">✅ Correcta · B</div><p>La afirmación <strong>incorrecta</strong> es la B. El nivel Relacional <em>solo establece asociación estadística</em>, nunca causalidad. Para hablar de causalidad se necesita el nivel Explicativo con diseño experimental.</p></div>
+</div>
+
+<div class="q-card" id="c5">
+<div class="q-top"><span class="q-badge">05</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">El nivel <em>Aplicativo</em> es el más alto de la jerarquía porque:</p></div>
+<div class="opts" id="o5">
+<label class="opt" onclick="pick(this,5,'A')"><input type="radio" name="q5"><div class="opt-dot">A</div><div class="opt-text">Requiere la mayor cantidad de participantes en la muestra.</div></label>
+<label class="opt" onclick="pick(this,5,'B')"><input type="radio" name="q5"><div class="opt-dot">B</div><div class="opt-text">Integra el conocimiento de todos los niveles previos y además interviene en la realidad construyendo y validando artefactos.</div></label>
+<label class="opt" onclick="pick(this,5,'C')"><input type="radio" name="q5"><div class="opt-dot">C</div><div class="opt-text">Solo puede ser realizado por investigadores con doctorado.</div></label>
+<label class="opt" onclick="pick(this,5,'D')"><input type="radio" name="q5"><div class="opt-dot">D</div><div class="opt-text">Exige un presupuesto mayor que los otros niveles.</div></label>
+</div>
+<div class="reveal" id="r5"><div class="rev-title">✅ Correcta · B</div><p>El nivel Aplicativo es el más complejo porque <strong>integra el conocimiento previo de todos los niveles</strong> e interviene en la realidad mediante la construcción y validación de un artefacto tecnológico concreto.</p></div>
+</div>
+
+<div class="q-card" id="c6">
+<div class="q-top"><span class="q-badge">06</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">La función científica que busca <em>aislar variables</em> para eliminar explicaciones alternativas de un fenómeno se llama:</p></div>
+<div class="opts" id="o6">
+<label class="opt" onclick="pick(this,6,'A')"><input type="radio" name="q6"><div class="opt-dot">A</div><div class="opt-text">Descripción</div></label>
+<label class="opt" onclick="pick(this,6,'B')"><input type="radio" name="q6"><div class="opt-dot">B</div><div class="opt-text">Predicción</div></label>
+<label class="opt" onclick="pick(this,6,'C')"><input type="radio" name="q6"><div class="opt-dot">C</div><div class="opt-text">Control</div></label>
+<label class="opt" onclick="pick(this,6,'D')"><input type="radio" name="q6"><div class="opt-dot">D</div><div class="opt-text">Aplicación</div></label>
+</div>
+<div class="reveal" id="r6"><div class="rev-title">✅ Correcta · C</div><p>La función de <strong>Control</strong> consiste en aislar variables y eliminar explicaciones alternativas para confirmar que el efecto observado se debe a la variable de interés y no a factores extraños.</p></div>
+</div>
+
+<div class="q-card" id="c7">
+<div class="q-top"><span class="q-badge">07</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">¿Cuál es la pregunta clave del nivel <em>Explicativo</em>?</p></div>
+<div class="opts" id="o7">
+<label class="opt" onclick="pick(this,7,'A')"><input type="radio" name="q7"><div class="opt-dot">A</div><div class="opt-text">¿Existe relación?</div></label>
+<label class="opt" onclick="pick(this,7,'B')"><input type="radio" name="q7"><div class="opt-dot">B</div><div class="opt-text">¿Cómo es?</div></label>
+<label class="opt" onclick="pick(this,7,'C')"><input type="radio" name="q7"><div class="opt-dot">C</div><div class="opt-text">¿Cuántos?</div></label>
+<label class="opt" onclick="pick(this,7,'D')"><input type="radio" name="q7"><div class="opt-dot">D</div><div class="opt-text">¿Por qué?</div></label>
+</div>
+<div class="reveal" id="r7"><div class="rev-title">✅ Correcta · D</div><p>El nivel <strong>Explicativo</strong> responde «¿Por qué?» al buscar las causas y efectos. Relacional → «¿Existe relación?»; Descriptivo → «¿Cómo es?»; Exploratorio → «¿Cuántos?».</p></div>
+</div>
+
+<div class="q-card" id="c8">
+<div class="q-top"><span class="q-badge">08</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">¿Por qué es <em>epistemológicamente incorrecto</em> pasar directamente del nivel Exploratorio al nivel Explicativo?</p></div>
+<div class="opts" id="o8">
+<label class="opt" onclick="pick(this,8,'A')"><input type="radio" name="q8"><div class="opt-dot">A</div><div class="opt-text">Porque los reglamentos universitarios lo prohíben formalmente.</div></label>
+<label class="opt" onclick="pick(this,8,'B')"><input type="radio" name="q8"><div class="opt-dot">B</div><div class="opt-text">Porque cada nivel provee la base empírica necesaria para el siguiente: sin describir no se puede relacionar, y sin relacionar no se puede afirmar causalidad.</div></label>
+<label class="opt" onclick="pick(this,8,'C')"><input type="radio" name="q8"><div class="opt-dot">C</div><div class="opt-text">Porque el presupuesto del nivel Explicativo es mayor y requiere más años de estudio previo.</div></label>
+<label class="opt" onclick="pick(this,8,'D')"><input type="radio" name="q8"><div class="opt-dot">D</div><div class="opt-text">No es incorrecto; se puede hacer siempre que el investigador tenga suficiente experiencia.</div></label>
+</div>
+<div class="reveal" id="r8"><div class="rev-title">✅ Correcta · B</div><p>La jerarquía es <strong>acumulativa</strong>. Afirmar causalidad sin base descriptiva ni relacional previa es construir un edificio sin cimientos. Cada nivel valida el siguiente epistemológicamente.</p></div>
+</div>
+
+<div class="q-card" id="c9">
+<div class="q-top"><span class="q-badge">09</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">Un estudio busca saber <em>«cómo se presenta el uso de redes sociales en adolescentes de Ayacucho, 2025»</em>. ¿A qué nivel pertenece?</p></div>
+<div class="opts" id="o9">
+<label class="opt" onclick="pick(this,9,'A')"><input type="radio" name="q9"><div class="opt-dot">A</div><div class="opt-text">Descriptivo</div></label>
+<label class="opt" onclick="pick(this,9,'B')"><input type="radio" name="q9"><div class="opt-dot">B</div><div class="opt-text">Exploratorio</div></label>
+<label class="opt" onclick="pick(this,9,'C')"><input type="radio" name="q9"><div class="opt-dot">C</div><div class="opt-text">Relacional</div></label>
+<label class="opt" onclick="pick(this,9,'D')"><input type="radio" name="q9"><div class="opt-dot">D</div><div class="opt-text">Aplicativo</div></label>
+</div>
+<div class="reveal" id="r9"><div class="rev-title">✅ Correcta · B</div><p>«¿Cómo se presenta?» es la locución del nivel <strong>Exploratorio</strong>. Solo estudia frecuencias de una variable, sin describir su nivel ni buscar relaciones. Descriptivo usaría «¿Cuál es el nivel de?».</p></div>
+</div>
+
+<div class="q-card" id="c10">
+<div class="q-top"><span class="q-badge">10</span><span class="q-tag">Sesión 1</span>
+<p class="q-text">Las funciones de la ciencia son describir, explicar, predecir y controlar. ¿Qué función corresponde a la afirmación «a partir de los datos históricos de lluvias se estimará la precipitación de los próximos 3 meses»?</p></div>
+<div class="opts" id="o10">
+<label class="opt" onclick="pick(this,10,'A')"><input type="radio" name="q10"><div class="opt-dot">A</div><div class="opt-text">Descripción</div></label>
+<label class="opt" onclick="pick(this,10,'B')"><input type="radio" name="div opt-dot">B</div><div class="opt-text">Explicación</div></label>
+<label class="opt" onclick="pick(this,10,'C')"><input type="radio" name="q10"><div class="opt-dot">C</div><div class="opt-text">Control</div></label>
+<label class="opt" onclick="pick(this,10,'D')"><input type="radio" name="q10"><div class="opt-dot">D</div><div class="opt-text">Predicción</div></label>
+</div>
+<div class="reveal" id="r10"><div class="rev-title">✅ Correcta · D</div><p>«Estimar el valor futuro a partir de datos históricos» es la función de <strong>Predicción</strong>. Corresponde directamente al nivel Predictivo (T+K).</p></div>
+</div>
+
+</div>
+
+<!-- ═══════════ SESIÓN 2 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 2 · Título de la Tesis</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c11">
+<div class="q-top"><span class="q-badge">11</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">¿Cuál de los siguientes títulos cumple mejor con los 6 criterios de calidad?</p></div>
+<div class="opts" id="o11">
+<label class="opt" onclick="pick(this,11,'A')"><input type="radio" name="q11"><div class="opt-dot">A</div><div class="opt-text">«Estudio sobre tecnología y aprendizaje»</div></label>
+<label class="opt" onclick="pick(this,11,'B')"><input type="radio" name="q11"><div class="opt-dot">B</div><div class="opt-text">«Factores que influyen en los estudiantes universitarios peruanos»</div></label>
+<label class="opt" onclick="pick(this,11,'C')"><input type="radio" name="q11"><div class="opt-dot">C</div><div class="opt-text">«Uso de plataformas e-learning y su relación con el rendimiento académico en estudiantes de la UNSCH, 2025»</div></label>
+<label class="opt" onclick="pick(this,11,'D')"><input type="radio" name="q11"><div class="opt-dot">D</div><div class="opt-text">«Investigación de la problemática educativa en zonas rurales de Ayacucho con enfoque mixto longitudinal»</div></label>
+</div>
+<div class="reveal" id="r11"><div class="rev-title">✅ Correcta · C</div><p>La opción C tiene: <strong>VI</strong> (uso de plataformas e-learning) + <strong>conector</strong> (y su relación con) + <strong>VD</strong> (rendimiento académico) + <strong>población</strong> (estudiantes UNSCH) + <strong>delimitación temporal</strong> (2025). Cumple especificidad, claridad, coherencia y pertinencia.</p></div>
+</div>
+
+<div class="q-card" id="c12">
+<div class="q-top"><span class="q-badge">12</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">El criterio de <em>Originalidad</em> del título exige que:</p></div>
+<div class="opts" id="o12">
+<label class="opt" onclick="pick(this,12,'A')"><input type="radio" name="q12"><div class="opt-dot">A</div><div class="opt-text">El título sea el más largo posible para diferenciarse de otros estudios.</div></label>
+<label class="opt" onclick="pick(this,12,'B')"><input type="radio" name="q12"><div class="opt-dot">B</div><div class="opt-text">El estudio aporte algo nuevo al conocimiento existente y no sea una copia literal de una investigación previa.</div></label>
+<label class="opt" onclick="pick(this,12,'C')"><input type="radio" name="q12"><div class="opt-dot">C</div><div class="opt-text">El título use terminología completamente nueva que no exista en ningún diccionario.</div></label>
+<label class="opt" onclick="pick(this,12,'D')"><input type="radio" name="q12"><div class="opt-dot">D</div><div class="opt-text">El investigador haya inventado las variables del estudio sin revisión bibliográfica previa.</div></label>
+</div>
+<div class="reveal" id="r12"><div class="rev-title">✅ Correcta · B</div><p>La <strong>originalidad</strong> exige que el estudio aporte conocimiento nuevo y no sea una réplica idéntica. No significa inventar términos; significa que el contexto, la combinación de variables o el enfoque contribuyen algo distinto.</p></div>
+</div>
+
+<div class="q-card" id="c13">
+<div class="q-top"><span class="q-badge">13</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">¿Qué elemento del resumen responde a la pregunta «¿Cómo se obtuvieron los datos?»?</p></div>
+<div class="opts" id="o13">
+<label class="opt" onclick="pick(this,13,'A')"><input type="radio" name="q13"><div class="opt-dot">A</div><div class="opt-text">Nivel de investigación</div></label>
+<label class="opt" onclick="pick(this,13,'B')"><input type="radio" name="q13"><div class="opt-dot">B</div><div class="opt-text">Técnica e instrumento de recolección de datos</div></label>
+<label class="opt" onclick="pick(this,13,'C')"><input type="radio" name="q13"><div class="opt-dot">C</div><div class="opt-text">Análisis estadístico utilizado</div></label>
+<label class="opt" onclick="pick(this,13,'D')"><input type="radio" name="q13"><div class="opt-dot">D</div><div class="opt-text">Objetivo de la investigación</div></label>
+</div>
+<div class="reveal" id="r13"><div class="rev-title">✅ Correcta · B</div><p>La <strong>técnica e instrumento de recolección de datos</strong> responde «¿Cómo se obtuvieron los datos?» (encuesta + cuestionario, observación + lista de cotejo, etc.). El análisis responde «¿Cómo se procesaron?».</p></div>
+</div>
+
+<div class="q-card" id="c14">
+<div class="q-top"><span class="q-badge">14</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">El criterio de <em>Concisión</em> del título exige que:</p></div>
+<div class="opts" id="o14">
+<label class="opt" onclick="pick(this,14,'A')"><input type="radio" name="q14"><div class="opt-dot">A</div><div class="opt-text">El título tenga máximo 5 palabras para ser recordado fácilmente.</div></label>
+<label class="opt" onclick="pick(this,14,'B')"><input type="radio" name="q14"><div class="opt-dot">B</div><div class="opt-text">El título sea lo más extenso posible para incluir todos los detalles metodológicos.</div></label>
+<label class="opt" onclick="pick(this,14,'C')"><input type="radio" name="q14"><div class="opt-dot">C</div><div class="opt-text">El título exprese el contenido esencial sin palabras innecesarias ni redundancias.</div></label>
+<label class="opt" onclick="pick(this,14,'D')"><input type="radio" name="q14"><div class="opt-dot">D</div><div class="opt-text">El título solo incluya la variable dependiente y el año del estudio.</div></label>
+</div>
+<div class="reveal" id="r14"><div class="rev-title">✅ Correcta · C</div><p><strong>Concisión</strong>: expresa el contenido esencial sin palabras innecesarias. No hay un número fijo de palabras; el criterio es que no tenga redundancias ni términos superfluos.</p></div>
+</div>
+
+<div class="q-card" id="c15">
+<div class="q-top"><span class="q-badge">15</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">El resumen incluye el tamaño y tipo de muestra. ¿Por qué es importante incluir este dato?</p></div>
+<div class="opts" id="o15">
+<label class="opt" onclick="pick(this,15,'A')"><input type="radio" name="q15"><div class="opt-dot">A</div><div class="opt-text">Para cumplir el requisito de número de palabras mínimo del resumen.</div></label>
+<label class="opt" onclick="pick(this,15,'B')"><input type="radio" name="q15"><div class="opt-dot">B</div><div class="opt-text">Porque indica el alcance y representatividad del estudio, lo que determina hasta dónde se pueden generalizar los resultados.</div></label>
+<label class="opt" onclick="pick(this,15,'C')"><input type="radio" name="q15"><div class="opt-dot">C</div><div class="opt-text">Solo es necesario en estudios cualitativos con muestreo intencional.</div></label>
+<label class="opt" onclick="pick(this,15,'D')"><input type="radio" name="q15"><div class="opt-dot">D</div><div class="opt-text">Para que el jurado pueda calcular el presupuesto del estudio.</div></label>
+</div>
+<div class="reveal" id="r15"><div class="rev-title">✅ Correcta · B</div><p>El tamaño y tipo de muestra indica la <strong>representatividad y alcance</strong> del estudio. Sin este dato, el lector no puede juzgar si los resultados son generalizables o solo aplican a la muestra analizada.</p></div>
+</div>
+
+<div class="q-card" id="c16">
+<div class="q-top"><span class="q-badge">16</span><span class="q-tag">Sesión 2</span>
+<p class="q-text">El criterio de <em>Coherencia</em> del título exige que:</p></div>
+<div class="opts" id="o16">
+<label class="opt" onclick="pick(this,16,'A')"><input type="radio" name="q16"><div class="opt-dot">A</div><div class="opt-text">El título tenga rima o musicalidad para ser memorable.</div></label>
+<label class="opt" onclick="pick(this,16,'B')"><input type="radio" name="q16"><div class="opt-dot">B</div><div class="opt-text">Las variables y el conector del título correspondan al nivel real del estudio.</div></label>
+<label class="opt" onclick="pick(this,16,'C')"><input type="radio" name="q16"><div class="opt-dot">C</div><div class="opt-text">El título sea idéntico al objetivo general de la tesis.</div></label>
+<label class="opt" onclick="pick(this,16,'D')"><input type="radio" name="q16"><div class="opt-dot">D</div><div class="opt-text">El título incluya el número exacto de participantes de la muestra.</div></label>
+</div>
+<div class="reveal" id="r16"><div class="rev-title">✅ Correcta · B</div><p><strong>Coherencia</strong>: las variables y el conector del título deben corresponder al nivel real del estudio. Si el nivel es relacional, el conector debe ser «y su relación con»; si es explicativo, «y su influencia en», etc.</p></div>
+</div>
+
+</div>
+
+<!-- ═══════════ SESIÓN 3 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 3 · Tipo de Investigación y Diseño</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c17">
+<div class="q-top"><span class="q-badge">17</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">Un estudio aplica encuestas a 300 trabajadores de una empresa en un único momento del año. Según el número de mediciones, este estudio es:</p></div>
+<div class="opts" id="o17">
+<label class="opt" onclick="pick(this,17,'A')"><input type="radio" name="q17"><div class="opt-dot">A</div><div class="opt-text">Longitudinal</div></label>
+<label class="opt" onclick="pick(this,17,'B')"><input type="radio" name="q17"><div class="opt-dot">B</div><div class="opt-text">Transversal</div></label>
+<label class="opt" onclick="pick(this,17,'C')"><input type="radio" name="q17"><div class="opt-dot">C</div><div class="opt-text">Prospectivo</div></label>
+<label class="opt" onclick="pick(this,17,'D')"><input type="radio" name="q17"><div class="opt-dot">D</div><div class="opt-text">Experimental</div></label>
+</div>
+<div class="reveal" id="r17"><div class="rev-title">✅ Correcta · B</div><p><strong>Transversal</strong>: la medición se realiza en un único momento del tiempo. Longitudinal implica múltiples mediciones a lo largo del tiempo a las mismas unidades de análisis.</p></div>
+</div>
+
+<div class="q-card" id="c18">
+<div class="q-top"><span class="q-badge">18</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">¿Cuál es el diseño correcto para el nivel <em>Relacional</em>?</p></div>
+<div class="opts" id="o18">
+<label class="opt" onclick="pick(this,18,'A')"><input type="radio" name="q18"><div class="opt-dot">A</div><div class="opt-text">Experimental puro con asignación aleatoria</div></label>
+<label class="opt" onclick="pick(this,18,'B')"><input type="radio" name="q18"><div class="opt-dot">B</div><div class="opt-text">DSR con ciclos iterativos de construcción</div></label>
+<label class="opt" onclick="pick(this,18,'C')"><input type="radio" name="q18"><div class="opt-dot">C</div><div class="opt-text">No experimental transversal relacional</div></label>
+<label class="opt" onclick="pick(this,18,'D')"><input type="radio" name="q18"><div class="opt-dot">D</div><div class="opt-text">No experimental longitudinal retrospectivo con modelamiento</div></label>
+</div>
+<div class="reveal" id="r18"><div class="rev-title">✅ Correcta · C</div><p>El nivel <strong>Relacional</strong> usa diseño <em>no experimental transversal relacional</em>. El investigador no manipula variables; solo mide y busca asociaciones en un momento del tiempo.</p></div>
+</div>
+
+<div class="q-card" id="c19">
+<div class="q-top"><span class="q-badge">19</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">Una investigación usa datos recolectados <em>específicamente</em> para el estudio (no de registros previos). Según la planificación de datos, es:</p></div>
+<div class="opts" id="o19">
+<label class="opt" onclick="pick(this,19,'A')"><input type="radio" name="q19"><div class="opt-dot">A</div><div class="opt-text">Retrospectivo</div></label>
+<label class="opt" onclick="pick(this,19,'B')"><input type="radio" name="q19"><div class="opt-dot">B</div><div class="opt-text">Prospectivo</div></label>
+<label class="opt" onclick="pick(this,19,'C')"><input type="radio" name="q19"><div class="opt-dot">C</div><div class="opt-text">Transversal</div></label>
+<label class="opt" onclick="pick(this,19,'D')"><input type="radio" name="q19"><div class="opt-dot">D</div><div class="opt-text">Observacional</div></label>
+</div>
+<div class="reveal" id="r19"><div class="rev-title">✅ Correcta · B</div><p><strong>Prospectivo</strong>: los datos son recolectados intencionalmente por el investigador para el estudio. <strong>Retrospectivo</strong>: usa datos ya existentes en registros, bases de datos o historiales.</p></div>
+</div>
+
+<div class="q-card" id="c20">
+<div class="q-top"><span class="q-badge">20</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">¿Cuál de los cuatro criterios de clasificación responde a la pregunta «¿El investigador manipuló la variable de estudio?»?</p></div>
+<div class="opts" id="o20">
+<label class="opt" onclick="pick(this,20,'A')"><input type="radio" name="q20"><div class="opt-dot">A</div><div class="opt-text">Por el número de mediciones</div></label>
+<label class="opt" onclick="pick(this,20,'B')"><input type="radio" name="q20"><div class="opt-dot">B</div><div class="opt-text">Por la planificación de datos</div></label>
+<label class="opt" onclick="pick(this,20,'C')"><input type="radio" name="q20"><div class="opt-dot">C</div><div class="opt-text">Por la intervención del investigador</div></label>
+<label class="opt" onclick="pick(this,20,'D')"><input type="radio" name="q20"><div class="opt-dot">D</div><div class="opt-text">Por el número de variables analíticas</div></label>
+</div>
+<div class="reveal" id="r20"><div class="rev-title">✅ Correcta · C</div><p><strong>Por la intervención del investigador</strong>: experimental (sí manipula) vs. observacional (no manipula). Los otros criterios responden: B = ¿cuándo se planearon los datos?; A = ¿cuántas veces se midió?; D = ¿cuántas variables se analizan?</p></div>
+</div>
+
+<div class="q-card" id="c21">
+<div class="q-top"><span class="q-badge">21</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">¿Qué tipo de estudio sería: observacional, prospectivo, transversal y descriptivo?</p></div>
+<div class="opts" id="o21">
+<label class="opt" onclick="pick(this,21,'A')"><input type="radio" name="q21"><div class="opt-dot">A</div><div class="opt-text">Nivel Relacional con diseño no experimental transversal</div></label>
+<label class="opt" onclick="pick(this,21,'B')"><input type="radio" name="q21"><div class="opt-dot">B</div><div class="opt-text">Nivel Descriptivo con diseño no experimental transversal</div></label>
+<label class="opt" onclick="pick(this,21,'C')"><input type="radio" name="q21"><div class="opt-dot">C</div><div class="opt-text">Nivel Aplicativo con diseño DSR</div></label>
+<label class="opt" onclick="pick(this,21,'D')"><input type="radio" name="q21"><div class="opt-dot">D</div><div class="opt-text">Nivel Explicativo con diseño experimental puro</div></label>
+</div>
+<div class="reveal" id="r21"><div class="rev-title">✅ Correcta · B</div><p>Observacional (no manipula), Prospectivo (datos propios), Transversal (una medición) y Descriptivo (sin análisis de relación) conforman el perfil del <strong>nivel Descriptivo con diseño no experimental transversal</strong>.</p></div>
+</div>
+
+<div class="q-card" id="c22">
+<div class="q-top"><span class="q-badge">22</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">En la clasificación por número de variables analíticas, ¿cuándo el tipo es «analítico»?</p></div>
+<div class="opts" id="o22">
+<label class="opt" onclick="pick(this,22,'A')"><input type="radio" name="q22"><div class="opt-dot">A</div><div class="opt-text">Cuando se estudia solo una variable sin buscar relaciones.</div></label>
+<label class="opt" onclick="pick(this,22,'B')"><input type="radio" name="q22"><div class="opt-dot">B</div><div class="opt-text">Cuando se prueban asociaciones, diferencias o efectos entre dos o más variables.</div></label>
+<label class="opt" onclick="pick(this,22,'C')"><input type="radio" name="q22"><div class="opt-dot">C</div><div class="opt-text">Cuando el análisis de datos se realiza con software estadístico (SPSS, R).</div></label>
+<label class="opt" onclick="pick(this,22,'D')"><input type="radio" name="q22"><div class="opt-dot">D</div><div class="opt-text">Cuando el número de participantes supera los 1000 sujetos.</div></label>
+</div>
+<div class="reveal" id="r22"><div class="rev-title">✅ Correcta · B</div><p>El tipo es <strong>Analítico</strong> cuando se prueban relaciones, diferencias o efectos entre dos o más variables. El tipo <em>Descriptivo</em> (en esta clasificación) solo estima parámetros de una variable.</p></div>
+</div>
+
+<div class="q-card" id="c23">
+<div class="q-top"><span class="q-badge">23</span><span class="q-tag">Sesión 3</span>
+<p class="q-text">El diseño del nivel <em>Explicativo</em> es:</p></div>
+<div class="opts" id="o23">
+<label class="opt" onclick="pick(this,23,'A')"><input type="radio" name="q23"><div class="opt-dot">A</div><div class="opt-text">No experimental transversal relacional</div></label>
+<label class="opt" onclick="pick(this,23,'B')"><input type="radio" name="q23"><div class="opt-dot">B</div><div class="opt-text">DSR o ciclos iterativos</div></label>
+<label class="opt" onclick="pick(this,23,'C')"><input type="radio" name="q23"><div class="opt-dot">C</div><div class="opt-text">Experimental puro, cuasi-experimental o pre-experimental</div></label>
+<label class="opt" onclick="pick(this,23,'D')"><input type="radio" name="q23"><div class="opt-dot">D</div><div class="opt-text">No experimental transversal descriptivo</div></label>
+</div>
+<div class="reveal" id="r23"><div class="rev-title">✅ Correcta · C</div><p>El nivel <strong>Explicativo</strong> necesita controlar las variables para afirmar causalidad, por lo que requiere <em>diseño experimental puro, cuasi-experimental o pre-experimental</em>. DSR es del Aplicativo.</p></div>
+</div>
+
+</div>
+
+<!-- ═══════════ SESIÓN 4 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 4 · Antecedentes de Investigación</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c24">
+<div class="q-top"><span class="q-badge">24</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">¿En qué orden lógico se estructura la información al redactar un antecedente?</p></div>
+<div class="opts" id="o24">
+<label class="opt" onclick="pick(this,24,'A')"><input type="radio" name="q24"><div class="opt-dot">A</div><div class="opt-text">Resultados → Objetivo → Muestra → Diseño → Conclusiones</div></label>
+<label class="opt" onclick="pick(this,24,'B')"><input type="radio" name="q24"><div class="opt-dot">B</div><div class="opt-text">Autor/año → Objetivo → Nivel/tipo/diseño → Población/muestra → Instrumento → Resultados → Conclusiones</div></label>
+<label class="opt" onclick="pick(this,24,'C')"><input type="radio" name="q24"><div class="opt-dot">C</div><div class="opt-text">Conclusiones → Resultados → Instrumento → Muestra → Objetivo</div></label>
+<label class="opt" onclick="pick(this,24,'D')"><input type="radio" name="q24"><div class="opt-dot">D</div><div class="opt-text">Autor → Título → Conclusiones → Recomendaciones</div></label>
+</div>
+<div class="reveal" id="r24"><div class="rev-title">✅ Correcta · B</div><p>El orden correcto es: <strong>Autor/año → Objetivo → Nivel/tipo/diseño → Población/muestra → Instrumento → Resultados → Conclusiones</strong>. Esta estructura permite al lector reproducir el análisis y evaluar la calidad del estudio.</p></div>
+</div>
+
+<div class="q-card" id="c25">
+<div class="q-top"><span class="q-badge">25</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">¿Cuál base de datos es un índice de calidad internacional para artículos científicos que incluye factor de impacto y cuartiles (Q1-Q4)?</p></div>
+<div class="opts" id="o25">
+<label class="opt" onclick="pick(this,25,'A')"><input type="radio" name="q25"><div class="opt-dot">A</div><div class="opt-text">Google Scholar</div></label>
+<label class="opt" onclick="pick(this,25,'B')"><input type="radio" name="q25"><div class="opt-dot">B</div><div class="opt-text">Wikipedia</div></label>
+<label class="opt" onclick="pick(this,25,'C')"><input type="radio" name="q25"><div class="opt-dot">C</div><div class="opt-text">Scopus / Web of Science (WoS)</div></label>
+<label class="opt" onclick="pick(this,25,'D')"><input type="radio" name="q25"><div class="opt-dot">D</div><div class="opt-text">ResearchGate</div></label>
+</div>
+<div class="reveal" id="r25"><div class="rev-title">✅ Correcta · C</div><p><strong>Scopus y WoS</strong> son los índices de mayor prestigio académico que asignan cuartiles (Q1=más alto) y factor de impacto a las revistas. Google Scholar indexa mucho pero sin criterio de calidad editorial.</p></div>
+</div>
+
+<div class="q-card" id="c26">
+<div class="q-top"><span class="q-badge">26</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">Un investigador quiere buscar artículos donde aparezcan <em>tanto</em> «rendimiento académico» <em>como</em> «estrés». ¿Qué operador debe usar?</p></div>
+<div class="opts" id="o26">
+<label class="opt" onclick="pick(this,26,'A')"><input type="radio" name="q26"><div class="opt-dot">A</div><div class="opt-text">OR</div></label>
+<label class="opt" onclick="pick(this,26,'B')"><input type="radio" name="q26"><div class="opt-dot">B</div><div class="opt-text">NOT</div></label>
+<label class="opt" onclick="pick(this,26,'C')"><input type="radio" name="q26"><div class="opt-dot">C</div><div class="opt-text">AND</div></label>
+<label class="opt" onclick="pick(this,26,'D')"><input type="radio" name="q26"><div class="opt-dot">D</div><div class="opt-text">*</div></label>
+</div>
+<div class="reveal" id="r26"><div class="rev-title">✅ Correcta · C</div><p><strong>AND</strong> = intersección. Solo devuelve resultados donde <em>ambos</em> términos aparecen. OR devolvería artículos con cualquiera de los dos; NOT excluiría uno de ellos.</p></div>
+</div>
+
+<div class="q-card" id="c27">
+<div class="q-top"><span class="q-badge">27</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">Las comillas <em>«» o ""</em> en una búsqueda booleana sirven para:</p></div>
+<div class="opts" id="o27">
+<label class="opt" onclick="pick(this,27,'A')"><input type="radio" name="q27"><div class="opt-dot">A</div><div class="opt-text">Excluir palabras irrelevantes de los resultados.</div></label>
+<label class="opt" onclick="pick(this,27,'B')"><input type="radio" name="q27"><div class="opt-dot">B</div><div class="opt-text">Buscar la frase exacta sin separar las palabras que la componen.</div></label>
+<label class="opt" onclick="pick(this,27,'C')"><input type="radio" name="q27"><div class="opt-dot">C</div><div class="opt-text">Ampliar la búsqueda a variantes morfológicas de un término.</div></label>
+<label class="opt" onclick="pick(this,27,'D')"><input type="radio" name="q27"><div class="opt-dot">D</div><div class="opt-text">Intersectar dos términos distintos para que aparezcan ambos.</div></label>
+</div>
+<div class="reveal" id="r27"><div class="rev-title">✅ Correcta · B</div><p>Las <strong>comillas</strong> buscan la <em>frase exacta</em>. Por ejemplo, <code>"rendimiento académico"</code> solo devuelve resultados donde esas dos palabras aparecen juntas en ese orden, no separadas.</p></div>
+</div>
+
+<div class="q-card" id="c28">
+<div class="q-top"><span class="q-badge">28</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">¿Cuál de los siguientes NO es un criterio válido para seleccionar antecedentes?</p></div>
+<div class="opts" id="o28">
+<label class="opt" onclick="pick(this,28,'A')"><input type="radio" name="q28"><div class="opt-dot">A</div><div class="opt-text">Actualidad (máximo 5 años)</div></label>
+<label class="opt" onclick="pick(this,28,'B')"><input type="radio" name="q28"><div class="opt-dot">B</div><div class="opt-text">Pertinencia temática con las variables del estudio</div></label>
+<label class="opt" onclick="pick(this,28,'C')"><input type="radio" name="q28"><div class="opt-dot">C</div><div class="opt-text">Número de páginas del artículo (mínimo 30 páginas)</div></label>
+<label class="opt" onclick="pick(this,28,'D')"><input type="radio" name="q28"><div class="opt-dot">D</div><div class="opt-text">Calidad de la fuente (revistas indexadas, repositorios universitarios)</div></label>
+</div>
+<div class="reveal" id="r28"><div class="rev-title">✅ Correcta · C</div><p>El número de páginas no es criterio de selección. Los criterios válidos son: <strong>Actualidad</strong>, <strong>Pertinencia temática</strong>, <strong>Diversidad geográfica</strong> y <strong>Calidad de la fuente</strong>. Un artículo corto bien publicado puede valer más que una tesis de 200 páginas.</p></div>
+</div>
+
+<div class="q-card" id="c29">
+<div class="q-top"><span class="q-badge">29</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">¿Qué diferencia existe entre un antecedente <em>nacional</em> y uno <em>local</em>?</p></div>
+<div class="opts" id="o29">
+<label class="opt" onclick="pick(this,29,'A')"><input type="radio" name="q29"><div class="opt-dot">A</div><div class="opt-text">No hay diferencia; ambos términos son sinónimos dentro del país.</div></label>
+<label class="opt" onclick="pick(this,29,'B')"><input type="radio" name="q29"><div class="opt-dot">B</div><div class="opt-text">El nacional es del país (Perú) en general; el local es del propio contexto específico de la investigación (la misma ciudad, institución o región).</div></label>
+<label class="opt" onclick="pick(this,29,'C')"><input type="radio" name="q29"><div class="opt-dot">C</div><div class="opt-text">El local es de un país extranjero cercano geográficamente al Perú.</div></label>
+<label class="opt" onclick="pick(this,29,'D')"><input type="radio" name="q29"><div class="opt-dot">D</div><div class="opt-text">El antecedente local se refiere únicamente a tesis de la misma universidad del investigador.</div></label>
+</div>
+<div class="reveal" id="r29"><div class="rev-title">✅ Correcta · B</div><p><strong>Nacional</strong>: realizado en Perú pero en otro contexto (Lima, Arequipa, etc.). <strong>Local</strong>: realizado en el mismo contexto específico del estudio (Ayacucho, la UNSCH, la misma institución). Ambos son necesarios para demostrar el vacío local.</p></div>
+</div>
+
+<div class="q-card" id="c30">
+<div class="q-top"><span class="q-badge">30</span><span class="q-tag">Sesión 4</span>
+<p class="q-text">¿Qué se debe hacer cuando no se encuentra ningún antecedente directamente relacionado con la combinación exacta de las dos variables del estudio?</p></div>
+<div class="opts" id="o30">
+<label class="opt" onclick="pick(this,30,'A')"><input type="radio" name="q30"><div class="opt-dot">A</div><div class="opt-text">Abandonar la investigación porque no tiene sustento bibliográfico.</div></label>
+<label class="opt" onclick="pick(this,30,'B')"><input type="radio" name="q30"><div class="opt-dot">B</div><div class="opt-text">Incluir antecedentes que aborden cada variable por separado y justificar el vacío de conocimiento de su combinación.</div></label>
+<label class="opt" onclick="pick(this,30,'C')"><input type="radio" name="q30"><div class="opt-dot">C</div><div class="opt-text">Cambiar las variables del estudio para que coincidan con los antecedentes disponibles.</div></label>
+<label class="opt" onclick="pick(this,30,'D')"><input type="radio" name="q30"><div class="opt-dot">D</div><div class="opt-text">Inventar antecedentes con datos ficticios para completar la sección.</div></label>
+</div>
+<div class="reveal" id="r30"><div class="rev-title">✅ Correcta · B</div><p>Se incluyen antecedentes que aborden <strong>cada variable por separado</strong> y se justifica explícitamente el <em>vacío del conocimiento</em>: precisamente esa combinación no ha sido estudiada, lo que fundamenta la originalidad y relevancia de la investigación.</p></div>
+</div>
+
+</div>
+
+<!-- ═══════════ SESIÓN 5 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 5 · Planteamiento del Problema</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c31">
+<div class="q-top"><span class="q-badge">31</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">El párrafo de <em>Diagnóstico</em> en el planteamiento describe la situación actual del problema. ¿Qué tipo de información debe incluir obligatoriamente?</p></div>
+<div class="opts" id="o31">
+<label class="opt" onclick="pick(this,31,'A')"><input type="radio" name="q31"><div class="opt-dot">A</div><div class="opt-text">Solo la opinión personal del investigador sobre la gravedad del problema.</div></label>
+<label class="opt" onclick="pick(this,31,'B')"><input type="radio" name="q31"><div class="opt-dot">B</div><div class="opt-text">Datos cuantitativos reales (estadísticas, porcentajes, índices) en los 4 niveles de contextualización con sus fuentes.</div></label>
+<label class="opt" onclick="pick(this,31,'C')"><input type="radio" name="q31"><div class="opt-dot">C</div><div class="opt-text">Únicamente citas textuales de autores clásicos de la disciplina.</div></label>
+<label class="opt" onclick="pick(this,31,'D')"><input type="radio" name="q31"><div class="opt-dot">D</div><div class="opt-text">La hipótesis de la investigación y los objetivos preliminares.</div></label>
+</div>
+<div class="reveal" id="r31"><div class="rev-title">✅ Correcta · B</div><p>El Diagnóstico debe incluir <strong>datos cuantitativos reales</strong> (estadísticas, porcentajes, tasas) en los 4 niveles (internacional, nacional, regional, local) con sus fuentes, para demostrar que el problema existe y es significativo.</p></div>
+</div>
+
+<div class="q-card" id="c32">
+<div class="q-top"><span class="q-badge">32</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">La delimitación <em>Temporal</em> responde a la pregunta:</p></div>
+<div class="opts" id="o32">
+<label class="opt" onclick="pick(this,32,'A')"><input type="radio" name="q32"><div class="opt-dot">A</div><div class="opt-text">¿Dónde se realizará el estudio?</div></label>
+<label class="opt" onclick="pick(this,32,'B')"><input type="radio" name="q32"><div class="opt-dot">B</div><div class="opt-text">¿Quiénes son los sujetos de estudio?</div></label>
+<label class="opt" onclick="pick(this,32,'C')"><input type="radio" name="q32"><div class="opt-dot">C</div><div class="opt-text">¿En qué periodo de tiempo se realizará el estudio?</div></label>
+<label class="opt" onclick="pick(this,32,'D')"><input type="radio" name="q32"><div class="opt-dot">D</div><div class="opt-text">¿Qué variables se estudiarán?</div></label>
+</div>
+<div class="reveal" id="r32"><div class="rev-title">✅ Correcta · C</div><p>La delimitación <strong>Temporal</strong> especifica el periodo del estudio (ej. semestre 2025-I, año 2024-2025). A = Espacial; B = Social; D = Conceptual.</p></div>
+</div>
+
+<div class="q-card" id="c33">
+<div class="q-top"><span class="q-badge">33</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">La justificación <em>Metodológica</em> de una investigación responde a:</p></div>
+<div class="opts" id="o33">
+<label class="opt" onclick="pick(this,33,'A')"><input type="radio" name="q33"><div class="opt-dot">A</div><div class="opt-text">¿Qué beneficios sociales traerá el estudio a la comunidad?</div></label>
+<label class="opt" onclick="pick(this,33,'B')"><input type="radio" name="q33"><div class="opt-dot">B</div><div class="opt-text">¿Qué problema práctico de la realidad se resolverá con los resultados?</div></label>
+<label class="opt" onclick="pick(this,33,'C')"><input type="radio" name="q33"><div class="opt-dot">C</div><div class="opt-text">¿Qué innovación instrumental o metodológica aporta el estudio que pueda usarse en futuras investigaciones?</div></label>
+<label class="opt" onclick="pick(this,33,'D')"><input type="radio" name="q33"><div class="opt-dot">D</div><div class="opt-text">¿Qué teorías o modelos teóricos nuevos se generarán a partir del estudio?</div></label>
+</div>
+<div class="reveal" id="r33"><div class="rev-title">✅ Correcta · C</div><p>La justificación <strong>Metodológica</strong> responde: ¿el estudio propone un instrumento, técnica o procedimiento nuevo que otros investigadores podrán usar? A = Social; B = Práctica; D = Teórica.</p></div>
+</div>
+
+<div class="q-card" id="c34">
+<div class="q-top"><span class="q-badge">34</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">¿Cuál es la función del párrafo de <em>Control del Pronóstico</em>?</p></div>
+<div class="opts" id="o34">
+<label class="opt" onclick="pick(this,34,'A')"><input type="radio" name="q34"><div class="opt-dot">A</div><div class="opt-text">Presentar los resultados alcanzados en la tesis.</div></label>
+<label class="opt" onclick="pick(this,34,'B')"><input type="radio" name="q34"><div class="opt-dot">B</div><div class="opt-text">Proponer qué se investigará para evitar el escenario negativo pronosticado, justificando la pertinencia del estudio.</div></label>
+<label class="opt" onclick="pick(this,34,'C')"><input type="radio" name="q34"><div class="opt-dot">C</div><div class="opt-text">Demostrar que el investigador puede controlar todas las variables externas.</div></label>
+<label class="opt" onclick="pick(this,34,'D')"><input type="radio" name="q34"><div class="opt-dot">D</div><div class="opt-text">Presentar el análisis estadístico que se usará para procesar los datos.</div></label>
+</div>
+<div class="reveal" id="r34"><div class="rev-title">✅ Correcta · B</div><p>El <strong>Control del Pronóstico</strong> propone la investigación como respuesta al escenario negativo: «si se investiga X, se podrá evitar Y». Justifica por qué es pertinente y urgente estudiar el problema.</p></div>
+</div>
+
+<div class="q-card" id="c35">
+<div class="q-top"><span class="q-badge">35</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">La justificación <em>Teórica</em> responde a:</p></div>
+<div class="opts" id="o35">
+<label class="opt" onclick="pick(this,35,'A')"><input type="radio" name="q35"><div class="opt-dot">A</div><div class="opt-text">¿Qué comunidades o grupos sociales se beneficiarán directamente?</div></label>
+<label class="opt" onclick="pick(this,35,'B')"><input type="radio" name="q35"><div class="opt-dot">B</div><div class="opt-text">¿Qué nuevo conocimiento, teoría o modelo conceptual genera este estudio?</div></label>
+<label class="opt" onclick="pick(this,35,'C')"><input type="radio" name="q35"><div class="opt-dot">C</div><div class="opt-text">¿Qué problema práctico concreto de la institución se resolverá?</div></label>
+<label class="opt" onclick="pick(this,35,'D')"><input type="radio" name="q35"><div class="opt-dot">D</div><div class="opt-text">¿Qué instrumento de medición se elaborará para recolectar los datos?</div></label>
+</div>
+<div class="reveal" id="r35"><div class="rev-title">✅ Correcta · B</div><p>La justificación <strong>Teórica</strong> responde: ¿qué nuevo conocimiento, teoría o modelo genera el estudio? A = Social; C = Práctica; D = Metodológica.</p></div>
+</div>
+
+<div class="q-card" id="c36">
+<div class="q-top"><span class="q-badge">36</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">¿Por qué el planteamiento del problema debe ir de lo internacional a lo local (y no al revés)?</p></div>
+<div class="opts" id="o36">
+<label class="opt" onclick="pick(this,36,'A')"><input type="radio" name="q36"><div class="opt-dot">A</div><div class="opt-text">Porque los datos internacionales son siempre más recientes que los locales.</div></label>
+<label class="opt" onclick="pick(this,36,'B')"><input type="radio" name="q36"><div class="opt-dot">B</div><div class="opt-text">Porque permite construir un embudo argumental que muestra que el problema es global y llega a afectar específicamente al contexto local de la investigación.</div></label>
+<label class="opt" onclick="pick(this,36,'C')"><input type="radio" name="q36"><div class="opt-dot">C</div><div class="opt-text">Porque el reglamento APA exige comenzar siempre con datos de la OMS o el Banco Mundial.</div></label>
+<label class="opt" onclick="pick(this,36,'D')"><input type="radio" name="q36"><div class="opt-dot">D</div><div class="opt-text">No tiene importancia el orden; puede empezarse por el local si hay más datos disponibles.</div></label>
+</div>
+<div class="reveal" id="r36"><div class="rev-title">✅ Correcta · B</div><p>El orden internacional→local crea un <strong>embudo argumental</strong>: el problema existe a nivel global (legitimidad), nacional (relevancia peruana), regional y finalmente afecta específicamente al contexto local del estudio.</p></div>
+</div>
+
+<div class="q-card" id="c37">
+<div class="q-top"><span class="q-badge">37</span><span class="q-tag">Sesión 5</span>
+<p class="q-text">La delimitación <em>Conceptual</em> responde a:</p></div>
+<div class="opts" id="o37">
+<label class="opt" onclick="pick(this,37,'A')"><input type="radio" name="q37"><div class="opt-dot">A</div><div class="opt-text">¿En qué lugar geográfico se realizará el estudio?</div></label>
+<label class="opt" onclick="pick(this,37,'B')"><input type="radio" name="q37"><div class="opt-dot">B</div><div class="opt-text">¿En qué periodo de tiempo se realizará?</div></label>
+<label class="opt" onclick="pick(this,37,'C')"><input type="radio" name="q37"><div class="opt-dot">C</div><div class="opt-text">¿Qué variables, dimensiones o constructos son el objeto de estudio?</div></label>
+<label class="opt" onclick="pick(this,37,'D')"><input type="radio" name="q37"><div class="opt-dot">D</div><div class="opt-text">¿A cuántas personas se aplicará el instrumento?</div></label>
+</div>
+<div class="reveal" id="r37"><div class="rev-title">✅ Correcta · C</div><p>La delimitación <strong>Conceptual</strong> define cuáles son las variables, dimensiones y constructos del estudio, estableciendo los límites teóricos de lo que se investigará y lo que no.</p></div>
+</div>
+
+</div>
+
+<!-- ═══════════ SESIÓN 6 ═══════════ -->
+<div class="sec-label"><div class="line"></div><span>Sesión 6 · Formulación del Problema</span><div class="line"></div></div>
+<div class="q-wrap">
+
+<div class="q-card" id="c38">
+<div class="q-top"><span class="q-badge">38</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">¿Cuál es el problema con la siguiente formulación? <em>«¿El estrés afecta a los estudiantes?»</em></p></div>
+<div class="opts" id="o38">
+<label class="opt" onclick="pick(this,38,'A')"><input type="radio" name="q38"><div class="opt-dot">A</div><div class="opt-text">El problema es demasiado extenso y viola el criterio de concisión.</div></label>
+<label class="opt" onclick="pick(this,38,'B')"><input type="radio" name="q38"><div class="opt-dot">B</div><div class="opt-text">No usa fórmula sintáctica técnica, le faltan variables específicas, ámbito, periodo y no admite contraste empírico preciso.</div></label>
+<label class="opt" onclick="pick(this,38,'C')"><input type="radio" name="q38"><div class="opt-dot">C</div><div class="opt-text">Solo tiene un problema: falta el año del estudio.</div></label>
+<label class="opt" onclick="pick(this,38,'D')"><input type="radio" name="q38"><div class="opt-dot">D</div><div class="opt-text">No tiene ningún problema; es una pregunta válida para el nivel exploratorio.</div></label>
+</div>
+<div class="reveal" id="r38"><div class="rev-title">✅ Correcta · B</div><p>Tiene múltiples errores: no usa fórmula técnica, «¿El estrés afecta?» es vago y binario (sí/no), falta especificar qué aspecto del estrés, qué estudiantes, en qué institución, en qué periodo y qué se medirá exactamente.</p></div>
+</div>
+
+<div class="q-card" id="c39">
+<div class="q-top"><span class="q-badge">39</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Para el nivel <em>Descriptivo</em>, el conector de la fórmula del PG es:</p></div>
+<div class="opts" id="o39">
+<label class="opt" onclick="pick(this,39,'A')"><input type="radio" name="q39"><div class="opt-dot">A</div><div class="opt-text">«influye en» / «impacta en»</div></label>
+<label class="opt" onclick="pick(this,39,'B')"><input type="radio" name="q39"><div class="opt-dot">B</div><div class="opt-text">«nivel / estado / magnitud / grado»</div></label>
+<label class="opt" onclick="pick(this,39,'C')"><input type="radio" name="q39"><div class="opt-dot">C</div><div class="opt-text">«relación entre X y Y»</div></label>
+<label class="opt" onclick="pick(this,39,'D')"><input type="radio" name="q39"><div class="opt-dot">D</div><div class="opt-text">«pronosticada a partir de»</div></label>
+</div>
+<div class="reveal" id="r39"><div class="rev-title">✅ Correcta · B</div><p>El conector del nivel <strong>Descriptivo</strong> es «nivel / estado / magnitud / grado». La locución completa: «¿Cuál es el <em>nivel</em> de X en ámbito A, periodo T?». A = Explicativo; C = Relacional; D = Predictivo.</p></div>
+</div>
+
+<div class="q-card" id="c40">
+<div class="q-top"><span class="q-badge">40</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Analiza: <em>«¿En qué medida mejora la comprensión lectora mediante la implementación de un sistema de gamificación en estudiantes de 4.° de primaria del colegio San Luis, 2025?»</em> ¿A qué nivel corresponde?</p></div>
+<div class="opts" id="o40">
+<label class="opt" onclick="pick(this,40,'A')"><input type="radio" name="q40"><div class="opt-dot">A</div><div class="opt-text">Explicativo</div></label>
+<label class="opt" onclick="pick(this,40,'B')"><input type="radio" name="q40"><div class="opt-dot">B</div><div class="opt-text">Aplicativo</div></label>
+<label class="opt" onclick="pick(this,40,'C')"><input type="radio" name="q40"><div class="opt-dot">C</div><div class="opt-text">Relacional</div></label>
+<label class="opt" onclick="pick(this,40,'D')"><input type="radio" name="q40"><div class="opt-dot">D</div><div class="opt-text">Descriptivo</div></label>
+</div>
+<div class="reveal" id="r40"><div class="rev-title">✅ Correcta · B</div><p><strong>Aplicativo</strong>: usa «¿En qué medida mejora + VD + <em>mediante la implementación de</em> + artefacto?». El conector «mediante la implementación de» es la marca distintiva del nivel Aplicativo.</p></div>
+</div>
+
+<div class="q-card" id="c41">
+<div class="q-top"><span class="q-badge">41</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">¿Cuál sería el PE1 correcto si el PG es: «¿Qué relación existe entre la inteligencia emocional (con dimensiones: autoconciencia, autorregulación y empatía) y el liderazgo en directivos de la UGEL Huamanga, 2025?»</p></div>
+<div class="opts" id="o41">
+<label class="opt" onclick="pick(this,41,'A')"><input type="radio" name="q41"><div class="opt-dot">A</div><div class="opt-text">«¿Por qué la inteligencia emocional afecta al liderazgo en directivos de la UGEL Huamanga, 2025?»</div></label>
+<label class="opt" onclick="pick(this,41,'B')"><input type="radio" name="q41"><div class="opt-dot">B</div><div class="opt-text">«¿Cuál es el nivel de inteligencia emocional de los directivos de la UGEL Huamanga, 2025?»</div></label>
+<label class="opt" onclick="pick(this,41,'C')"><input type="radio" name="q41"><div class="opt-dot">C</div><div class="opt-text">«¿Qué relación existe entre la autoconciencia y el liderazgo en directivos de la UGEL Huamanga, 2025?»</div></label>
+<label class="opt" onclick="pick(this,41,'D')"><input type="radio" name="q41"><div class="opt-dot">D</div><div class="opt-text">«¿Cuál será el nivel de liderazgo de los directivos de la UGEL Huamanga en 2027?»</div></label>
+</div>
+<div class="reveal" id="r41"><div class="rev-title">✅ Correcta · C</div><p>El PE1 usa la <strong>dimensión X1</strong> (autoconciencia) en lugar de la variable completa (inteligencia emocional). Mantiene el mismo nivel (Relacional) y la misma fórmula «¿Qué relación existe entre...?». Las otras opciones cambian el nivel.</p></div>
+</div>
+
+<div class="q-card" id="c42">
+<div class="q-top"><span class="q-badge">42</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">¿Cuántos criterios debe cumplir el Problema General según los apuntes, y cuáles son?</p></div>
+<div class="opts" id="o42">
+<label class="opt" onclick="pick(this,42,'A')"><input type="radio" name="q42"><div class="opt-dot">A</div><div class="opt-text">5 criterios: claridad, concisión, originalidad, pertinencia y factibilidad</div></label>
+<label class="opt" onclick="pick(this,42,'B')"><input type="radio" name="q42"><div class="opt-dot">B</div><div class="opt-text">3 criterios: relación entre variables, pregunta interrogativa clara y admitir contraste empírico</div></label>
+<label class="opt" onclick="pick(this,42,'C')"><input type="radio" name="q42"><div class="opt-dot">C</div><div class="opt-text">2 criterios: usar fórmula sintáctica y tener delimitación temporal</div></label>
+<label class="opt" onclick="pick(this,42,'D')"><input type="radio" name="q42"><div class="opt-dot">D</div><div class="opt-text">4 criterios: nivel, diseño, tipo y coherencia metodológica</div></label>
+</div>
+<div class="reveal" id="r42"><div class="rev-title">✅ Correcta · B</div><p>Son <strong>3 criterios</strong>: (1) Expresar relación entre dos o más variables, (2) Plantearse como pregunta clara y sin ambigüedad, (3) Admitir el contraste empírico (ser comprobable).</p></div>
+</div>
+
+<div class="q-card" id="c43">
+<div class="q-top"><span class="q-badge">43</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">¿Cuál es la locución correcta para formular un PG de nivel Predictivo cuando se quiere <em>comparar</em> el valor pronosticado con el real?</p></div>
+<div class="opts" id="o43">
+<label class="opt" onclick="pick(this,43,'A')"><input type="radio" name="q43"><div class="opt-dot">A</div><div class="opt-text">¿Cómo se presenta X en el ámbito A?</div></label>
+<label class="opt" onclick="pick(this,43,'B')"><input type="radio" name="q43"><div class="opt-dot">B</div><div class="opt-text">¿En qué medida X influye en Y?</div></label>
+<label class="opt" onclick="pick(this,43,'C')"><input type="radio" name="q43"><div class="opt-dot">C</div><div class="opt-text">¿Cuál es la precisión del pronóstico de Y a partir de X, mediante modelo M, para T+K?</div></label>
+<label class="opt" onclick="pick(this,43,'D')"><input type="radio" name="q43"><div class="opt-dot">D</div><div class="opt-text">¿Qué relación existe entre el pronóstico y la realidad?</div></label>
+</div>
+<div class="reveal" id="r43"><div class="rev-title">✅ Correcta · C</div><p>«¿Cuál es la <strong>precisión del pronóstico</strong> de Y a partir de X, mediante modelo M, para T+K?» es la locución predictiva cuando se evalúa el error del modelo (MAE, RMSE). Incluye los 4 elementos del nivel Predictivo: Y, X, M y T+K.</p></div>
+</div>
+
+<div class="q-card" id="c44">
+<div class="q-top"><span class="q-badge">44</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Si X tiene 3 dimensiones (X1, X2, X3) y Y tiene 2 dimensiones (Y1, Y2), ¿cuántos Problemas Específicos se pueden formular en el nivel Relacional?</p></div>
+<div class="opts" id="o44">
+<label class="opt" onclick="pick(this,44,'A')"><input type="radio" name="q44"><div class="opt-dot">A</div><div class="opt-text">2 (uno por cada dimensión de Y)</div></label>
+<label class="opt" onclick="pick(this,44,'B')"><input type="radio" name="q44"><div class="opt-dot">B</div><div class="opt-text">5 (una por cada dimensión de X e Y juntas)</div></label>
+<label class="opt" onclick="pick(this,44,'C')"><input type="radio" name="q44"><div class="opt-dot">C</div><div class="opt-text">3 (uno por cada dimensión de la variable principal X, relacionándola con Y completa)</div></label>
+<label class="opt" onclick="pick(this,44,'D')"><input type="radio" name="q44"><div class="opt-dot">D</div><div class="opt-text">6 (todas las combinaciones posibles Xi×Yj)</div></label>
+</div>
+<div class="reveal" id="r44"><div class="rev-title">✅ Correcta · C</div><p>Lo más frecuente es formular <strong>3 PEi</strong>, uno por cada dimensión de la variable principal X (X1, X2, X3), relacionándola con la variable Y completa. PEi = «¿Qué relación existe entre Xi y Y en ámbito, periodo?»</p></div>
+</div>
+
+<div class="q-card" id="c45">
+<div class="q-top"><span class="q-badge">45</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Identifica la pregunta que MEJOR corresponde al nivel <em>Descriptivo</em>:</p></div>
+<div class="opts" id="o45">
+<label class="opt" onclick="pick(this,45,'A')"><input type="radio" name="q45"><div class="opt-dot">A</div><div class="opt-text">«¿Qué relación existe entre la ansiedad y el rendimiento en la UNSCH, 2025?»</div></label>
+<label class="opt" onclick="pick(this,45,'B')"><input type="radio" name="q45"><div class="opt-dot">B</div><div class="opt-text">«¿Cuál es el nivel de ansiedad en los estudiantes de ingeniería de la UNSCH, semestre 2025-I?»</div></label>
+<label class="opt" onclick="pick(this,45,'C')"><input type="radio" name="q45"><div class="opt-dot">C</div><div class="opt-text">«¿Cómo se presenta la ansiedad en los estudiantes de la UNSCH, 2025?»</div></label>
+<label class="opt" onclick="pick(this,45,'D')"><input type="radio" name="q45"><div class="opt-dot">D</div><div class="opt-text">«¿En qué medida la ansiedad influye en el rendimiento de los estudiantes de la UNSCH, 2025?»</div></label>
+</div>
+<div class="reveal" id="r45"><div class="rev-title">✅ Correcta · B</div><p>«¿Cuál es el <strong>nivel</strong> de X en ámbito, periodo?» es la fórmula del <strong>Descriptivo</strong>. A = Relacional; C = Exploratorio (usa «¿Cómo se presenta?»); D = Explicativo.</p></div>
+</div>
+
+<div class="q-card" id="c46">
+<div class="q-top"><span class="q-badge">46</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">El nivel Aplicativo usa el conector «a través de / con la aplicación de» cuando:</p></div>
+<div class="opts" id="o46">
+<label class="opt" onclick="pick(this,46,'A')"><input type="radio" name="q46"><div class="opt-dot">A</div><div class="opt-text">Se estudia la relación entre dos variables sin intervención.</div></label>
+<label class="opt" onclick="pick(this,46,'B')"><input type="radio" name="q46"><div class="opt-dot">B</div><div class="opt-text">Se pronostica el valor futuro de Y a partir de datos históricos.</div></label>
+<label class="opt" onclick="pick(this,46,'C')"><input type="radio" name="q46"><div class="opt-dot">C</div><div class="opt-text">Se implementa o aplica una metodología, modelo o software como el artefacto tecnológico.</div></label>
+<label class="opt" onclick="pick(this,46,'D')"><input type="radio" name="q46"><div class="opt-dot">D</div><div class="opt-text">Se describe el nivel de una sola variable en un momento del tiempo.</div></label>
+</div>
+<div class="reveal" id="r46"><div class="rev-title">✅ Correcta · C</div><p>«A través de / con la aplicación de» es un conector del nivel <strong>Aplicativo</strong>, alternativo a «mediante la implementación de», usado cuando el artefacto es una metodología, modelo o software aplicado (no necesariamente desarrollado desde cero).</p></div>
+</div>
+
+<div class="q-card" id="c47">
+<div class="q-top"><span class="q-badge">47</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">La principal diferencia entre el nivel Explicativo y el Aplicativo, aunque ambos usan la locución «¿En qué medida...?», es:</p></div>
+<div class="opts" id="o47">
+<label class="opt" onclick="pick(this,47,'A')"><input type="radio" name="q47"><div class="opt-dot">A</div><div class="opt-text">El nivel Aplicativo tiene más preguntas específicas que el Explicativo.</div></label>
+<label class="opt" onclick="pick(this,47,'B')"><input type="radio" name="q47"><div class="opt-dot">B</div><div class="opt-text">El Aplicativo exige el conector «mediante la implementación de» y que el investigador construya un artefacto; el Explicativo solo mide el efecto de la VI sin construir nada.</div></label>
+<label class="opt" onclick="pick(this,47,'C')"><input type="radio" name="q47"><div class="opt-dot">C</div><div class="opt-text">El Explicativo siempre usa diseño cuasi-experimental y el Aplicativo usa diseño experimental puro.</div></label>
+<label class="opt" onclick="pick(this,47,'D')"><input type="radio" name="q47"><div class="opt-dot">D</div><div class="opt-text">No hay diferencia; son sinónimos en la metodología de investigación.</div></label>
+</div>
+<div class="reveal" id="r47"><div class="rev-title">✅ Correcta · B</div><p>La diferencia clave: el <strong>Aplicativo</strong> requiere el conector «mediante la implementación de» + que el investigador <em>construya y valide un artefacto</em>. El <strong>Explicativo</strong> solo mide el efecto causal de una VI ya existente sobre una VD, sin construir nada.</p></div>
+</div>
+
+<div class="q-card" id="c48">
+<div class="q-top"><span class="q-badge">48</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Para el nivel Predictivo, el elemento «M» en la fórmula del PG se refiere a:</p></div>
+<div class="opts" id="o48">
+<label class="opt" onclick="pick(this,48,'A')"><input type="radio" name="q48"><div class="opt-dot">A</div><div class="opt-text">La muestra de participantes del estudio.</div></label>
+<label class="opt" onclick="pick(this,48,'B')"><input type="radio" name="q48"><div class="opt-dot">B</div><div class="opt-text">El mes de inicio del periodo de pronóstico.</div></label>
+<label class="opt" onclick="pick(this,48,'C')"><input type="radio" name="q48"><div class="opt-dot">C</div><div class="opt-text">El modelo o algoritmo estadístico o de machine learning utilizado para el pronóstico.</div></label>
+<label class="opt" onclick="pick(this,48,'D')"><input type="radio" name="q48"><div class="opt-dot">D</div><div class="opt-text">Las medidas de tendencia central calculadas.</div></label>
+</div>
+<div class="reveal" id="r48"><div class="rev-title">✅ Correcta · C</div><p>En el nivel Predictivo, <strong>M</strong> = el modelo o algoritmo utilizado (LSTM, ARIMA, regresión logística, Random Forest, etc.). Es un elemento opcional pero recomendado para mayor especificidad técnica del PG.</p></div>
+</div>
+
+<div class="q-card" id="c49">
+<div class="q-top"><span class="q-badge">49</span><span class="q-tag">Sesión 6</span>
+<p class="q-text">Un investigador tiene la variable X con dimensiones X1 y X2. Usando el nivel Relacional, ¿cuántos PEi correctos puede formular?</p></div>
+<div class="opts" id="o49">
+<label class="opt" onclick="pick(this,49,'A')"><input type="radio" name="q49"><div class="opt-dot">A</div><div class="opt-text">Solo 1, porque el PG ya abarca todo.</div></label>
+<label class="opt" onclick="pick(this,49,'B')"><input type="radio" name="q49"><div class="opt-dot">B</div><div class="opt-text">2 PEi: PE1 usando X1 con Y, y PE2 usando X2 con Y.</div></label>
+<label class="opt" onclick="pick(this,49,'C')"><input type="radio" name="q49"><div class="opt-dot">C</div><div class="opt-text">4 PEi: una por cada combinación de dimensiones de X e Y.</div></label>
+<label class="opt" onclick="pick(this,49,'D')"><input type="radio" name="q49"><div class="opt-dot">D</div><div class="opt-text">Ninguno; los PEi solo aplican al nivel Descriptivo.</div></label>
+</div>
+<div class="reveal" id="r49"><div class="rev-title">✅ Correcta · B</div><p><strong>2 PEi</strong>: PE1 = «¿Qué relación existe entre X1 y Y, en ámbito, periodo?» y PE2 = «¿Qué relación existe entre X2 y Y, en ámbito, periodo?». El número de PEi equivale al número de dimensiones de la variable principal.</p></div>
+</div>
+
+<div class="q-card" id="c50">
+<div class="q-top"><span class="q-badge">50</span><span class="q-tag">Integración</span>
+<p class="q-text">¿Cuál de los siguientes conjuntos representa correctamente la <em>cadena de coherencia epistemológica</em> completa de una investigación cuantitativa?</p></div>
+<div class="opts" id="o50">
+<label class="opt" onclick="pick(this,50,'A')"><input type="radio" name="q50"><div class="opt-dot">A</div><div class="opt-text">Título → Presupuesto → Muestra → Cronograma → Informe final</div></label>
+<label class="opt" onclick="pick(this,50,'B')"><input type="radio" name="q50"><div class="opt-dot">B</div><div class="opt-text">Problema → Nivel → Diseño → Tipo → Hipótesis → Objetivos → Instrumentos → Estadística → Conclusiones</div></label>
+<label class="opt" onclick="pick(this,50,'C')"><input type="radio" name="q50"><div class="opt-dot">C</div><div class="opt-text">Antecedentes → Título → Marco teórico → Encuesta → Resultados</div></label>
+<label class="opt" onclick="pick(this,50,'D')"><input type="radio" name="q50"><div class="opt-dot">D</div><div class="opt-text">Hipótesis → Muestra → Instrumento → Problema → Conclusiones</div></label>
+</div>
+<div class="reveal" id="r50"><div class="rev-title">✅ Correcta · B</div><p>La cadena completa es: <strong>Problema → Nivel → Diseño → Tipo → Hipótesis → Objetivos → Instrumentos → Estadística → Conclusiones</strong>. Si cualquier eslabón se desalinea, toda la cadena pierde validez epistemológica.</p></div>
+</div>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-area">
+  <p class="sub-note" id="sub-note">Responde todas las preguntas. Puedes revisar tus selecciones antes de finalizar.</p>
+  <button class="btn-sub" id="btn-sub" onclick="submitQuiz()">✅ Finalizar y ver respuestas</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+<div class="res-card">
+  <div class="res-trophy">🏆</div>
+  <h2 class="res-title">Cuestionario 2 — Completado</h2>
+  <p class="res-sub">Metodología de Tesis · 50 preguntas nuevas</p>
+
+  <div class="ring-wrap">
+    <svg class="ring-svg" width="160" height="160" viewBox="0 0 160 160">
+      <circle class="ring-bg" cx="80" cy="80" r="70"/>
+      <circle class="ring-fill" id="ring" cx="80" cy="80" r="70"/>
+    </svg>
+    <div class="ring-inner">
+      <div class="ring-pct" id="score-pct">—</div>
+      <div class="ring-lbl">Puntaje</div>
+    </div>
+  </div>
+
+  <div id="grade-badge" class="grade">—</div>
+
+  <div class="res-grid">
+    <div class="res-stat"><div class="rs-val g" id="r-ok">—</div><div class="rs-lbl">✅ Correctas</div></div>
+    <div class="res-stat"><div class="rs-val r" id="r-bad">—</div><div class="rs-lbl">❌ Incorrectas</div></div>
+    <div class="res-stat"><div class="rs-val y" id="r-skip">—</div><div class="rs-lbl">⚪ Sin responder</div></div>
+  </div>
+
+  <div class="breakdown">
+    <div class="bd-title">Rendimiento por Sesión</div>
+    <div class="bd-row"><div class="bd-name">Sesión 1 · Ciencia/Método</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar1" style="background:#818cf8"></div></div><div class="bd-pct" id="pct1">—</div></div>
+    <div class="bd-row"><div class="bd-name">Sesión 2 · Título</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar2" style="background:#06b6d4"></div></div><div class="bd-pct" id="pct2">—</div></div>
+    <div class="bd-row"><div class="bd-name">Sesión 3 · Diseño/Tipo</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar3" style="background:#f59e0b"></div></div><div class="bd-pct" id="pct3">—</div></div>
+    <div class="bd-row"><div class="bd-name">Sesión 4 · Antecedentes</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar4" style="background:#10b981"></div></div><div class="bd-pct" id="pct4">—</div></div>
+    <div class="bd-row"><div class="bd-name">Sesión 5 · Planteamiento</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar5" style="background:#f97316"></div></div><div class="bd-pct" id="pct5">—</div></div>
+    <div class="bd-row"><div class="bd-name">Sesión 6 · Formulación</div><div class="bd-bar-bg"><div class="bd-bar-fill" id="bar6" style="background:#e11d48"></div></div><div class="bd-pct" id="pct6">—</div></div>
+  </div>
+
+  <div class="weak-box" id="weak-box" style="display:none">
+    <div class="weak-title">📌 Temas para repasar</div>
+    <ul class="weak-list" id="weak-list"></ul>
+  </div>
+
+  <button class="btn-retry" onclick="location.reload()">🔄 Reintentar Cuestionario 2</button>
+</div>
+</div>
+
+<script>
+const CORRECT={
+  1:'B',2:'C',3:'C',4:'B',5:'B',6:'C',7:'D',8:'B',9:'B',10:'D',
+  11:'C',12:'B',13:'B',14:'C',15:'B',16:'B',
+  17:'B',18:'C',19:'B',20:'C',21:'B',22:'B',23:'C',
+  24:'B',25:'C',26:'C',27:'B',28:'C',29:'B',30:'B',
+  31:'B',32:'C',33:'C',34:'B',35:'B',36:'B',37:'C',
+  38:'B',39:'B',40:'B',41:'C',42:'B',43:'C',44:'C',45:'B',46:'C',47:'B',48:'C',49:'B',50:'B'
+};
+
+const TOPICS={
+  1:'Conocimiento científico vs ordinario',2:'Estadística en nivel Descriptivo',
+  3:'Identificar nivel Predictivo',4:'Afirmación incorrecta sobre nivel Relacional',
+  5:'Por qué el Aplicativo es el más alto',6:'Función de Control',
+  7:'Pregunta clave del Explicativo',8:'Por qué no saltar niveles',
+  9:'«¿Cómo se presenta?» = Exploratorio',10:'Función de Predicción',
+  11:'Título que cumple los 6 criterios',12:'Criterio de Originalidad',
+  13:'«¿Cómo se obtuvieron los datos?» en el resumen',14:'Criterio de Concisión',
+  15:'Por qué incluir tamaño de muestra en el resumen',16:'Criterio de Coherencia',
+  17:'Transversal vs longitudinal',18:'Diseño del nivel Relacional',
+  19:'Prospectivo vs Retrospectivo',20:'Clasificación por intervención',
+  21:'Combinación de tipos = nivel Descriptivo',22:'Cuándo el tipo es Analítico',
+  23:'Diseño del nivel Explicativo',
+  24:'Orden de redacción de un antecedente',25:'Scopus/WoS como índices de calidad',
+  26:'Operador AND para intersección',27:'Comillas para frase exacta',
+  28:'Criterios de selección de antecedentes',29:'Antecedente nacional vs local',
+  30:'Qué hacer sin antecedentes directos',
+  31:'Datos que incluye el Diagnóstico',32:'Delimitación Temporal',
+  33:'Justificación Metodológica',34:'Función del Control del Pronóstico',
+  35:'Justificación Teórica',36:'Por qué ir de internacional a local',
+  37:'Delimitación Conceptual',
+  38:'Errores en pregunta mal formulada',39:'Conector del nivel Descriptivo',
+  40:'Identificar nivel Aplicativo',41:'Formulación correcta de PE1',
+  42:'Criterios del Problema General',43:'Locución predictiva de precisión',
+  44:'Número de PEi según dimensiones',45:'Identificar nivel Descriptivo',
+  46:'Conector «a través de» en Aplicativo',47:'Diferencia Explicativo vs Aplicativo',
+  48:'Elemento M en nivel Predictivo',49:'PEi según dimensiones de X',
+  50:'Cadena de coherencia epistemológica'
+};
+
+const SESS={1:[1,10],2:[11,16],3:[17,23],4:[24,30],5:[31,37],6:[38,50]};
+
+const ua={};
+const answered=new Set();
+let submitted=false;
+let timeLeft=45*60;
+
+const timerEl=document.getElementById('timer');
+const tv=setInterval(()=>{
+  if(submitted){clearInterval(tv);return;}
+  timeLeft--;
+  const m=String(Math.floor(timeLeft/60)).padStart(2,'0');
+  const s=String(timeLeft%60).padStart(2,'0');
+  timerEl.textContent=`${m}:${s}`;
+  if(timeLeft<=300) timerEl.className='warn';
+  if(timeLeft<=60) timerEl.className='danger';
+  if(timeLeft<=0){clearInterval(tv);submitQuiz();}
+},1000);
+
+function pick(label,qNum,val){
+  if(submitted) return;
+  document.getElementById('o'+qNum).querySelectorAll('.opt').forEach(l=>l.classList.remove('selected'));
+  label.classList.add('selected');
+  ua[qNum]=val;
+  answered.add(qNum);
+  document.getElementById('c'+qNum).classList.add('answered');
+  const n=answered.size;
+  document.getElementById('prog-n').textContent=n;
+  document.getElementById('prog-label').textContent=`${n} de 50 respondidas`;
+  document.getElementById('prog-pct').textContent=Math.round(n/50*100)+'%';
+  document.getElementById('prog-fill').style.width=(n/50*100)+'%';
+}
+
+function submitQuiz(){
+  submitted=true; clearInterval(tv);
+  let c=0,w=0,s=0;
+  for(let q=1;q<=50;q++){
+    const ans=CORRECT[q]; const user=ua[q];
+    const opts=document.getElementById('o'+q);
+    const labels=opts.querySelectorAll('.opt');
+    const letters=['A','B','C','D'];
+    labels.forEach((lbl,i)=>{
+      const letter=letters[i];
+      if(letter===ans){lbl.classList.add('correct');}
+      if(user===letter && letter!==ans){lbl.classList.add('wrong');}
+    });
+    document.getElementById('r'+q).classList.add('show');
+    if(!user) s++;
+    else if(user===ans) c++;
+    else w++;
+    document.getElementById('c'+q).classList.remove('answered');
+    document.getElementById('c'+q).classList.add((!user||user!==ans)?'got-wrong':'got-right');
+  }
+  const pct=Math.round(c/50*100);
+  const circ=2*Math.PI*70;
+  document.getElementById('ring').style.strokeDashoffset=circ-(circ*pct/100);
+  document.getElementById('score-pct').textContent=pct+'%';
+  document.getElementById('r-ok').textContent=c;
+  document.getElementById('r-bad').textContent=w;
+  document.getElementById('r-skip').textContent=s;
+  const gb=document.getElementById('grade-badge');
+  if(pct>=90){gb.textContent='🏆 Sobresaliente — '+pct+'%';gb.className='grade g-s';}
+  else if(pct>=75){gb.textContent='🌟 Muy Bueno — '+pct+'%';gb.className='grade g-a';}
+  else if(pct>=60){gb.textContent='✅ Aprobado — '+pct+'%';gb.className='grade g-b';}
+  else if(pct>=40){gb.textContent='⚠ Regular — '+pct+'%';gb.className='grade g-c';}
+  else{gb.textContent='❌ Necesitas repasar — '+pct+'%';gb.className='grade g-d';}
+  for(const[s,rng] of Object.entries(SESS)){
+    const total=rng[1]-rng[0]+1; let sc=0;
+    for(let q=rng[0];q<=rng[1];q++){if(ua[q]===CORRECT[q]) sc++;}
+    const p=Math.round(sc/total*100);
+    document.getElementById('bar'+s).style.width=p+'%';
+    document.getElementById('pct'+s).textContent=p+'%';
+  }
+  const bad=[];
+  for(let q=1;q<=50;q++){if(ua[q]!==CORRECT[q]) bad.push(q);}
+  if(bad.length>0){
+    document.getElementById('weak-box').style.display='block';
+    document.getElementById('weak-list').innerHTML=bad.map(q=>`<li><b>P${String(q).padStart(2,'0')}</b> — ${TOPICS[q]}</li>`).join('');
+  }
+  document.getElementById('btn-sub').disabled=true;
+  document.getElementById('sub-note').textContent='Revisa cada ✅ verde para leer la explicación completa de la respuesta correcta.';
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
