@@ -9,7 +9,7 @@ Definición :  El mercado es aquel entorno donde interactúan las dos fuerzas qu
 El estudio del mercado busca la cantidad de bienes y servicios que la comunidad adquirirá a un determinado precio.
 ### Objetivo del Estudio del mercado
 Los objetivos que tiene el mercado son los siguientes : 
-	1. Verificar que existe un mercado insatisfecho y introducir el objeto de estudio.
+	1.  Verificar que existe un mercado insatisfecho y introducir el objeto de estudio.
 	2. Demostrar que tecnológicamente se pude construir el producto y que existen barreras para el abastecimiento de los insumos para su fabricación .
 ### Ventajas y Desventajas 
 #### Ventajas :
@@ -48,7 +48,7 @@ Es el estudio del comportamiento de los competidores donde podemos extraer su ob
 4. ¿Qué tan atractivo resulta el mercado ?
 
 ## Segmentación del mercado
-La segmentación del mercado es dividir el mercado en partes que tengan características semejantes o homogéneas entre si .
+La segmentación del mercado es ==dividir el mercado== en partes que tengan características semejantes o homogéneas entre si .
 ### Criterios de Segmentación
 1. geográfica 
 2. demográfica 

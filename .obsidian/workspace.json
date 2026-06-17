@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Proyecto de Inversion/Sesion - 5 Media del mercado.md",
+                "file": "Proyecto de Inversion/Sesion - 5 Medidas del mercado.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Sesion - 5 Media del mercado"
+              "title": "Sesion - 5 Medidas del mercado"
             }
           },
           {
@@ -31,8 +31,7 @@
               "title": "Vista gráfica"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -194,6 +193,16 @@
               "icon": "message-square",
               "title": "Copilot"
             }
+          },
+          {
+            "id": "d0d688b039a2e30b",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
           }
         ],
         "currentTab": 5
@@ -214,24 +223,25 @@
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
       "markdown-importer:Abrir el importador de Markdown": false,
-      "bases:Crear nueva base": false
+      "bases:Crear nueva base": false,
+      "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "f28ab941b9a716c0",
+  "active": "22b777b8ed759545",
   "lastOpenFiles": [
-    "Proyecto de Inversion/Sesion - 5 Media del mercado.md",
-    "Proyecto de Inversion/Sesion - 4 Análisis del Entorno Competitivo.md",
-    "Proyecto de Inversion/Sesion - 1 Proyecto de Inversión.md",
-    "Excalidraw/Pasos del Proyecto de Inversión.md",
-    "Excalidraw/Definición de un Producto.md",
-    "Excalidraw/Ciclo de vida - Proyecto.md",
-    "Excalidraw/Árbol de problemas.md",
-    "Excalidraw/Árbol de objetivos.md",
-    "Excalidraw/Análisis de la competitividad.md",
     "Excalidraw/Análisis de Entorno.md",
-    "Auditoria de Sistemas/Primer Examen.canvas",
     "Proyecto de Inversion/Sesion - 3 Análisis de Entorno.md",
+    "Proyecto de Inversion/Sesion - 4 Análisis del Entorno Competitivo.md",
+    "Proyecto de Inversion/Sesion - 5 Medidas del mercado.md",
+    "Excalidraw/Definición de un Producto.md",
+    "Excalidraw/Análisis de la competitividad.md",
+    "Excalidraw/Árbol de objetivos.md",
+    "Excalidraw/Árbol de problemas.md",
     "Proyecto de Inversion/Sesion - 2  Tipos de proyecto de Inversión.md",
+    "Proyecto de Inversion/Sesion - 1 Proyecto de Inversión.md",
+    "Excalidraw/Ciclo de vida - Proyecto.md",
+    "Excalidraw/Pasos del Proyecto de Inversión.md",
+    "Auditoria de Sistemas/Primer Examen.canvas",
     "Tesis/Sesion - 7 Planteamiento de los Objetivos.md",
     "Tesis/Sesion - 6 Formulacion del problema.md",
     "Tesis/Sesión - 2 Titulo de la tesis.md",

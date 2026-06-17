@@ -10,7 +10,7 @@ Definición : Es la salida o desembolsó de dinero con el fin de obtener benefic
 Definición : Es la formalización de una idea de negocio que tiene como objetivo encontrar una solución inteligente a un planteamiento de problema .
 
 >[!NOTA] Nota Importante
->Es necesario o tarea importante del proyecto realizar el análisis de que si es viable es su implementación y desarrollo  proyecto 
+>Es necesario o tarea importante del proyecto realizar el análisis de que si es viable  su implementación y desarrollo del proyecto 
 
 ## Pasos del proyecto de Inversión 
 [[Pasos del Proyecto de Inversión]] Diagrama 
