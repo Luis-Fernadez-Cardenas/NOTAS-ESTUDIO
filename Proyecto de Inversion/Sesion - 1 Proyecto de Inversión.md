@@ -1,10 +1,10 @@
 ## Proyecto
 Definición :  El proyecto es una solución inteligente a un planteamiento de problema tendiente a resolver .
 >[!NOTA] Nota importante
->El proyecto pude tener distintos efectos ya sean directos e indirectos en el población beneficiaria  , además no cociderar el estado monetario del proyecto resulta permisioso lo que afecta en el estado de animo de los beneficiarios.
+>El proyecto puede tener distintos efectos ya sean directos e indirectos en la población beneficiaria, además no considerar el estado monetario del proyecto resulta pernicioso lo que afecta en el estado de ánimo de los beneficiarios.
 
 ## Inversión
-Definición : Es la salida o desembolsó de dinero con el fin de obtener beneficios de ella ya sea a largo plazo o corto plazo .
+Definición : Es la salida o desembolso de dinero con el fin de obtener beneficios de ella ya sea a largo plazo o corto plazo .
 
 ## Proyecto de inversión.
 Definición : Es la formalización de una idea de negocio que tiene como objetivo encontrar una solución inteligente a un planteamiento de problema .

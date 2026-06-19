@@ -11,8 +11,8 @@ Otra forma de clasificación podría existir la siguiente :
 	- Creación de un nuevo negocio 
 	- Proyecto de modernización 
 
->[!NOTE] Objetivo de los proyecto de inversión
-> Aprovechar los recursos  para mejorar las condiciones de vida de una comunidad
+>[!NOTE] Objetivo de los proyectos de inversión
+> Aprovechar los recursos para mejorar las condiciones de vida de una comunidad
 
 ## Ciclo de Vida de los proyectos (desarrollo )
 [[Sesion - 1 Proyecto de Inversión]]
@@ -27,5 +27,5 @@ Fases :
 3. Operación
 	Es donde la inversión ya materializada esta en ejecución , generación del producto. 
 4. Evaluación de Resultados 
-	Es la evaluación de que efectivamente el problema a sido solucionado por la intervención del proyecto 
+	Es la evaluación de que efectivamente el problema ha sido solucionado por la intervención del proyecto 
 	 

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario — Proyectos de Inversión</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1e2631;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent2: #7ee787;
+      --danger: #f85149;
+      --warning: #d29922;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0d1117 0%, #1a2744 50%, #0d2137 100%);
+      padding: 60px 24px 50px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(88,166,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.3);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #e6edf3, #58a6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── PROGRESS ── */
+    .progress-bar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,17,23,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #58a6ff, #7ee787);
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .progress-pct {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── BLOCK HEADER ── */
+    .block-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 48px 0 24px;
+    }
+    .block-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .block-dot.blue   { background: rgba(88,166,255,0.15); border: 2px solid rgba(88,166,255,0.4); }
+    .block-dot.green  { background: rgba(126,231,135,0.15); border: 2px solid rgba(126,231,135,0.4); }
+    .block-dot.yellow { background: rgba(210,153,34,0.15); border: 2px solid rgba(210,153,34,0.4); }
+    .block-dot.orange { background: rgba(255,140,0,0.15); border: 2px solid rgba(255,140,0,0.4); }
+    .block-dot.red    { background: rgba(248,81,73,0.15); border: 2px solid rgba(248,81,73,0.4); }
+    .block-info h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .block-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── QUESTION CARD ── */
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 16px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .q-card:hover {
+      border-color: rgba(88,166,255,0.25);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .q-card.answered-correct {
+      border-color: rgba(126,231,135,0.5);
+      background: linear-gradient(135deg, var(--surface), rgba(126,231,135,0.04));
+    }
+    .q-card.answered-wrong {
+      border-color: rgba(248,81,73,0.5);
+      background: linear-gradient(135deg, var(--surface), rgba(248,81,73,0.04));
+    }
+
+    .q-number {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .q-text {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .q-text strong {
+      color: var(--accent);
+    }
+
+    /* ── OPTIONS ── */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .option:hover:not(.disabled) {
+      border-color: rgba(88,166,255,0.4);
+      background: rgba(88,166,255,0.06);
+      transform: translateX(3px);
+    }
+    .option.selected {
+      border-color: var(--accent);
+      background: rgba(88,166,255,0.1);
+    }
+    .option.correct {
+      border-color: var(--accent2);
+      background: rgba(126,231,135,0.1);
+    }
+    .option.wrong {
+      border-color: var(--danger);
+      background: rgba(248,81,73,0.1);
+    }
+    .option.disabled {
+      cursor: default;
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .option.selected .opt-letter { background: var(--accent); color: #0d1117; }
+    .option.correct .opt-letter  { background: var(--accent2); color: #0d1117; }
+    .option.wrong .opt-letter    { background: var(--danger); color: white; }
+    .opt-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      padding-top: 2px;
+    }
+
+    /* ── FEEDBACK ── */
+    .feedback {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      display: none;
+    }
+    .feedback.show { display: block; animation: fadeIn 0.3s ease; }
+    .feedback.correct-fb {
+      background: rgba(126,231,135,0.08);
+      border: 1px solid rgba(126,231,135,0.3);
+      color: #7ee787;
+    }
+    .feedback.wrong-fb {
+      background: rgba(248,81,73,0.08);
+      border: 1px solid rgba(248,81,73,0.3);
+      color: #ffa0a0;
+    }
+    .feedback-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-wrap {
+      text-align: center;
+      margin-top: 60px;
+      padding: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .submit-wrap h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .submit-wrap p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, #58a6ff, #7ee787);
+      color: #0d1117;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.5px;
+    }
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(88,166,255,0.3);
+    }
+    .btn-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .unanswered-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--warning);
+      display: none;
+    }
+
+    /* ── RESULTS PANEL ── */
+    .results-panel {
+      display: none;
+      margin-top: 48px;
+      padding: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+    .results-panel.show { display: block; }
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent2) var(--pct, 0%), var(--surface2) 0%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    .score-circle::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      background: var(--surface);
+      border-radius: 50%;
+    }
+    .score-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .score-num { font-size: 36px; font-weight: 800; color: var(--text); }
+    .score-den { font-size: 16px; color: var(--text-muted); }
+    .score-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+    .score-msg { color: var(--text-muted); font-size: 15px; margin-bottom: 28px; }
+    .score-breakdown {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .sb-item { text-align: center; }
+    .sb-num { font-size: 28px; font-weight: 800; }
+    .sb-num.c { color: var(--accent2); }
+    .sb-num.w { color: var(--danger); }
+    .sb-num.s { color: var(--accent); }
+    .sb-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .btn-retry {
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      padding: 12px 36px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-retry:hover {
+      background: rgba(88,166,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ── ANSWER KEY ── */
+    .answer-key {
+      display: none;
+      margin-top: 32px;
+    }
+    .answer-key.show { display: block; }
+    .ak-title {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .ak-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+    .ak-item:hover { border-color: rgba(88,166,255,0.25); }
+    .ak-q {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .ak-num {
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .ak-question { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+    .ak-answer {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(126,231,135,0.06);
+      border: 1px solid rgba(126,231,135,0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+    .ak-check { color: var(--accent2); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .ak-answer-text { font-size: 14px; font-weight: 600; color: var(--accent2); }
+    .ak-why {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 4px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { padding: 40px 16px 36px; }
+      .container { padding: 24px 16px 60px; }
+      .q-card { padding: 20px; }
+      .stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📚 Examen de práctica</div>
+  <h1>Proyectos de Inversión</h1>
+  <p>Cuestionario de 40 preguntas de opción múltiple basado en tus sesiones de clase</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">40</div><div class="stat-label">Preguntas</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Bloques</div></div>
+    <div class="stat"><div class="stat-num" id="hero-score">–</div><div class="stat-label">Tu puntaje</div></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Progreso</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+const questions = [
+  // BLOQUE 1 — Conceptos Fundamentales
+  {
+    block: 0,
+    text: '¿Cuál es la definición correcta de un <strong>Proyecto de Inversión</strong>?',
+    options: [
+      'Es el desembolso de dinero para obtener ganancias a corto plazo',
+      'Es la formalización de una idea de negocio que tiene como objetivo encontrar una solución inteligente a un planteamiento de problema',
+      'Es un documento legal requerido por el gobierno para iniciar una empresa',
+      'Es el estudio financiero de una organización existente'
+    ],
+    answer: 1,
+    why: 'Según los apuntes, el Proyecto de Inversión se define como la formalización de una idea de negocio cuyo objetivo es encontrar una solución inteligente a un planteamiento de problema. No se limita solo al aspecto económico ni a trámites legales.'
+  },
+  {
+    block: 0,
+    text: '¿Qué es la <strong>Inversión</strong> según los apuntes del curso?',
+    options: [
+      'La ganancia obtenida de un negocio exitoso',
+      'El conjunto de acciones para mejorar una empresa',
+      'La salida o desembolso de dinero con el fin de obtener beneficios ya sea a largo o corto plazo',
+      'El análisis del mercado objetivo de un producto'
+    ],
+    answer: 2,
+    why: 'La Inversión se define específicamente como la salida o desembolso de dinero orientado a obtener beneficios futuros. El término clave es "desembolso", que implica un egreso monetario actual con expectativa de retorno.'
+  },
+  {
+    block: 0,
+    text: 'Un <strong>proyecto</strong> se define como:',
+    options: [
+      'Un plan financiero para conseguir financiamiento bancario',
+      'Una solución inteligente a un planteamiento de problema tendiente a resolver',
+      'Un documento de evaluación de proveedores',
+      'Un estudio de rentabilidad exclusivamente'
+    ],
+    answer: 1,
+    why: 'El proyecto, en su definición básica, es una solución inteligente a un planteamiento de problema. Esto lo distingue de simples planes financieros o documentos administrativos.'
+  },
+  {
+    block: 0,
+    text: 'Según la memotecnia <strong>IFEER</strong>, ¿cuáles son los pasos del Proyecto de Inversión?',
+    options: [
+      'Idea, Formulación, Estudio, Evaluación, Resultados',
+      'Identificación, Definición-Selección, Formulación, Evaluación, Evaluación de Resultados',
+      'Inversión, Financiamiento, Ejecución, Evaluación, Rentabilidad',
+      'Idea, Factibilidad, Ejecución, Estadística, Revisión'
+    ],
+    answer: 1,
+    why: 'La memotecnia IFEER representa: Identificación, Formulación (Definición y Selección), Evaluación, Ejecución y Evaluación de Resultados. Cada letra corresponde al paso inicial de cada etapa.'
+  },
+  {
+    block: 0,
+    text: '¿Cuál es la memotecnia correcta para recordar el <strong>Ciclo de Vida</strong> de un proyecto?',
+    options: ['IFEER', 'PIIOEVA', 'PRIMER', 'PREVAL'],
+    answer: 1,
+    why: 'PIIOEVA es la memotecnia del Ciclo de Vida: Pre inversión, Inversión, Operación, Evaluación de Resultados. IFEER corresponde a los Pasos del Proyecto de Inversión, son conceptos distintos.'
+  },
+  {
+    block: 0,
+    text: 'El ciclo de vida de un proyecto inicia con:',
+    options: [
+      'La formulación del presupuesto',
+      'La aprobación del financiamiento',
+      'Un problema originado de una necesidad',
+      'La selección del equipo de trabajo'
+    ],
+    answer: 2,
+    why: 'Textualmente en los apuntes: "El ciclo de vida de un proyecto inicia con un problema originado de una necesidad." Esto refleja el enfoque de los proyectos sociales y de inversión que parten de identificar una problemática real.'
+  },
+  {
+    block: 0,
+    text: '¿Cuál de las siguientes afirmaciones sobre los efectos de un proyecto es <strong>correcta</strong>?',
+    options: [
+      'Un proyecto solo tiene efectos directos en la población',
+      'El estado monetario del proyecto no influye en los beneficiarios',
+      'El proyecto puede tener distintos efectos ya sean directos e indirectos en la población beneficiaria',
+      'Los proyectos de inversión no generan efectos secundarios'
+    ],
+    answer: 2,
+    why: 'Los proyectos generan efectos directos e indirectos. Además, no considerar el estado monetario del proyecto es pernicioso, ya que afecta el estado de ánimo de los beneficiarios. Los efectos van más allá de lo inmediato y visible.'
+  },
+  {
+    block: 0,
+    text: '¿Cuál es la tarea más importante en la evaluación de un proyecto de inversión?',
+    options: [
+      'Calcular las ganancias esperadas',
+      'Realizar el análisis de si es viable su implementación y desarrollo',
+      'Conseguir inversores externos',
+      'Publicar el proyecto en medios oficiales'
+    ],
+    answer: 1,
+    why: 'Los apuntes señalan que es "necesario o tarea importante del proyecto realizar el análisis de que si es viable su implementación y desarrollo". La viabilidad es el análisis central de cualquier proyecto de inversión.'
+  },
+  {
+    block: 0,
+    text: 'Según la clasificación <strong>"según la finalidad del estudio"</strong>, ¿cuál de las siguientes es una categoría de proyecto?',
+    options: [
+      'Proyecto de impacto ambiental',
+      'Proyecto de capacidad de pago',
+      'Proyecto de inclusión social',
+      'Proyecto de diversificación'
+    ],
+    answer: 1,
+    why: 'Según la finalidad del estudio, los proyectos se clasifican en: Rentabilidad del proyecto, Rentabilidad de la inversión y Capacidad de pago. Las otras opciones no corresponden a esta clasificación.'
+  },
+  {
+    block: 0,
+    text: 'Según su <strong>objeto de inversión</strong>, los proyectos pueden ser de:',
+    options: [
+      'Rentabilidad o de eficiencia',
+      'Creación de un nuevo negocio o proyecto de modernización',
+      'Corto o largo plazo',
+      'Públicos o privados'
+    ],
+    answer: 1,
+    why: 'La clasificación "según su objeto de inversión" distingue entre proyectos de creación de un nuevo negocio y proyectos de modernización. Estas son las dos subcategorías explícitas en los apuntes.'
+  },
+
+  // BLOQUE 2 — Tipos y Ciclo de Vida
+  {
+    block: 1,
+    text: '¿Cuáles son los tres tipos de proyectos de inversión según su <strong>relación entre sí</strong>?',
+    options: [
+      'Lucrativos, no lucrativos y mixtos',
+      'Dependientes, independientes y excluyentes',
+      'Públicos, privados y mixtos',
+      'Corto, mediano y largo plazo'
+    ],
+    answer: 1,
+    why: 'Los apuntes listan explícitamente tres tipos según la relación entre proyectos: Dependientes, Independientes y Excluyentes. Esta clasificación indica si los proyectos pueden coexistir, se excluyen mutuamente, o uno depende del otro.'
+  },
+  {
+    block: 1,
+    text: '¿Cuál es el <strong>objetivo principal</strong> de los proyectos de inversión?',
+    options: [
+      'Maximizar las ganancias del inversionista',
+      'Aprovechar los recursos para mejorar las condiciones de vida de una comunidad',
+      'Reducir los costos operativos de una empresa',
+      'Incrementar el empleo en el sector privado'
+    ],
+    answer: 1,
+    why: 'El objetivo de los proyectos de inversión, según los apuntes, es "aprovechar los recursos para mejorar las condiciones de vida de una comunidad". Esto refleja un enfoque social y no meramente lucrativo.'
+  },
+  {
+    block: 1,
+    text: '¿En qué etapa del ciclo de vida se <strong>identifica el problema</strong> y se generan alternativas de solución?',
+    options: ['Etapa de perfil', 'Etapa de inversión', 'Etapa de idea', 'Etapa de operación'],
+    answer: 2,
+    why: 'La etapa de idea (dentro de la Pre Inversión) es donde se identifica el problema y también las alternativas de solución. La etapa de perfil es posterior y se basa en información secundaria.'
+  },
+  {
+    block: 1,
+    text: '¿Cómo se caracteriza la <strong>etapa de perfil</strong> dentro de la Pre Inversión?',
+    options: [
+      'Es dinámica y basada en información primaria',
+      'Es estática y basada en información secundaria y cualitativa',
+      'Se basa únicamente en datos financieros cuantitativos',
+      'Requiere la implementación física del proyecto'
+    ],
+    answer: 1,
+    why: 'La etapa de perfil se caracteriza por ser estática y basada en información secundaria y cualitativa. Esto la distingue de estudios más profundos como la prefactibilidad y factibilidad, que usan información primaria.'
+  },
+  {
+    block: 1,
+    text: 'La fase de <strong>Inversión</strong> en el ciclo de vida corresponde a:',
+    options: [
+      'La evaluación de los resultados finales del proyecto',
+      'El proceso de implementación del proyecto donde se materializan todas las inversiones previas a la marcha',
+      'La etapa de identificación de problemas',
+      'La generación de utilidades del proyecto'
+    ],
+    answer: 1,
+    why: 'La fase de Inversión es cuando "se materializan todas las inversiones previas a la marcha". Es el momento de ejecución física y técnica, no de evaluación ni de operación productiva.'
+  },
+  {
+    block: 1,
+    text: 'La fase de <strong>Operación</strong> es cuando:',
+    options: [
+      'Se formula el perfil del proyecto',
+      'Se evalúan los resultados del proyecto',
+      'La inversión ya materializada está en ejecución, generando el producto',
+      'Se realiza el estudio de mercado'
+    ],
+    answer: 2,
+    why: 'La Operación es la fase en que la inversión ya fue materializada y está en ejecución, generando el producto o servicio. Es la etapa productiva del proyecto, después de su implementación.'
+  },
+  {
+    block: 1,
+    text: '¿En qué fase del ciclo de vida se evalúa si <strong>el problema ha sido solucionado</strong> por la intervención del proyecto?',
+    options: ['Pre Inversión', 'Inversión', 'Operación', 'Evaluación de Resultados'],
+    answer: 3,
+    why: 'La Evaluación de Resultados es la última fase y su propósito es verificar que efectivamente el problema ha sido solucionado por la intervención del proyecto. Sin esta fase, no se puede saber si el proyecto cumplió su objetivo.'
+  },
+  {
+    block: 1,
+    text: 'Las cuatro fases del ciclo de vida del proyecto en <strong>orden correcto</strong> son:',
+    options: [
+      'Operación → Inversión → Pre Inversión → Evaluación de Resultados',
+      'Pre Inversión → Inversión → Operación → Evaluación de Resultados',
+      'Pre Inversión → Operación → Inversión → Evaluación de Resultados',
+      'Idea → Perfil → Ejecución → Resultado'
+    ],
+    answer: 1,
+    why: 'El orden correcto es: Pre Inversión → Inversión → Operación → Evaluación de Resultados (PIIOEVA). Primero se estudia, luego se implementa, luego se opera y finalmente se evalúan los resultados.'
+  },
+
+  // BLOQUE 3 — Formulación y Entorno
+  {
+    block: 2,
+    text: '¿Cuáles son las <strong>dos metodologías</strong> para la formulación del proyecto mencionadas en los apuntes?',
+    options: [
+      'Diagrama de Gantt y Diagrama de Pert',
+      'Árbol de problemas y Árbol de objetivos',
+      'Análisis FODA y Análisis de Porter',
+      'Estudio de mercado y Estudio técnico'
+    ],
+    answer: 1,
+    why: 'Las dos metodologías de formulación del proyecto son el Árbol de problemas (para identificar causas y efectos del problema) y el Árbol de objetivos (para convertir el problema en soluciones). Son herramientas complementarias.'
+  },
+  {
+    block: 2,
+    text: 'En el <strong>Árbol de problemas</strong>, ¿cuáles son los elementos que lo componen?',
+    options: [
+      'Visión, misión y objetivos',
+      'Problema general, causas y efectos',
+      'Fortalezas, oportunidades y amenazas',
+      'Ingresos, costos y rentabilidad'
+    ],
+    answer: 1,
+    why: 'El Árbol de problemas tiene tres componentes: el Problema General (tronco), las Causas (raíces, lo que genera el problema) y los Efectos (ramas, las consecuencias del problema). Este diagrama permite entender la problemática en profundidad.'
+  },
+  {
+    block: 2,
+    text: 'En el <strong>análisis del entorno</strong>, el <strong>microambiente</strong> se refiere a:',
+    options: [
+      'Factores que no se pueden controlar y son ajenos al entorno',
+      'El ambiente macroeconómico del país',
+      'Factores que se pueden manejar o manipular',
+      'Las tendencias globales del mercado'
+    ],
+    answer: 2,
+    why: 'El microambiente comprende los factores que se pueden manejar o manipular, es decir, los factores internos o cercanos a la organización sobre los que se tiene control o influencia directa.'
+  },
+  {
+    block: 2,
+    text: 'El <strong>macroambiente</strong> en el análisis del entorno incluye:',
+    options: [
+      'Los factores internos de la empresa que se pueden controlar',
+      'Los factores que no se pueden controlar y son ajenos al entorno',
+      'El equipo de trabajo del proyecto',
+      'Las estrategias de marketing de la empresa'
+    ],
+    answer: 1,
+    why: 'El macroambiente incluye los factores que no se pueden controlar y son ajenos al entorno, como variables económicas, políticas, sociales, tecnológicas o legales externas a la organización.'
+  },
+  {
+    block: 2,
+    text: '¿Qué busca el <strong>Estudio del Mercado</strong>?',
+    options: [
+      'Analizar la competencia directa del proyecto',
+      'La cantidad de bienes y servicios que la comunidad adquirirá a un determinado precio',
+      'Definir el organigrama de la empresa',
+      'Calcular el costo de producción del bien o servicio'
+    ],
+    answer: 1,
+    why: 'El Estudio del Mercado busca determinar la cantidad de bienes y servicios que la comunidad adquirirá a un determinado precio. Su objetivo es cuantificar la demanda potencial del mercado objetivo.'
+  },
+  {
+    block: 2,
+    text: '¿Cuál es la definición correcta de <strong>Mercado</strong>?',
+    options: [
+      'Es el lugar físico donde se venden productos',
+      'Es el conjunto de consumidores potenciales de un producto',
+      'Es aquel entorno donde interactúan la demanda y oferta con el fin de intercambiar un producto a un precio establecido',
+      'Es el precio promedio de los productos en una industria'
+    ],
+    answer: 2,
+    why: 'El mercado es el entorno de interacción entre demanda y oferta para intercambiar productos a un precio. Esta definición moderna no limita el mercado a un espacio físico, sino que lo entiende como un mecanismo de intercambio.'
+  },
+  {
+    block: 2,
+    text: '¿Cuál de los siguientes es un <strong>objetivo del estudio del mercado</strong>?',
+    options: [
+      'Definir los procesos productivos del proyecto',
+      'Verificar que existe un mercado insatisfecho e introducir el objeto de estudio',
+      'Calcular el punto de equilibrio financiero',
+      'Determinar la estructura legal de la empresa'
+    ],
+    answer: 1,
+    why: 'El primer objetivo del estudio del mercado es verificar que existe un mercado insatisfecho e introducir el objeto de estudio. Si no hay demanda insatisfecha, el proyecto pierde justificación de mercado.'
+  },
+  {
+    block: 2,
+    text: '¿Cuál de las siguientes es una <strong>desventaja</strong> del estudio del mercado?',
+    options: [
+      'Permite descubrir oportunidades comerciales',
+      'La empresa obtiene mayores utilidades',
+      'Elevados costos como consecuencia de una alta gama de productos y aplicar diferentes programas comerciales',
+      'Satisface las necesidades de los usuarios'
+    ],
+    answer: 2,
+    why: 'Una desventaja real del estudio de mercado (especialmente cuando lleva a una estrategia de segmentación amplia) son los elevados costos generados por manejar múltiples líneas de productos y programas comerciales diferenciados.'
+  },
+
+  // BLOQUE 4 — Demanda, Oferta y Competitividad
+  {
+    block: 3,
+    text: '¿Qué es el <strong>Análisis de Demanda</strong>?',
+    options: [
+      'El estudio del comportamiento de los competidores',
+      'El estudio riguroso y minucioso de los factores que rodean al consumo de los productos o servicio, que permite cuantificar y proyectar la demanda a futuro',
+      'El análisis de los proveedores del proyecto',
+      'La evaluación financiera del proyecto'
+    ],
+    answer: 1,
+    why: 'El Análisis de Demanda es el estudio riguroso y minucioso de los factores que rodean el consumo, con el fin de cuantificar y proyectar la demanda a futuro. Su orientación es hacia el consumidor, no hacia la competencia.'
+  },
+  {
+    block: 3,
+    text: '¿Cuál de las siguientes es una <strong>pregunta clave</strong> del Análisis de Demanda?',
+    options: [
+      '¿Quiénes son los proveedores del proyecto?',
+      '¿Cómo se financia el proyecto?',
+      '¿Quiénes consumen o usan el producto?',
+      '¿Cuál es el costo de producción?'
+    ],
+    answer: 2,
+    why: 'Las preguntas clave del Análisis de Demanda se enfocan en los consumidores: quiénes consumen, quiénes compran, dónde están, cuántos son, cuáles son sus hábitos. "¿Quiénes consumen o usan el producto?" es una de ellas.'
+  },
+  {
+    block: 3,
+    text: 'El <strong>Análisis de Oferta</strong> consiste en:',
+    options: [
+      'Evaluar la rentabilidad del proyecto',
+      'El estudio del comportamiento de los competidores donde podemos extraer sus objetivos, intenciones y estrategias para satisfacer las necesidades de sus clientes',
+      'Analizar la demanda potencial del mercado',
+      'Calcular el precio óptimo del producto'
+    ],
+    answer: 1,
+    why: 'El Análisis de Oferta se orienta al estudio de los competidores: sus objetivos, intenciones y estrategias. Permite entender cómo los competidores atienden el mercado y dónde pueden existir ventajas competitivas.'
+  },
+  {
+    block: 3,
+    text: '¿Cuál de las siguientes es una <strong>consideración</strong> del Análisis de Oferta?',
+    options: [
+      'Actitudes y hábitos de los consumidores',
+      'Proyección de la demanda futura',
+      'Barreras, fortalezas y debilidades de los competidores',
+      'Ciclo de vida del producto'
+    ],
+    answer: 2,
+    why: 'Las consideraciones del Análisis de Oferta incluyen: características del mercado (número de ofertantes, % de participación), estrategias de comercialización, y barreras, fortalezas y debilidades. Las otras opciones pertenecen al análisis de demanda.'
+  },
+  {
+    block: 3,
+    text: '¿Cuántas fuerzas determinan el <strong>atractivo a largo plazo</strong> del mercado?',
+    options: ['3 fuerzas', '4 fuerzas', '5 fuerzas', '6 fuerzas'],
+    answer: 2,
+    why: 'Son 5 fuerzas (referencia al modelo de las 5 fuerzas de Porter): poder de negociación de compradores, poder de negociación de proveedores, amenaza de nuevos ingresos, amenaza de sustitutos, e intensa rivalidad.'
+  },
+  {
+    block: 3,
+    text: '¿Cuál de las siguientes <strong>NO</strong> es una fuerza que determina el atractivo a largo plazo del mercado?',
+    options: [
+      'Amenaza de poder de negociación de los proveedores',
+      'Amenaza de los sustitutos',
+      'Amenaza de la intensa rivalidad',
+      'Amenaza de la inflación económica'
+    ],
+    answer: 3,
+    why: 'La inflación económica no es una de las 5 fuerzas del modelo. Las 5 fuerzas son: poder de negociación (compradores y proveedores), amenaza de nuevos ingresos, amenaza de sustitutos, e intensidad de la rivalidad.'
+  },
+  {
+    block: 3,
+    text: '¿Cuál es una <strong>pregunta clave</strong> del Análisis de Oferta?',
+    options: [
+      '¿Cómo usan el producto los consumidores?',
+      '¿Hay crecimiento en la industria?',
+      '¿Cuántos consumidores existen?',
+      '¿Cuáles son los hábitos de compra?'
+    ],
+    answer: 1,
+    why: '"¿Hay crecimiento en la industria?" es una pregunta del Análisis de Oferta, orientada a entender la dinámica del mercado desde la perspectiva de los competidores. Las otras preguntas pertenecen al Análisis de Demanda.'
+  },
+  {
+    block: 3,
+    text: '¿Qué significa que tecnológicamente se <strong>puede construir</strong> el producto en el objetivo del estudio de mercado?',
+    options: [
+      'Que existe mercado suficiente para el producto',
+      'Que se cuenta con los recursos financieros',
+      'Que es posible fabricar el producto y que existen barreras para el abastecimiento de los insumos',
+      'Que el producto ya existe en el mercado'
+    ],
+    answer: 2,
+    why: 'El segundo objetivo del estudio de mercado es demostrar que tecnológicamente se puede construir el producto y que existen barreras para el abastecimiento de los insumos. Esto establece la viabilidad técnica del proyecto.'
+  },
+
+  // BLOQUE 5 — Segmentación e Integradores
+  {
+    block: 4,
+    text: '¿Qué es la <strong>Segmentación del Mercado</strong>?',
+    options: [
+      'Aumentar la variedad de productos ofrecidos',
+      'Dividir el mercado en partes que tengan características semejantes u homogéneas entre sí',
+      'Reducir el tamaño del mercado objetivo',
+      'Eliminar a los competidores del mercado'
+    ],
+    answer: 1,
+    why: 'La segmentación del mercado es dividir el mercado en partes con características semejantes u homogéneas entre sí. El objetivo es identificar grupos de consumidores con necesidades similares para aplicar estrategias diferenciadas.'
+  },
+  {
+    block: 4,
+    text: '¿Cuáles son los <strong>cuatro criterios</strong> de segmentación del mercado?',
+    options: [
+      'Económico, político, legal y cultural',
+      'Geográfico, demográfico, psicográfico y conductual',
+      'Nacional, regional, local e internacional',
+      'Productivo, distributivo, comercial y financiero'
+    ],
+    answer: 1,
+    why: 'Los cuatro criterios de segmentación son: Geográfico (ubicación), Demográfico (edad, género, etc.), Psicográfico (estilo de vida, personalidad) y Conductual (comportamiento de compra y uso del producto).'
+  },
+  {
+    block: 4,
+    text: '¿Cuáles son los <strong>requisitos</strong> para la segmentación del mercado?',
+    options: [
+      'Rentable, sostenible y viable',
+      'Medible, accesible y tamaño',
+      'Identificable, alcanzable y rentable',
+      'Cuantificable, diferenciable y estable'
+    ],
+    answer: 1,
+    why: 'Según los apuntes, los requisitos para una correcta segmentación son: Medible (se puede cuantificar), Accesible (se puede llegar a ese segmento) y Tamaño (debe tener un tamaño suficiente para ser rentable).'
+  },
+  {
+    block: 4,
+    text: '¿Cuál de las siguientes es una <strong>ventaja</strong> de la segmentación del mercado?',
+    options: [
+      'Aumenta los costos operativos de la empresa',
+      'Reduce la cantidad de productos disponibles',
+      'Descubrir nuevos nichos de mercado',
+      'Limita las estrategias comerciales de la empresa'
+    ],
+    answer: 2,
+    why: 'Una ventaja clara de la segmentación es descubrir nuevos nichos de mercado. También mejora la imagen, favorece la ventaja competitiva, permite mejores estrategias por segmento y optimiza el uso de recursos.'
+  },
+  {
+    block: 4,
+    text: 'Según los apuntes, ¿cuál de las siguientes es una <strong>ventaja</strong> del estudio del mercado?',
+    options: [
+      'Eleva los costos de producción',
+      'Permite satisfacer en mayor medida las necesidades de los usuarios',
+      'Dificulta la identificación de competidores',
+      'Reduce la variedad de productos ofrecidos'
+    ],
+    answer: 1,
+    why: 'Una de las ventajas del estudio del mercado es que permite satisfacer en mayor medida las necesidades de los usuarios, ya que al conocer mejor al consumidor se pueden ofrecer productos más adecuados a sus necesidades reales.'
+  },
+  {
+    block: 4,
+    text: '¿Cuál de las siguientes afirmaciones sobre la <strong>segmentación del mercado</strong> es <strong>incorrecta</strong>?',
+    options: [
+      'Mejora la imagen y favorece la ventaja competitiva',
+      'Permite formular mejores estrategias para cada segmento',
+      'Permite un mejor aprovechamiento de los recursos',
+      'Elimina la necesidad de analizar la demanda del mercado'
+    ],
+    answer: 3,
+    why: 'La segmentación NO elimina la necesidad del análisis de demanda; al contrario, el análisis de demanda es una herramienta fundamental para entender cada segmento. Las otras tres opciones sí son ventajas reales de la segmentación.'
+  }
+];
+
+const blocks = [
+  { label: 'Bloque 1', title: 'Conceptos Fundamentales', emoji: '🔵', cls: 'blue', range: '1–10' },
+  { label: 'Bloque 2', title: 'Tipos de Proyectos y Ciclo de Vida', emoji: '🟢', cls: 'green', range: '11–18' },
+  { label: 'Bloque 3', title: 'Formulación del Proyecto y Análisis de Entorno', emoji: '🟡', cls: 'yellow', range: '19–26' },
+  { label: 'Bloque 4', title: 'Análisis de Demanda, Oferta y Competitividad', emoji: '🟠', cls: 'orange', range: '27–34' },
+  { label: 'Bloque 5', title: 'Segmentación del Mercado y Temas Integradores', emoji: '🔴', cls: 'red', range: '35–40' }
+];
+
+const userAnswers = new Array(questions.length).fill(null);
+let submitted = false;
+
+function updateProgress() {
+  const answered = userAnswers.filter(a => a !== null).length;
+  const pct = Math.round((answered / questions.length) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent = pct + '%';
+}
+
+function render() {
+  const app = document.getElementById('app');
+  let html = '';
+  let currentBlock = -1;
+
+  questions.forEach((q, qi) => {
+    if (q.block !== currentBlock) {
+      currentBlock = q.block;
+      const b = blocks[currentBlock];
+      html += `
+        <div class="block-header">
+          <div class="block-dot ${b.cls}">${b.emoji}</div>
+          <div class="block-info">
+            <h2>${b.label} — ${b.title}</h2>
+            <p>Preguntas ${b.range}</p>
+          </div>
+        </div>`;
+    }
+
+    const ua = userAnswers[qi];
+    let cardClass = '';
+    if (submitted && ua !== null) {
+      cardClass = ua === q.answer ? 'answered-correct' : 'answered-wrong';
+    }
+
+    html += `<div class="q-card ${cardClass}" id="qcard-${qi}">
+      <div class="q-number">Pregunta ${qi + 1} de ${questions.length}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options" id="opts-${qi}">`;
+
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      if (ua === oi) cls = 'selected';
+      if (submitted) {
+        if (oi === q.answer) cls = 'correct';
+        else if (ua === oi) cls = 'wrong';
+        cls += ' disabled';
+      }
+      html += `
+        <div class="option ${cls}" onclick="selectOption(${qi},${oi})" id="opt-${qi}-${oi}">
+          <div class="opt-letter">${letters[oi]}</div>
+          <div class="opt-text">${opt}</div>
+        </div>`;
+    });
+
+    html += `</div>`;
+
+    if (submitted && ua !== null) {
+      const isCorrect = ua === q.answer;
+      html += `<div class="feedback ${isCorrect ? 'correct-fb' : 'wrong-fb'} show">
+        <div class="feedback-title">${isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto'}</div>
+        ${!isCorrect ? `<strong>Respuesta correcta:</strong> ${letters[q.answer]}) ${q.options[q.answer]}<br><br>` : ''}
+        <strong>Explicación:</strong> ${q.why}
+      </div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  // Submit section
+  const unanswered = userAnswers.filter(a => a === null).length;
+  html += `
+    <div class="submit-wrap" id="submit-wrap">
+      ${!submitted ? `
+        <h3>¿Listo para ver tus resultados?</h3>
+        <p>Has respondido <strong>${questions.length - unanswered}</strong> de <strong>${questions.length}</strong> preguntas.</p>
+        <button class="btn-submit" id="btn-submit" onclick="submitQuiz()">
+          Confirmar y ver respuestas
+        </button>
+        <div class="unanswered-note" id="unans-note">
+          ⚠️ Aún tienes ${unanswered} pregunta(s) sin responder. Puedes igualmente enviar.
+        </div>
+      ` : ''}
+    </div>`;
+
+  if (submitted) {
+    const correct = userAnswers.filter((a, i) => a === questions[i].answer).length;
+    const wrong = userAnswers.filter((a, i) => a !== null && a !== questions[i].answer).length;
+    const skip = userAnswers.filter(a => a === null).length;
+    const pct = Math.round((correct / questions.length) * 100);
+    let emoji, msg;
+    if (pct >= 90) { emoji = '🏆'; msg = '¡Excelente! Dominas el tema perfectamente.'; }
+    else if (pct >= 75) { emoji = '😊'; msg = '¡Muy bien! Tienes un buen manejo del tema.'; }
+    else if (pct >= 60) { emoji = '📖'; msg = 'Aprobado, pero repasa los temas donde fallaste.'; }
+    else { emoji = '💪'; msg = 'Necesitas reforzar más los conceptos. ¡Tú puedes!'; }
+
+    html += `
+      <div class="results-panel show" id="results">
+        <div style="font-size:48px;margin-bottom:16px">${emoji}</div>
+        <div class="score-circle" style="--pct:${pct * 3.6}deg">
+          <div class="score-inner">
+            <div class="score-num">${correct}</div>
+            <div class="score-den">/ ${questions.length}</div>
+          </div>
+        </div>
+        <div class="score-title">Tu puntaje: ${pct}%</div>
+        <div class="score-msg">${msg}</div>
+        <div class="score-breakdown">
+          <div class="sb-item"><div class="sb-num c">${correct}</div><div class="sb-label">Correctas</div></div>
+          <div class="sb-item"><div class="sb-num w">${wrong}</div><div class="sb-label">Incorrectas</div></div>
+          <div class="sb-item"><div class="sb-num s">${skip}</div><div class="sb-label">Sin responder</div></div>
+        </div>
+        <button class="btn-retry" onclick="retryQuiz()">🔄 Intentar de nuevo</button>
+      </div>`;
+
+    document.getElementById('hero-score') && (document.getElementById('hero-score').textContent = pct + '%');
+  }
+
+  app.innerHTML = html;
+  updateProgress();
+}
+
+function selectOption(qi, oi) {
+  if (submitted) return;
+  userAnswers[qi] = oi;
+
+  // Remove selected from all options in question
+  document.querySelectorAll(`#opts-${qi} .option`).forEach(el => el.classList.remove('selected'));
+  document.getElementById(`opt-${qi}-${oi}`).classList.add('selected');
+
+  updateProgress();
+  updateSubmitUI();
+}
+
+function updateSubmitUI() {
+  const unanswered = userAnswers.filter(a => a === null).length;
+  const note = document.getElementById('unans-note');
+  if (note) {
+    note.style.display = unanswered > 0 ? 'block' : 'none';
+    note.textContent = `⚠️ Aún tienes ${unanswered} pregunta(s) sin responder. Puedes igualmente enviar.`;
+  }
+  const wrap = document.getElementById('submit-wrap');
+  if (wrap) {
+    const p = wrap.querySelector('p');
+    if (p) p.innerHTML = `Has respondido <strong>${questions.length - unanswered}</strong> de <strong>${questions.length}</strong> preguntas.`;
+  }
+}
+
+function submitQuiz() {
+  submitted = true;
+  const correct = userAnswers.filter((a, i) => a === questions[i].answer).length;
+  document.getElementById('hero-score').textContent = Math.round((correct / questions.length) * 100) + '%';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retryQuiz() {
+  submitted = false;
+  userAnswers.fill(null);
+  document.getElementById('hero-score').textContent = '–';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
