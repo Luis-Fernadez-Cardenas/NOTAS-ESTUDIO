@@ -6,7 +6,7 @@ Sistema de  conocimientos racionales , ciertos , probables , obtenidos metódica
 > [!NOTE]
 > La ciencia produce conocimiento mediante la investigación .
 ### El método Científico
-El método Científico: Conjunto de ==procedimiento lógicos y sistemáticos== que sigue la investigación para generar nuevo conocimiento.  Se caracteriza por ser objetivo y racional . Las fases del método son los siguientes:
+El método Científico: Conjunto de ==procedimiento lógicos y sistemáticos== que sigue la investigación para generar nuevo conocimiento.  ==Se caracteriza== por ser objetivo , racional sistemático , verificable y falible . Las fases del método son los siguientes:
 - Planteamiento del problema .
 - Revisión literaria 
 - Formulación de la Hipótesis 

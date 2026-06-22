@@ -10,7 +10,13 @@ El titulo tiene que informar de manera sintética el problema de investigación 
 	6. Pertinencia Diciplinar
 ### El resumen de la tesis
 Es una síntesis estructurada de la tesis (200 a 500 palabras).
-Propósito u  objetivo , enfoque , tipo , nivel , diseño , Población , muestra , técnica de muestreo , Instrumento , validación y confiablidad , Análisis estadístico .
+El resumen esta compuesto por 5 bloques.
+1. Propósito u  objetivo 
+2. enfoque , tipo , nivel , diseño metodológico
+3.  Población , muestra , técnica de muestreo 
+4.  Instrumento , validación y confiablidad 
+5. Análisis estadístico y resultados esperados.
+>[!NOTE]
 Tiempo presente para describir el estudio , tiempo pasado para los resultados previos. 
 ### Formula del titulo de la tesis
 variable independiente  + conector relacional + variable dependiente  + población/contexto + delimitación temporal .
