@@ -53,14 +53,14 @@
             "id": "0fe854849d88f1af",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Modelado de Datos ..md",
-                "mode": "source",
-                "source": false
+                "aFile": "Modelado de Datos ..md",
+                "bFile": "Modelado de Datos ..md",
+                "aRef": ""
               },
-              "icon": "lucide-file",
-              "title": "Modelado de Datos ."
+              "icon": "diff",
+              "title": "Diff: Modelado de Datos .  (Working Tree)"
             }
           }
         ],
@@ -261,8 +261,8 @@
   },
   "active": "0fe854849d88f1af",
   "lastOpenFiles": [
-    "Tesis/Sesión - 2 Titulo de la tesis.md",
     "Modelado de Datos ..md",
+    "Tesis/Sesión - 2 Titulo de la tesis.md",
     "ORACLE",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
     "Tesis/Nivel Descriptivo (multivariable ).md",
