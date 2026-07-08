@@ -11,10 +11,14 @@
             "id": "4f2924b66a80a5d9",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Clase de Modelado.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "Clase de Modelado"
             }
           }
         ]
@@ -212,8 +216,9 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "08962f8f71438506",
+  "active": "4f2924b66a80a5d9",
   "lastOpenFiles": [
+    "Clase de Modelado.md",
     "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
     "Auditoria de Sistemas/Primer Examen.canvas",
     "Auditoria de Sistemas/Clase 4 - AUDITORIA , CONTINUIDAD DEL NEGOCIO RECUPERACION DE DESASTRES..md",
