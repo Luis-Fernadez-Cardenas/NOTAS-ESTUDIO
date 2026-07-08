@@ -1,4 +1,4 @@
-Nuevos Apuntes para este seccion causa
-Prubea s
+Nuevos Apuntes para este sección causa
+Prueba 
 PARA EL COMITIS 
-aQUI ESTAREMOS PLANTANDO LOS OBJETIVOS 
+aquí ESTAREMOS PLANTANDO LOS OBJETIVOS 
