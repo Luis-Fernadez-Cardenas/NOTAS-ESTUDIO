@@ -50,17 +50,17 @@
             }
           },
           {
-            "id": "0fe854849d88f1af",
+            "id": "082784fb1f719e73",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
+              "type": "markdown",
               "state": {
-                "aFile": "Modelado de Datos ..md",
-                "bFile": "Modelado de Datos ..md",
-                "aRef": ""
+                "file": "Clase 7.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "diff",
-              "title": "Diff: Modelado de Datos .  (Working Tree)"
+              "icon": "lucide-file",
+              "title": "Clase 7"
             }
           }
         ],
@@ -259,10 +259,11 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "0fe854849d88f1af",
+  "active": "082784fb1f719e73",
   "lastOpenFiles": [
-    "Modelado de Datos ..md",
     "Tesis/Sesión - 2 Titulo de la tesis.md",
+    "Clase 7.md",
+    "Modelado de Datos ..md",
     "ORACLE",
     "Tesis/Sesión - 1 Ciencia y Método Científico.md",
     "Tesis/Nivel Descriptivo (multivariable ).md",
