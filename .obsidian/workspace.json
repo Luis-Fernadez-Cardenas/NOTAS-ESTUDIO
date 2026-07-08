@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "cf734d6db4ed0fac",
+        "id": "c8dc6aee82c0ad16",
         "type": "tabs",
         "children": [
           {
-            "id": "282a85fe20b972a3",
+            "id": "4f2924b66a80a5d9",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
-              "state": {
-                "aFile": "Clase 8 y 9 - COBIT.md",
-                "bFile": "Clase 8 y 9 - COBIT.md",
-                "aRef": ""
-              },
-              "icon": "diff",
-              "title": "Diff: Clase 8 y 9 - COBIT  (Working Tree)"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -216,7 +212,7 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "282a85fe20b972a3",
+  "active": "08962f8f71438506",
   "lastOpenFiles": [
     "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
     "Auditoria de Sistemas/Primer Examen.canvas",
