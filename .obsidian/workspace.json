@@ -76,8 +76,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fb32745e91a366d5",
@@ -215,7 +214,7 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "4f2924b66a80a5d9",
+  "active": "08962f8f71438506",
   "lastOpenFiles": [
     "Excalidraw/Drawing 2026-07-08 21.38.27.excalidraw.md",
     "Auditoria de Sistemas/Clase 8 y 9 - COBIT.md",
