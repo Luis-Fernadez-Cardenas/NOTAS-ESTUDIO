@@ -11,6 +11,7 @@ En las cuales definimos los siguientes aspectos del proyecto:
 ### Tamaño del proyecto
 En el tamaño del proyecto definimos la capacidad de producción de productos por día , mes o año . En las cuales influye el tipo de proyecto que estaremos realizando .
 Además conocer el tamaño influye directamente en la rentabilidad que podría generar el proyecto.
+
 #### Capacidad 
 Definimos a la capacidad como la cantidad de producción o la prestación de servicios para cada unidad de tiempo .
 ##### Capacidad diseñada 
