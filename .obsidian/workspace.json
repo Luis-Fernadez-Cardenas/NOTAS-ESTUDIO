@@ -6,35 +6,38 @@
       {
         "id": "c8dc6aee82c0ad16",
         "type": "tabs",
+        "dimension": 61.05015673981191,
         "children": [
-          {
-            "id": "4f2924b66a80a5d9",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Excalidraw/Drawing 2026-07-08 21.38.27.excalidraw.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "Drawing 2026-07-08 21.38.27.excalidraw"
-            }
-          },
           {
             "id": "f12aeb4778cba515",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "excalidraw",
               "state": {
-                "file": "Sesion - 6 Estudio técnico.md",
-                "mode": "source",
-                "source": false
+                "file": "Excalidraw/COBIT -SEMANA 8 Y 9.excalidraw.md"
               },
-              "icon": "lucide-file",
-              "title": "Sesion - 6 Estudio técnico"
+              "icon": "excalidraw-icon",
+              "title": "COBIT -SEMANA 8 Y 9.excalidraw"
             }
           }
-        ],
-        "currentTab": 1
+        ]
+      },
+      {
+        "id": "27fa22e7f48387af",
+        "type": "tabs",
+        "dimension": 38.94984326018809,
+        "children": [
+          {
+            "id": "d32e9c7aca7e9350",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -231,9 +234,17 @@
   },
   "active": "f12aeb4778cba515",
   "lastOpenFiles": [
+    "Excalidraw/Definición de un Producto.md",
     "Excalidraw/Drawing 2026-07-08 21.38.27.excalidraw.md",
-    "Sesion - 6 Estudio técnico.md",
+    "Excalidraw/Pasos del Proyecto de Inversión.md",
+    "Excalidraw/Árbol de problemas.md",
+    "Excalidraw/Análisis de la competitividad.md",
+    "Excalidraw/Análisis de Entorno.md",
+    "Atajos de Typeless.md",
+    "Excalidraw/COBIT -SEMANA 8 Y 9.excalidraw.md",
     "Auditoria de Sistemas/Clase 8 y 9 - COBIT.md",
+    "Auditoria de Sistemas/Primer Examen.canvas",
+    "Sesion - 6 Estudio técnico.md",
     "Clase de Modelado.md",
     "ClasificacionAudotoria.png",
     "Modelado de Datos ..md",
@@ -241,7 +252,6 @@
     "ORACLE/Clase de Modelado.md",
     "Sasdads.md",
     "Auditoria de Sistemas/Clase 1 - AUDITORIA, CONCEPTO, EVOLUCION, TIPOS, AUDITORIA DE SISTEMAS.md",
-    "Auditoria de Sistemas/Primer Examen.canvas",
     "Auditoria de Sistemas/Clase 4 - AUDITORIA , CONTINUIDAD DEL NEGOCIO RECUPERACION DE DESASTRES..md",
     "Auditoria de Sistemas/CLASE 3 - EVALUACION DE SISTEMAS Y PROCEDIMIENTOS.md",
     "Auditoria de Sistemas/Clase 2 - GOBIERNO CORPORATIVO DE TI.md",
@@ -253,14 +263,7 @@
     "Tesis/Sesion - 6 Formulacion del problema.md",
     "Tesis/Sesion - 5 Planteamiento del Problema.md",
     "Tesis/Sesión - 4 Antecedentes de Investigación.md",
-    "Tesis/Sesion - 3 Tipo de Investigación , cronograma , recursos , presupuesto  y financiamiento..md",
-    "Proyecto de Inversion/Sesion - 1 Proyecto de Inversión.md",
     "cuestionario_proyecto_inversion.html",
-    "Proyecto de Inversion/Sesion - 5 Medidas del mercado.md",
-    "Excalidraw/Análisis de Entorno.md",
-    "Proyecto de Inversion/Sesion - 3 Análisis de Entorno.md",
-    "Proyecto de Inversion/Sesion - 4 Análisis del Entorno Competitivo.md",
-    "Excalidraw/Definición de un Producto.md",
     "Tesis/Examenes/Cuestionario_2_50_Preguntas_Tesis.html",
     "Tesis/Examenes/Cuestionario_50_Preguntas_Tesis.html",
     "Tesis/Examen.canvas",
