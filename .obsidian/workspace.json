@@ -94,7 +94,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "fb32745e91a366d5",
@@ -232,8 +233,9 @@
       "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
-  "active": "f12aeb4778cba515",
+  "active": "d32e9c7aca7e9350",
   "lastOpenFiles": [
+    "Excalidraw/COBIT -SEMANA 8 Y 9.excalidraw.md",
     "Excalidraw/Definición de un Producto.md",
     "Excalidraw/Drawing 2026-07-08 21.38.27.excalidraw.md",
     "Excalidraw/Pasos del Proyecto de Inversión.md",
@@ -241,7 +243,6 @@
     "Excalidraw/Análisis de la competitividad.md",
     "Excalidraw/Análisis de Entorno.md",
     "Atajos de Typeless.md",
-    "Excalidraw/COBIT -SEMANA 8 Y 9.excalidraw.md",
     "Auditoria de Sistemas/Clase 8 y 9 - COBIT.md",
     "Auditoria de Sistemas/Primer Examen.canvas",
     "Sesion - 6 Estudio técnico.md",
